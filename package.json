@@ -1,0 +1,38 @@
+{
+  "name": "iobroker.adapter-core",
+  "version": "1.0.0",
+  "description": "Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.",
+  "author": {
+    "name": "AlCalzone",
+    "email": "d.griesel@gmx.net"
+  },
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf ./build",
+    "build": "tsc -p src/tsconfig.json",
+    "watch": "tsc -p src/tsconfig.json --watch",
+    "lint:ts": "tslint",
+    "lint": "npm run lint:ts \"src/**/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlCalzone/ioBroker.adapter-core.git"
+  },
+  "keywords": [
+    "iobroker",
+    "adapter",
+    "iot"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlCalzone/ioBroker.adapter-core/issues"
+  },
+  "homepage": "https://github.com/AlCalzone/ioBroker.adapter-core#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.8",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  }
+}
