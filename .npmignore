@@ -1,6 +1,7 @@
 .git
 .travis.yml
 .vs*/
+.editorconfig
 appveyor.yml
 node_modules/
 src/
@@ -11,6 +12,7 @@ tslint.json
 tsconfig.json
 iobroker.*.tgz
 Thumbs.db
+
 
 # NYC coverage files
 coverage

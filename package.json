@@ -13,7 +13,8 @@
     "build": "tsc -p src/tsconfig.json",
     "watch": "tsc -p src/tsconfig.json --watch",
     "lint:ts": "tslint",
-    "lint": "npm run lint:ts \"src/**/*.ts\""
+    "lint": "npm run lint:ts \"src/**/*.ts\"",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/AlCalzone/ioBroker.adapter-core#readme",
   "devDependencies": {
+    "@types/iobroker": "^1.4.0",
     "@types/node": "^10.12.8",
     "rimraf": "^2.6.2",
     "tslint": "^5.11.0",

@@ -3,9 +3,10 @@
 import * as fs from "fs";
 import * as path from "path";
 
-/// <reference path="./ioBroker.d.ts" />
-
-// Get js-controller directory to load libs
+/**
+ * Resolves the root directory of JS-Controller and returns it or exits the process
+ * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally
+ */
 function getControllerDir(isInstall: boolean): string | never {
 	// Find the js-controller location
 	const possibilities = [
@@ -22,23 +23,25 @@ function getControllerDir(isInstall: boolean): string | never {
 			}
 		} catch { /* not found */ }
 	}
-	if (controllerPath == undefined) {
+	// Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
+	// Thus we check for falsyness, which includes failing on an empty path
+	if (!controllerPath) {
 		if (!isInstall) {
 			console.log("Cannot find js-controller");
-			process.exit(10);
+			return process.exit(10);
 		} else {
-			process.exit();
+			return process.exit();
 		}
-		// We need to please TypeScript.
-		throw new Error("this never not get executed");
 	}
 	// we found the controller
 	return path.dirname(controllerPath);
 }
 
-// Read controller configuration file
+/** The root directory of JS-Controller */
 export const controllerDir = getControllerDir(typeof process !== "undefined" && process.argv && process.argv.indexOf("--install") !== -1);
-export function getConfig(): {} {
+
+/** Reads the configuration file of JS-Controller */
+export function getConfig(): Record<string, any> {
 	return JSON.parse(
 		fs.readFileSync(path.join(controllerDir, "conf/iobroker.json"), "utf8"),
 	);
@@ -48,4 +51,8 @@ interface AdapterConstructor {
 	(adapterName: string): ioBroker.Adapter;
 	(adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
 }
+/** Creates a new adapter instance */
 export const adapter: AdapterConstructor = require(path.join(controllerDir, "lib/adapter.js"));
+/** Creates a new adapter instance */
+// tslint:disable-next-line:variable-name
+export const Adapter = adapter;

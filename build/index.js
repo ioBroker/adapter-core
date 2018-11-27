@@ -1,4 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("./utils");
-exports.default = utils;
+module.exports = utils;
+// TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)

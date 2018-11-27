@@ -4,8 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-var-requires
 const fs = require("fs");
 const path = require("path");
-/// <reference path="./ioBroker.d.ts" />
-// Get js-controller directory to load libs
+/**
+ * Resolves the root directory of JS-Controller and returns it or exits the process
+ * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally
+ */
 function getControllerDir(isInstall) {
     // Find the js-controller location
     const possibilities = [
@@ -23,24 +25,29 @@ function getControllerDir(isInstall) {
         }
         catch ( /* not found */_a) { /* not found */ }
     }
-    if (controllerPath == undefined) {
+    // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
+    // Thus we check for falsyness, which includes failing on an empty path
+    if (!controllerPath) {
         if (!isInstall) {
             console.log("Cannot find js-controller");
-            process.exit(10);
+            return process.exit(10);
         }
         else {
-            process.exit();
+            return process.exit();
         }
-        // We need to please TypeScript.
-        throw new Error("this never not get executed");
     }
     // we found the controller
     return path.dirname(controllerPath);
 }
-// Read controller configuration file
+/** The root directory of JS-Controller */
 exports.controllerDir = getControllerDir(typeof process !== "undefined" && process.argv && process.argv.indexOf("--install") !== -1);
+/** Reads the configuration file of JS-Controller */
 function getConfig() {
     return JSON.parse(fs.readFileSync(path.join(exports.controllerDir, "conf/iobroker.json"), "utf8"));
 }
 exports.getConfig = getConfig;
+/** Creates a new adapter instance */
 exports.adapter = require(path.join(exports.controllerDir, "lib/adapter.js"));
+/** Creates a new adapter instance */
+// tslint:disable-next-line:variable-name
+exports.Adapter = exports.adapter;

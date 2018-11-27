@@ -7,7 +7,6 @@
 		"moduleResolution": "node",
 		"outDir": "build/",
 		"removeComments": false,
-
 		"strict": true,
 
 		"sourceMap": false,
