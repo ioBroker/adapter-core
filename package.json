@@ -1,5 +1,5 @@
 {
-  "name": "iobroker.adapter-core",
+  "name": "@iobroker/adapter-core",
   "version": "1.0.0",
   "description": "Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.",
   "author": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlCalzone/ioBroker.adapter-core.git"
+    "url": "git+https://github.com/ioBroker/adapter-core.git"
   },
   "keywords": [
     "iobroker",
@@ -27,9 +27,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AlCalzone/ioBroker.adapter-core/issues"
+    "url": "https://github.com/ioBroker/adapter-core/issues"
   },
-  "homepage": "https://github.com/AlCalzone/ioBroker.adapter-core#readme",
+  "homepage": "https://github.com/ioBroker/adapter-core#readme",
   "devDependencies": {
     "@types/iobroker": "^1.4.0",
     "@types/node": "^10.12.8",
