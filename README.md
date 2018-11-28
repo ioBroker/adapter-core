@@ -1,4 +1,4 @@
-# ioBroker.adapter-core
+# Adapter-Core
 Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.
 
 This replaces the `utils.js` included in the ioBroker template adapter.
@@ -11,7 +11,7 @@ This replaces the `utils.js` included in the ioBroker template adapter.
    ```
    with
    ```js
-   const utils = require('iobroker.adapter-core');
+   const utils = require('@iobroker/adapter-core');
    ```
 3. Create an adapter instance as usual:  
    ```js
