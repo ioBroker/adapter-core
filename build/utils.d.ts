@@ -4,6 +4,8 @@ export declare const controllerDir: string;
 /** Reads the configuration file of JS-Controller */
 export declare function getConfig(): Record<string, any>;
 interface AdapterConstructor {
+    new (adapterName: string): ioBroker.Adapter;
+    new (adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
     (adapterName: string): ioBroker.Adapter;
     (adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
 }

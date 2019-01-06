@@ -48,6 +48,8 @@ export function getConfig(): Record<string, any> {
 }
 
 interface AdapterConstructor {
+	new (adapterName: string): ioBroker.Adapter;
+	new (adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
 	(adapterName: string): ioBroker.Adapter;
 	(adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
 }
