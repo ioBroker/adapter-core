@@ -28,6 +28,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## Changelog
 
+### v1.0.3 (2019-01-06)
+* (AlCalzone) Updated core declarations
+* (AlCalzone) Fix included declarations to allow creating adapter instances with `new`.
+
 ### v1.0.0 (2018-27-11)
 * (AlCalzone) Initial version
 
