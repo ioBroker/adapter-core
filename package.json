@@ -43,7 +43,7 @@
     "@types/sinon-chai": "^3.2.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.2.2",
@@ -51,7 +51,8 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "dependencies": {
     "@types/iobroker": "^1.4.3"
