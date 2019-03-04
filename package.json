@@ -54,7 +54,6 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
-    "@types/iobroker": "^1.4.3",
-    "@iobroker/adapter-core": "^1.0.3"
+    "@types/iobroker": "^1.4.3"
   }
 }
