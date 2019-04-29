@@ -1,5 +1,3 @@
-// tslint:disable:unified-signatures
-// tslint:disable:no-var-requires
 import * as fs from "fs";
 import * as path from "path";
 
@@ -54,7 +52,7 @@ interface AdapterConstructor {
 	(adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
 }
 /** Creates a new adapter instance */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const adapter: AdapterConstructor = require(path.join(controllerDir, "lib/adapter.js"));
 /** Creates a new adapter instance */
-// tslint:disable-next-line:variable-name
 export const Adapter = adapter;

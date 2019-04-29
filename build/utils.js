@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable:unified-signatures
-// tslint:disable:no-var-requires
 const fs = require("fs");
 const path = require("path");
 /**
@@ -47,7 +45,7 @@ function getConfig() {
 }
 exports.getConfig = getConfig;
 /** Creates a new adapter instance */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 exports.adapter = require(path.join(exports.controllerDir, "lib/adapter.js"));
 /** Creates a new adapter instance */
-// tslint:disable-next-line:variable-name
 exports.Adapter = exports.adapter;
