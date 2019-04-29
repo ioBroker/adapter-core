@@ -1,7 +1,7 @@
 import * as utils from "../../src/utils";
 
 const name = "foobar";
-const options = {name};
+const options = { name };
 
 const adapter1 = utils.adapter(name);
 const adapter2 = utils.Adapter(name);

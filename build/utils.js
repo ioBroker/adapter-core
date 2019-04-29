@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable:unified-signatures
-// tslint:disable:no-var-requires
 const fs = require("fs");
 const path = require("path");
 /**
@@ -10,10 +8,7 @@ const path = require("path");
  */
 function getControllerDir(isInstall) {
     // Find the js-controller location
-    const possibilities = [
-        "iobroker.js-controller",
-        "ioBroker.js-controller",
-    ];
+    const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
     let controllerPath;
     for (const pkg of possibilities) {
         try {
@@ -23,7 +18,9 @@ function getControllerDir(isInstall) {
                 break;
             }
         }
-        catch ( /* not found */_a) { /* not found */ }
+        catch (_a) {
+            /* not found */
+        }
     }
     // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
     // Thus we check for falsyness, which includes failing on an empty path
@@ -40,14 +37,16 @@ function getControllerDir(isInstall) {
     return path.dirname(controllerPath);
 }
 /** The root directory of JS-Controller */
-exports.controllerDir = getControllerDir(typeof process !== "undefined" && process.argv && process.argv.indexOf("--install") !== -1);
+exports.controllerDir = getControllerDir(typeof process !== "undefined" &&
+    process.argv &&
+    process.argv.indexOf("--install") !== -1);
 /** Reads the configuration file of JS-Controller */
 function getConfig() {
     return JSON.parse(fs.readFileSync(path.join(exports.controllerDir, "conf/iobroker.json"), "utf8"));
 }
 exports.getConfig = getConfig;
 /** Creates a new adapter instance */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 exports.adapter = require(path.join(exports.controllerDir, "lib/adapter.js"));
 /** Creates a new adapter instance */
-// tslint:disable-next-line:variable-name
 exports.Adapter = exports.adapter;
