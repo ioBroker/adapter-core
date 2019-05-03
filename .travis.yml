@@ -9,7 +9,7 @@ os:
   - windows
 
 install:
-    - npm ci
+  - npm ci
 script:
   # Make sure the code is good
   - npm run lint
@@ -20,4 +20,4 @@ script:
   # TODO: No actual tests aside from declaration checks
 
 notifications:
-    email: false
+  email: false
