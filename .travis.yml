@@ -4,20 +4,17 @@ node_js:
   - 10
   - 12
   - node
+  - '8'
+  - '10'
+  - '12'
 os:
   - linux
   - windows
-
 install:
   - npm ci
 script:
-  # Make sure the code is good
   - npm run lint
-  # and it builds
   - npm run build
-  # Now perform a test run
   - npm test
-  # TODO: No actual tests aside from declaration checks
-
 notifications:
   email: false
