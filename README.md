@@ -17,8 +17,35 @@ This replaces the `utils.js` included in the ioBroker template adapter.
     ```
 3. Create an adapter instance as usual:
     ```js
+    // old style
     const adapter = utils.adapter(/* options */);
+    // new style (classes). See https://github.com/ioBroker/ioBroker.template/ for a more detailed usage
+    class MyAdapter extends utils.Adapter {...}
     ```
+
+## Utility methods
+
+Compared to the old `utils.js`, some utility methods were added.
+
+### `getAbsoluteDefaultDataDir`
+
+```js
+const dataDir = utils.getAbsoluteDefaultDataDir();
+```
+
+This returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`
+
+### `getAbsoluteInstanceDataDir`
+
+```js
+// old style
+const instanceDataDir = utils.getAbsoluteInstanceDataDir(adapter);
+// new style (classes)
+const instanceDataDir = utils.getAbsoluteInstanceDataDir(this);
+```
+
+Returns the absolute path of the data directory for the current adapter instance.
+On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
 
 ## Tips while working on this module
 
