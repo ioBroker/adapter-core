@@ -11,7 +11,7 @@ const utils = require("./utils");
 // Export some additional utility methods
 const controllerTools = require(path.join(utils.controllerDir, "lib/tools"));
 /**
- * Returns the absolute path of the data directory for the current host. On linux, this is usually /opt/iobroker/iobroker-data.
+ * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
  */
 function getAbsoluteDefaultDataDir() {
     return path.join(utils.controllerDir, controllerTools.getDefaultDataDir());
@@ -19,7 +19,7 @@ function getAbsoluteDefaultDataDir() {
 exports.getAbsoluteDefaultDataDir = getAbsoluteDefaultDataDir;
 /**
  * Returns the absolute path of the data directory for the current adapter instance.
- * On linux, this is usually /opt/iobroker/iobroker-data/<adapterName>.<instanceNr>
+ * On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
  */
 function getAbsoluteInstanceDataDir(adapterObject) {
     return path.join(getAbsoluteDefaultDataDir(), adapterObject.namespace);
