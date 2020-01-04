@@ -17,8 +17,51 @@ This replaces the `utils.js` included in the ioBroker template adapter.
     ```
 3. Create an adapter instance as usual:
     ```js
+    // old style
     const adapter = utils.adapter(/* options */);
+    // new style (classes). See https://github.com/ioBroker/ioBroker.template/ for a more detailed usage
+    class MyAdapter extends utils.Adapter {...}
     ```
+
+## Utility methods
+
+Compared to the old `utils.js`, some utility methods were added.
+
+### `getAbsoluteDefaultDataDir`
+
+```js
+const dataDir = utils.getAbsoluteDefaultDataDir();
+```
+
+This returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`
+
+### `getAbsoluteInstanceDataDir`
+
+```js
+// old style
+const instanceDataDir = utils.getAbsoluteInstanceDataDir(adapter);
+// new style (classes)
+const instanceDataDir = utils.getAbsoluteInstanceDataDir(this);
+```
+
+Returns the absolute path of the data directory for the current adapter instance.
+On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
+
+## Automatic backup of data files
+
+ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
+
+```json
+{
+	// ...
+	"common": {
+		// ...
+		"dataFolder": "path/where/your/files/are"
+	}
+}
+```
+
+This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The placeholder `%INSTANCE%` is automatically replaced by the instance number of each adapter, for example `"dataFolder": "my-adapter.%INSTANCE%"`.
 
 ## Tips while working on this module
 
