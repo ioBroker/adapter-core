@@ -48,11 +48,39 @@ export function getConfig(): Record<string, any> {
 	);
 }
 
+/**
+ * This type is used to include and exclude the states and objects cache from the adaptert type definition depending on the creation options
+ */
+// oObjects and oStates only exist if the corresponding options are set to true
+export type AdapterInstance = Omit<ioBroker.Adapter, "oObjects" | "oStates">;
+
+type AdapterInstanceType<T extends ioBroker.AdapterOptions> = T extends {
+	objects: true;
+	states: true;
+}
+	? AdapterInstance & {
+			oObjects: Exclude<ioBroker.Adapter["oObjects"], undefined>;
+			oStates: Exclude<ioBroker.Adapter["oStates"], undefined>;
+	  }
+	: T extends { objects: true }
+	? AdapterInstance & {
+			oObjects: Exclude<ioBroker.Adapter["oObjects"], undefined>;
+	  }
+	: T extends { states: true }
+	? AdapterInstance & {
+			oStates: Exclude<ioBroker.Adapter["oStates"], undefined>;
+	  }
+	: AdapterInstance;
+
 interface AdapterConstructor {
-	new (adapterName: string): ioBroker.Adapter;
-	new (adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
-	(adapterName: string): ioBroker.Adapter;
-	(adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
+	new (adapterName: string): AdapterInstance;
+	new <T extends ioBroker.AdapterOptions>(
+		adapterOptions: T,
+	): AdapterInstanceType<T>;
+	(adapterName: string): AdapterInstance;
+	<T extends ioBroker.AdapterOptions>(
+		adapterOptions: ioBroker.AdapterOptions,
+	): AdapterInstanceType<T>;
 }
 /** Creates a new adapter instance */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
