@@ -13,4 +13,11 @@ const adapter5 = utils.adapter(options);
 const adapter6 = utils.Adapter(options);
 
 const adapter7 = new utils.adapter(options);
-const adapter8 = new utils.Adapter(options);
+const adapter8 = new utils.Adapter({ ...options, objects: true });
+
+class adapter9 extends utils.Adapter {
+	constructor() {
+		super({ name: "foo", objects: true });
+		this.oObjects;
+	}
+}
