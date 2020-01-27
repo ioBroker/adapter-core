@@ -75,6 +75,9 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## Changelog
 
+### v2.2.0 (2020-01-27)
+-   (AlCalzone) Included typings for the objects and states cache in the adapter class
+
 ### v2.0.0 (2019-12-27)
 
 -   (AlCalzone) Updated core declarations to v2.0.0. This removes access to `adapter.objects` and `adapter.states`. You must use the new methods `adapter.getObjectView` and `adapter.getObjectList` instead of their counterparts from `objects`.
