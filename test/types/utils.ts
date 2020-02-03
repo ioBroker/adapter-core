@@ -23,3 +23,15 @@ class adapter9 extends utils.Adapter<false, true> {
 		super({ ...options, states: true });
 	}
 }
+
+class adapter10 extends utils.Adapter<true> {
+	constructor(options: utils.AdapterOptions) {
+		super({ ...options, objects: true });
+	}
+}
+
+class adapter11 extends utils.Adapter {
+	constructor(options: utils.AdapterOptions) {
+		super({ ...options });
+	}
+}

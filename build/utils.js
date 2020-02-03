@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable @typescript-eslint/no-var-requires */
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const path = require("path");
@@ -46,7 +47,6 @@ function getConfig() {
 }
 exports.getConfig = getConfig;
 /** Creates a new adapter instance */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 exports.adapter = require(path.join(exports.controllerDir, "lib/adapter.js"));
 /** Creates a new adapter instance */
 exports.Adapter = exports.adapter;

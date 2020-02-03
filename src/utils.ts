@@ -59,10 +59,10 @@ export interface AdapterInstance<
 > extends Omit<ioBroker.Adapter, "oObjects" | "oStates"> {
 	oObjects: HasObjectsCache extends true
 		? Exclude<ioBroker.Adapter["oObjects"], undefined>
-		: never;
+		: undefined;
 	oStates: HasStatesCache extends true
 		? Exclude<ioBroker.Adapter["oStates"], undefined>
-		: never;
+		: undefined;
 }
 
 /** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */
