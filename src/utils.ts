@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import * as fs from "fs";
 import * as path from "path";
 
@@ -48,14 +50,55 @@ export function getConfig(): Record<string, any> {
 	);
 }
 
-interface AdapterConstructor {
-	new (adapterName: string): ioBroker.Adapter;
-	new (adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
-	(adapterName: string): ioBroker.Adapter;
-	(adapterOptions: ioBroker.AdapterOptions): ioBroker.Adapter;
+/**
+ * This type is used to include and exclude the states and objects cache from the adaptert type definition depending on the creation options
+ */
+export interface AdapterInstance<
+	HasObjectsCache extends boolean | undefined = undefined,
+	HasStatesCache extends boolean | undefined = undefined
+> extends Omit<ioBroker.Adapter, "oObjects" | "oStates"> {
+	oObjects: HasObjectsCache extends true
+		? Exclude<ioBroker.Adapter["oObjects"], undefined>
+		: undefined;
+	oStates: HasStatesCache extends true
+		? Exclude<ioBroker.Adapter["oStates"], undefined>
+		: undefined;
 }
+
+/** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */
+export type AdapterOptions<
+	HasObjectsCache extends boolean | undefined = undefined,
+	HasStatesCache extends boolean | undefined = undefined
+> = Omit<ioBroker.AdapterOptions, "objects" | "states"> &
+	(true extends HasObjectsCache
+		? { objects: true }
+		: { objects?: HasObjectsCache }) &
+	(true extends HasStatesCache
+		? { states: true }
+		: { states?: HasStatesCache });
+
+/** Selects the correct instance type depending on the constructor params */
+interface AdapterConstructor {
+	new <
+		HasObjectsCache extends boolean | undefined = undefined,
+		HasStatesCache extends boolean | undefined = undefined
+	>(
+		adapterOptions:
+			| AdapterOptions<HasObjectsCache, HasStatesCache>
+			| string,
+	): AdapterInstance<HasObjectsCache, HasStatesCache>;
+
+	<
+		HasObjectsCache extends boolean | undefined = undefined,
+		HasStatesCache extends boolean | undefined = undefined
+	>(
+		adapterOptions:
+			| AdapterOptions<HasObjectsCache, HasStatesCache>
+			| string,
+	): AdapterInstance<HasObjectsCache, HasStatesCache>;
+}
+
 /** Creates a new adapter instance */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const adapter: AdapterConstructor = require(path.join(
 	controllerDir,
 	"lib/adapter.js",
