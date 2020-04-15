@@ -75,6 +75,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## Changelog
 
+### v2.3.0 (2020-04-15)
+
+-   (AlCalzone) Updated core declarations to v3.0.2. This includes support for new methods in JS-Controller 3.0
+
 ### v2.2.1 (2020-01-27)
 
 -   (AlCalzone) Included typings for the objects and states cache in the adapter class
