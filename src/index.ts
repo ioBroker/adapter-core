@@ -29,7 +29,7 @@ export function getAbsoluteInstanceDataDir(
 
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
 
-export const EXIT_CODES = {
+export const EXIT_CODES = Object.freeze({
 	// Create a shallow copy so compact adapters cannot overwrite the dict in js-controller
 	...require(path.join(utils.controllerDir, "lib/exitCodes")),
-} as ExitCodes;
+}) as ExitCodes;

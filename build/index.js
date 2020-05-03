@@ -26,4 +26,4 @@ function getAbsoluteInstanceDataDir(adapterObject) {
 }
 exports.getAbsoluteInstanceDataDir = getAbsoluteInstanceDataDir;
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
-exports.EXIT_CODES = Object.assign({}, require(path.join(utils.controllerDir, "lib/exitCodes")));
+exports.EXIT_CODES = Object.freeze(Object.assign({}, require(path.join(utils.controllerDir, "lib/exitCodes"))));
