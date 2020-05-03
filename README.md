@@ -47,6 +47,17 @@ const instanceDataDir = utils.getAbsoluteInstanceDataDir(this);
 Returns the absolute path of the data directory for the current adapter instance.
 On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
 
+### `EXIT_CODES`
+
+```js
+adapter.terminate(
+	"for some reason",
+	utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION,
+);
+```
+
+Use standardized exit codes if your adapter needs to terminate.
+
 ## Automatic backup of data files
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
@@ -74,6 +85,11 @@ This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The
 If you find errors in the definitions, e.g. function calls that should be allowed but aren't, please open an issue here or over at https://github.com/DefinitelyTyped/DefinitelyTyped and make sure to mention @AlCalzone.
 
 ## Changelog
+
+### v2.4.0 (2020-05-03)
+
+-   (AlCalzone) Updated core declarations to v3.0.6.
+-   (AlCalzone) Expose the predefined collection of adapter exit codes as `utils.EXIT_CODES`
 
 ### v2.3.1 (2020-04-17)
 
