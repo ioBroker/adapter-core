@@ -1,15 +1,4 @@
-/// <reference types="iobroker" />
-export * from "./utils";
-/**
- * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
- */
-export declare function getAbsoluteDefaultDataDir(): string;
-/**
- * Returns the absolute path of the data directory for the current adapter instance.
- * On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
- */
-export declare function getAbsoluteInstanceDataDir(adapterObject: ioBroker.Adapter): string;
-export declare const EXIT_CODES: Readonly<{
+export declare type ExitCodes = Readonly<{
     NO_ERROR: number;
     JS_CONTROLLER_STOPPED: number;
     INVALID_ADAPTER_CONFIG: number;

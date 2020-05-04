@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/class-name-casing */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as utils from "../../src/utils";
+import * as utils from "../../src/index";
 
 const name = "foobar";
 const options = { name };
@@ -35,3 +35,5 @@ class adapter11 extends utils.Adapter {
 		super({ ...options });
 	}
 }
+
+const code: number = utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION;

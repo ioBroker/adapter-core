@@ -1,13 +1,13 @@
 "use strict";
-/* eslint-disable @typescript-eslint/no-var-requires */
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-// Export all methods that used to be in utils.js
-__export(require("./utils"));
 const path = require("path");
 const utils = require("./utils");
+/* eslint-disable @typescript-eslint/no-var-requires */
+// Export all methods that used to be in utils.js
+__export(require("./utils"));
 // Export some additional utility methods
 const controllerTools = require(path.join(utils.controllerDir, "lib/tools"));
 /**
@@ -26,3 +26,4 @@ function getAbsoluteInstanceDataDir(adapterObject) {
 }
 exports.getAbsoluteInstanceDataDir = getAbsoluteInstanceDataDir;
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
+exports.EXIT_CODES = Object.freeze(Object.assign({}, require(path.join(utils.controllerDir, "lib/exitCodes"))));

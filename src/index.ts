@@ -1,10 +1,10 @@
+import * as path from "path";
+import { ExitCodes } from "./exitCodes";
+import * as utils from "./utils";
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 // Export all methods that used to be in utils.js
 export * from "./utils";
-
-import * as path from "path";
-import * as utils from "./utils";
 
 // Export some additional utility methods
 
@@ -28,3 +28,8 @@ export function getAbsoluteInstanceDataDir(
 }
 
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
+
+export const EXIT_CODES = Object.freeze({
+	// Create a shallow copy so compact adapters cannot overwrite the dict in js-controller
+	...require(path.join(utils.controllerDir, "lib/exitCodes")),
+}) as ExitCodes;
