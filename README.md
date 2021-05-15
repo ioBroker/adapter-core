@@ -84,41 +84,40 @@ This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The
 
 If you find errors in the definitions, e.g. function calls that should be allowed but aren't, please open an issue here or over at https://github.com/DefinitelyTyped/DefinitelyTyped and make sure to mention @AlCalzone.
 
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### __WORK IN PROGRESS__
+-->
+
 ## Changelog
+### v2.4.1 (2021-05-15)
+-   (bluefox) Add special case for debugging of js-controller by getControllerDir 
 
 ### v2.4.0 (2020-05-03)
-
 -   (AlCalzone) Updated core declarations to v3.0.6.
 -   (AlCalzone) Expose the predefined collection of adapter exit codes as `utils.EXIT_CODES`
 
 ### v2.3.1 (2020-04-17)
-
 -   (AlCalzone) Updated core declarations to v3.0.4.
 
 ### v2.3.0 (2020-04-15)
-
 -   (AlCalzone) Updated core declarations to v3.0.2. This includes support for new methods in JS-Controller 3.0
 
 ### v2.2.1 (2020-01-27)
-
 -   (AlCalzone) Included typings for the objects and states cache in the adapter class
 
 ### v2.0.0 (2019-12-27)
-
 -   (AlCalzone) Updated core declarations to v2.0.0. This removes access to `adapter.objects` and `adapter.states`. You must use the new methods `adapter.getObjectView` and `adapter.getObjectList` instead of their counterparts from `objects`.
 
 ### v1.0.3 (2019-01-06)
-
 -   (AlCalzone) Updated core declarations
 -   (AlCalzone) Fix included declarations to allow creating adapter instances with `new`.
 
 ### v1.0.0 (2018-27-11)
-
 -   (AlCalzone) Initial version
 
 ## MIT License
-
-Copyright (c) 2018-2019 AlCalzone
+Copyright (c) 2018-2021 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

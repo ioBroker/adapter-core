@@ -1,6 +1,7 @@
 "use strict";
 /* eslint-disable @typescript-eslint/no-var-requires */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Adapter = exports.adapter = exports.getConfig = exports.controllerDir = void 0;
 const fs = require("fs");
 const path = require("path");
 /**
@@ -22,6 +23,15 @@ function getControllerDir(isInstall) {
         catch (_a) {
             /* not found */
         }
+        // try to find in parent directories. Used by debug
+        if (path.basename(path.normalize(__dirname + "../../../../")) === pkg) {
+            controllerPath = path.normalize(__dirname + "../../../../");
+            break;
+        }
+        else if (path.basename(path.normalize(__dirname + "../../../../../")) === pkg) {
+            controllerPath = path.normalize(__dirname + "../../../../../");
+            break;
+        }
     }
     // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
     // Thus we check for falsyness, which includes failing on an empty path
@@ -40,7 +50,7 @@ function getControllerDir(isInstall) {
 /** The root directory of JS-Controller */
 exports.controllerDir = getControllerDir(typeof process !== "undefined" &&
     process.argv &&
-    process.argv.indexOf("--install") !== -1);
+    process.argv.includes("--install"));
 /** Reads the configuration file of JS-Controller */
 function getConfig() {
     return JSON.parse(fs.readFileSync(path.join(exports.controllerDir, "conf/iobroker.json"), "utf8"));
