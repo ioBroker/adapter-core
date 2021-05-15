@@ -25,12 +25,10 @@ function getControllerDir(isInstall) {
         }
         // try to find in parent directories. Used by debug
         if (path.basename(path.normalize(__dirname + "../../../../")) === pkg) {
-            controllerPath = path.normalize(__dirname + "../../../../");
-            break;
+            return path.normalize(__dirname + "../../../../");
         }
         else if (path.basename(path.normalize(__dirname + "../../../../../")) === pkg) {
-            controllerPath = path.normalize(__dirname + "../../../../../");
-            break;
+            return path.normalize(__dirname + "../../../../../");
         }
     }
     // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
