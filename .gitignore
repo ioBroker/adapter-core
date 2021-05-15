@@ -5,3 +5,4 @@ Thumbs.db
 # NYC coverage files
 coverage
 .nyc*
+/.idea

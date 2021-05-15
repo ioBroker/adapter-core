@@ -24,13 +24,11 @@ function getControllerDir(isInstall: boolean): string | never {
 
 		// try to find in parent directories. Used by debug
 		if (path.basename(path.normalize(__dirname + "../../../../")) === pkg) {
-			controllerPath = path.normalize(__dirname + "../../../../");
-			break;
+			return path.normalize(__dirname + "../../../../");
 		} else if (
 			path.basename(path.normalize(__dirname + "../../../../../")) === pkg
 		) {
-			controllerPath = path.normalize(__dirname + "../../../../../");
-			break;
+			return path.normalize(__dirname + "../../../../../");
 		}
 	}
 	// Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
@@ -66,7 +64,7 @@ export function getConfig(): Record<string, any> {
  */
 export interface AdapterInstance<
 	HasObjectsCache extends boolean | undefined = undefined,
-	HasStatesCache extends boolean | undefined = undefined
+	HasStatesCache extends boolean | undefined = undefined,
 > extends Omit<ioBroker.Adapter, "oObjects" | "oStates"> {
 	oObjects: HasObjectsCache extends true
 		? Exclude<ioBroker.Adapter["oObjects"], undefined>
@@ -79,7 +77,7 @@ export interface AdapterInstance<
 /** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */
 export type AdapterOptions<
 	HasObjectsCache extends boolean | undefined = undefined,
-	HasStatesCache extends boolean | undefined = undefined
+	HasStatesCache extends boolean | undefined = undefined,
 > = Omit<ioBroker.AdapterOptions, "objects" | "states"> &
 	(true extends HasObjectsCache
 		? { objects: true }
@@ -92,7 +90,7 @@ export type AdapterOptions<
 interface AdapterConstructor {
 	new <
 		HasObjectsCache extends boolean | undefined = undefined,
-		HasStatesCache extends boolean | undefined = undefined
+		HasStatesCache extends boolean | undefined = undefined,
 	>(
 		adapterOptions:
 			| AdapterOptions<HasObjectsCache, HasStatesCache>
@@ -101,7 +99,7 @@ interface AdapterConstructor {
 
 	<
 		HasObjectsCache extends boolean | undefined = undefined,
-		HasStatesCache extends boolean | undefined = undefined
+		HasStatesCache extends boolean | undefined = undefined,
 	>(
 		adapterOptions:
 			| AdapterOptions<HasObjectsCache, HasStatesCache>
