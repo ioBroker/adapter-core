@@ -91,9 +91,11 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 2.5.0 (2021-05-19)
 
 -   (AlCalzone) Add fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
+-   (AlCalzone) Use release-script for releases
+-   (AlCalzone) Updated core declarations to `v3.3.0` to be up to date with JS-Controller 3.3.x.
 
 ### v2.4.0 (2020-05-03)
 
