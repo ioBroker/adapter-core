@@ -11,19 +11,49 @@ function getControllerDir(isInstall: boolean): string | never {
 	// Find the js-controller location
 	const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
 	let controllerPath: string | undefined;
+	// First try to let Node.js resolve the package by itself
 	for (const pkg of possibilities) {
 		try {
 			const possiblePath = require.resolve(pkg);
 			if (fs.existsSync(possiblePath)) {
-				controllerPath = possiblePath;
+				// require.resolve returns the main file, we want the directory
+				controllerPath = path.dirname(possiblePath);
 				break;
 			}
 		} catch {
 			/* not found */
 		}
 	}
+
+	// As a fallback solution, we walk up the directory tree until we reach the root or find js-controller
 	// Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
 	// Thus we check for falsyness, which includes failing on an empty path
+	if (!controllerPath) {
+		let curDir = path.join(__dirname, "../node_modules");
+		let parentDir: string;
+		outer: while (true) {
+			for (const pkg of possibilities) {
+				const possiblePath = path.join(curDir, pkg);
+				try {
+					if (fs.existsSync(possiblePath)) {
+						controllerPath = possiblePath;
+						break outer;
+					}
+				} catch {
+					// don't care
+				}
+			}
+
+			// Nothing found here, go up one level
+			parentDir = path.dirname(curDir);
+			if (parentDir === curDir) {
+				// we've reached the root without finding js-controller
+				break;
+			}
+			curDir = parentDir;
+		}
+	}
+
 	if (!controllerPath) {
 		if (!isInstall) {
 			console.log("Cannot find js-controller");
@@ -33,14 +63,12 @@ function getControllerDir(isInstall: boolean): string | never {
 		}
 	}
 	// we found the controller
-	return path.dirname(controllerPath);
+	return controllerPath;
 }
 
 /** The root directory of JS-Controller */
 export const controllerDir = getControllerDir(
-	typeof process !== "undefined" &&
-		process.argv &&
-		process.argv.indexOf("--install") !== -1,
+	!!process?.argv?.includes("--install"),
 );
 
 /** Reads the configuration file of JS-Controller */
