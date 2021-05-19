@@ -86,6 +86,15 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## Changelog
 
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+
+### **WORK IN PROGRESS**
+
+-   (AlCalzone) Add fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
+
 ### v2.4.0 (2020-05-03)
 
 -   (AlCalzone) Updated core declarations to v3.0.6.
