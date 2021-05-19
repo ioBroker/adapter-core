@@ -55,7 +55,7 @@ export function getConfig(): Record<string, any> {
  */
 export interface AdapterInstance<
 	HasObjectsCache extends boolean | undefined = undefined,
-	HasStatesCache extends boolean | undefined = undefined
+	HasStatesCache extends boolean | undefined = undefined,
 > extends Omit<ioBroker.Adapter, "oObjects" | "oStates"> {
 	oObjects: HasObjectsCache extends true
 		? Exclude<ioBroker.Adapter["oObjects"], undefined>
@@ -68,7 +68,7 @@ export interface AdapterInstance<
 /** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */
 export type AdapterOptions<
 	HasObjectsCache extends boolean | undefined = undefined,
-	HasStatesCache extends boolean | undefined = undefined
+	HasStatesCache extends boolean | undefined = undefined,
 > = Omit<ioBroker.AdapterOptions, "objects" | "states"> &
 	(true extends HasObjectsCache
 		? { objects: true }
@@ -81,7 +81,7 @@ export type AdapterOptions<
 interface AdapterConstructor {
 	new <
 		HasObjectsCache extends boolean | undefined = undefined,
-		HasStatesCache extends boolean | undefined = undefined
+		HasStatesCache extends boolean | undefined = undefined,
 	>(
 		adapterOptions:
 			| AdapterOptions<HasObjectsCache, HasStatesCache>
@@ -90,7 +90,7 @@ interface AdapterConstructor {
 
 	<
 		HasObjectsCache extends boolean | undefined = undefined,
-		HasStatesCache extends boolean | undefined = undefined
+		HasStatesCache extends boolean | undefined = undefined,
 	>(
 		adapterOptions:
 			| AdapterOptions<HasObjectsCache, HasStatesCache>
