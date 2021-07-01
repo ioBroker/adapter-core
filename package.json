@@ -54,7 +54,7 @@
     "prettier": "^2.3.2",
     "proxyquire": "^2.1.0",
     "rimraf": "^3.0.0",
-    "sinon": "^10.0.0",
+    "sinon": "^11.1.1",
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
