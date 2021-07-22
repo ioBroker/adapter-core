@@ -91,6 +91,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   (AlCalzone) Updated core declarations to `v3.3.4`.
+
 ### 2.5.0 (2021-05-19)
 
 -   (AlCalzone) Add fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
