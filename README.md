@@ -90,8 +90,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.6.0 (2022-02-20)
 
 -   (AlCalzone) Updated core declarations to `v4.0.1` for support with JS-Controller 4.x
 
@@ -137,7 +136,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## MIT License
 
-Copyright (c) 2018-2019 AlCalzone
+Copyright (c) 2018-2022 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
