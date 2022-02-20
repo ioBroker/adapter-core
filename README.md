@@ -91,6 +91,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   (AlCalzone) Updated core declarations to `v4.0.1` for support with JS-Controller 4.x
+
 ### 2.5.1 (2021-07-22)
 
 -   (AlCalzone) Updated core declarations to `v3.3.4`.
