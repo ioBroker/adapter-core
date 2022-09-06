@@ -90,6 +90,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 2.6.1 (2022-09-06)
+
+-   (AlCalzone) Fix: detecting JS-Controller now finds the correct directory and not a subdirectory.
+
 ### 2.6.0 (2022-02-20)
 
 -   (AlCalzone) Updated core declarations to `v4.0.1` for support with JS-Controller 4.x
