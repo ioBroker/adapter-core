@@ -12,15 +12,14 @@ const path = require("path");
 function getControllerDir(isInstall) {
     // Find the js-controller location
     const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
-    let controllerPath;
     // First try to let Node.js resolve the package by itself
     for (const pkg of possibilities) {
         try {
-            const possiblePath = require.resolve(pkg);
+            // package.json is guaranteed to be in the module root folder
+            // so once that is resolved, take the dirname and we're done
+            const possiblePath = require.resolve(`${pkg}/package.json`);
             if (fs.existsSync(possiblePath)) {
-                // require.resolve returns the main file, we want the directory
-                controllerPath = path.dirname(possiblePath);
-                break;
+                return path.dirname(possiblePath);
             }
         }
         catch (_a) {
@@ -30,42 +29,38 @@ function getControllerDir(isInstall) {
     // As a fallback solution, we walk up the directory tree until we reach the root or find js-controller
     // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
     // Thus we check for falsyness, which includes failing on an empty path
-    if (!controllerPath) {
-        let curDir = path.join(__dirname, "../node_modules");
-        let parentDir;
-        outer: while (true) {
-            for (const pkg of possibilities) {
-                const possiblePath = path.join(curDir, pkg);
-                try {
-                    if (fs.existsSync(possiblePath)) {
-                        controllerPath = possiblePath;
-                        break outer;
-                    }
-                }
-                catch (_b) {
-                    // don't care
+    // We start in the node_modules subfolder of adapter-core, which is the deepest we should be able to expect the controller
+    let curDir = path.join(__dirname, "../node_modules");
+    while (true) {
+        for (const pkg of possibilities) {
+            const possiblePath = path.join(curDir, pkg, "package.json");
+            try {
+                // If package.json exists in the directory and its name field matches, we've found js-controller
+                if (fs.existsSync(possiblePath) &&
+                    JSON.parse(fs.readFileSync(possiblePath, "utf8")).name ===
+                        pkg.toLowerCase()) {
+                    return path.dirname(possiblePath);
                 }
             }
-            // Nothing found here, go up one level
-            parentDir = path.dirname(curDir);
-            if (parentDir === curDir) {
-                // we've reached the root without finding js-controller
-                break;
+            catch (_b) {
+                // don't care
             }
-            curDir = parentDir;
         }
+        // Nothing found here, go up one level
+        const parentDir = path.dirname(curDir);
+        if (parentDir === curDir) {
+            // we've reached the root without finding js-controller
+            break;
+        }
+        curDir = parentDir;
     }
-    if (!controllerPath) {
-        if (!isInstall) {
-            console.log("Cannot find js-controller");
-            return process.exit(10);
-        }
-        else {
-            return process.exit();
-        }
+    if (!isInstall) {
+        console.log("Cannot find js-controller");
+        return process.exit(10);
     }
-    // we found the controller
-    return controllerPath;
+    else {
+        return process.exit();
+    }
 }
 /** The root directory of JS-Controller */
 exports.controllerDir = getControllerDir(!!((_a = process === null || process === void 0 ? void 0 : process.argv) === null || _a === void 0 ? void 0 : _a.includes("--install")));
