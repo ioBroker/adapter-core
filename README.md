@@ -90,8 +90,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.6.2 (2022-09-07)
 
 -   (AlCalzone) Fix: Restore compatibility with JS-Controller < 4.1
 
