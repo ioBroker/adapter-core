@@ -2,6 +2,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { scanForPackage, tryResolvePackage } from "./helpers";
 
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process
@@ -11,50 +12,14 @@ function getControllerDir(isInstall: boolean): string | never {
 	// Find the js-controller location
 	const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
 	// First try to let Node.js resolve the package by itself
-	for (const pkg of possibilities) {
-		try {
-			// package.json is guaranteed to be in the module root folder
-			// so once that is resolved, take the dirname and we're done
-			const possiblePath = require.resolve(`${pkg}/package.json`);
-			if (fs.existsSync(possiblePath)) {
-				return path.dirname(possiblePath);
-			}
-		} catch {
-			/* not found */
-		}
-	}
-
-	// As a fallback solution, we walk up the directory tree until we reach the root or find js-controller
+	let controllerDir = tryResolvePackage(possibilities);
 	// Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
 	// Thus we check for falsyness, which includes failing on an empty path
+	if (controllerDir) return controllerDir;
 
-	// We start in the node_modules subfolder of adapter-core, which is the deepest we should be able to expect the controller
-	let curDir = path.join(__dirname, "../node_modules");
-	while (true) {
-		for (const pkg of possibilities) {
-			const possiblePath = path.join(curDir, pkg, "package.json");
-			try {
-				// If package.json exists in the directory and its name field matches, we've found js-controller
-				if (
-					fs.existsSync(possiblePath) &&
-					JSON.parse(fs.readFileSync(possiblePath, "utf8")).name ===
-						pkg.toLowerCase()
-				) {
-					return path.dirname(possiblePath);
-				}
-			} catch {
-				// don't care
-			}
-		}
-
-		// Nothing found here, go up one level
-		const parentDir = path.dirname(curDir);
-		if (parentDir === curDir) {
-			// we've reached the root without finding js-controller
-			break;
-		}
-		curDir = parentDir;
-	}
+	// As a fallback solution, we walk up the directory tree until we reach the root or find js-controller
+	controllerDir = scanForPackage(possibilities);
+	if (controllerDir) return controllerDir;
 
 	if (!isInstall) {
 		console.log("Cannot find js-controller");
@@ -68,6 +33,56 @@ function getControllerDir(isInstall: boolean): string | never {
 export const controllerDir = getControllerDir(
 	!!process?.argv?.includes("--install"),
 );
+
+function resolveAdapterConstructor(): any | never {
+	// Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
+	let adapterPath = tryResolvePackage(["@iobroker/js-controller-adapter"]);
+	if (adapterPath) {
+		try {
+			const { Adapter } = require(adapterPath);
+			if (Adapter) return Adapter;
+		} catch {
+			// did not work, continue
+		}
+	}
+
+	// Attempt 2: Resolve @iobroker/js-controller-adapter in JS-Controller dir - JS-Controller 4.1+
+	adapterPath = tryResolvePackage(
+		["@iobroker/js-controller-adapter"],
+		[path.join(controllerDir, "node_modules")],
+	);
+	if (adapterPath) {
+		try {
+			const { Adapter } = require(adapterPath);
+			if (Adapter) return Adapter;
+		} catch {
+			// did not work, continue
+		}
+	}
+
+	// Attempt 3: Legacy resolve - until JS-Controller 4.0
+	adapterPath = path.join(controllerDir, "lib/adapter.js");
+	try {
+		// This was a default export prior to the TS migration
+		const Adapter = require(adapterPath);
+		if (Adapter) return Adapter;
+	} catch {
+		// did not work, continue
+	}
+
+	// Attempt 4: JS-Controller 4.1+ with adapter stub
+	adapterPath = path.join(controllerDir, "build/lib/adapter.js");
+	try {
+		// This was a default export prior to the TS migration
+		const Adapter = require(adapterPath);
+		if (Adapter) return Adapter;
+	} catch {
+		// did not work, continue
+	}
+
+	throw new Error("Cannot resolve adapter class");
+	return process.exit(10);
+}
 
 /** Reads the configuration file of JS-Controller */
 export function getConfig(): Record<string, any> {
@@ -125,9 +140,6 @@ interface AdapterConstructor {
 }
 
 /** Creates a new adapter instance */
-export const adapter: AdapterConstructor = require(path.join(
-	controllerDir,
-	"lib/adapter.js",
-));
+export const adapter: AdapterConstructor = resolveAdapterConstructor();
 /** Creates a new adapter instance */
 export const Adapter = adapter;
