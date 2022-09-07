@@ -16,12 +16,52 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EXIT_CODES = exports.getAbsoluteInstanceDataDir = exports.getAbsoluteDefaultDataDir = void 0;
 const path = require("path");
+const helpers_1 = require("./helpers");
 const utils = require("./utils");
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Export all methods that used to be in utils.js
 __exportStar(require("./utils"), exports);
 // Export some additional utility methods
-const controllerTools = require(path.join(utils.controllerDir, "lib/tools"));
+function resolveControllerTools() {
+    // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
+    let importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"]);
+    if (importPath) {
+        try {
+            const { tools } = require(importPath);
+            if (tools)
+                return tools;
+        }
+        catch (_a) {
+            // did not work, continue
+        }
+    }
+    // Attempt 2: Resolve @iobroker/js-controller-common in JS-Controller dir - JS-Controller 4.1+
+    importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
+    if (importPath) {
+        try {
+            const { tools } = require(importPath);
+            if (tools)
+                return tools;
+        }
+        catch (_b) {
+            // did not work, continue
+        }
+    }
+    // Attempt 3: Legacy resolve - until JS-Controller 4.0
+    importPath = path.join(utils.controllerDir, "lib/tools");
+    try {
+        // This was a default export prior to the TS migration
+        const tools = require(importPath);
+        if (tools)
+            return tools;
+    }
+    catch (_c) {
+        // did not work, continue
+    }
+    throw new Error("Cannot resolve tools module");
+    return process.exit(10);
+}
+const controllerTools = resolveControllerTools();
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
  */
@@ -38,4 +78,43 @@ function getAbsoluteInstanceDataDir(adapterObject) {
 }
 exports.getAbsoluteInstanceDataDir = getAbsoluteInstanceDataDir;
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
-exports.EXIT_CODES = Object.freeze(Object.assign({}, require(path.join(utils.controllerDir, "lib/exitCodes"))));
+function resolveExitCodes() {
+    // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
+    let importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"]);
+    if (importPath) {
+        try {
+            const { EXIT_CODES } = require(importPath);
+            if (EXIT_CODES)
+                return EXIT_CODES;
+        }
+        catch (_a) {
+            // did not work, continue
+        }
+    }
+    // Attempt 2: Resolve @iobroker/js-controller-common in JS-Controller dir - JS-Controller 4.1+
+    importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
+    if (importPath) {
+        try {
+            const { EXIT_CODES } = require(importPath);
+            if (EXIT_CODES)
+                return EXIT_CODES;
+        }
+        catch (_b) {
+            // did not work, continue
+        }
+    }
+    // Attempt 3: Legacy resolve - until JS-Controller 4.0
+    importPath = path.join(utils.controllerDir, "lib/exitCodes");
+    try {
+        // This was a default export prior to the TS migration
+        const EXIT_CODES = require(importPath);
+        if (EXIT_CODES)
+            return EXIT_CODES;
+    }
+    catch (_c) {
+        // did not work, continue
+    }
+    throw new Error("Cannot resolve EXIT_CODES");
+    return process.exit(10);
+}
+exports.EXIT_CODES = Object.freeze(Object.assign({}, resolveExitCodes()));
