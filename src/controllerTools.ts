@@ -49,9 +49,10 @@ export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
 
 function resolveNamedModule(name: string): any {
+	// The requested module might be moved to @iobroker/js-controller-common and exported from there
 	if (name in controllerToolsInternal) return controllerToolsInternal[name];
 
-	// We're dealing with JS-Controller <= 4.0
+	// Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
 	const importPath = path.join(utils.controllerDir, "lib", name);
 	try {
 		// This was a default export prior to the TS migration
