@@ -106,6 +106,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   (AlCalzone) Expose more JS-Controller internals under the `commonTools` export
+
 ### 2.6.2 (2022-09-07)
 
 -   (AlCalzone) Fix: Restore compatibility with JS-Controller < 4.1
