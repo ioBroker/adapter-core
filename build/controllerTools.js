@@ -90,7 +90,7 @@ exports.resolveNamedModule = resolveNamedModule;
  * @param pattern The pattern to convert
  */
 function pattern2RegEx(pattern) {
-    return exports.controllerToolsInternal.tools.pattern2RegEx(pattern);
+    return exports.controllerToolsInternal.pattern2RegEx(pattern);
 }
 exports.commonTools = {
     pattern2RegEx,

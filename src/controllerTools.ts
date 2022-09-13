@@ -98,7 +98,7 @@ export function resolveNamedModule(
  * @param pattern The pattern to convert
  */
 function pattern2RegEx(pattern: string): string {
-	return controllerToolsInternal.tools.pattern2RegEx(pattern);
+	return controllerToolsInternal.pattern2RegEx(pattern);
 }
 
 export const commonTools = {
