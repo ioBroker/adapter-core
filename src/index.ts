@@ -1,5 +1,5 @@
 import * as path from "path";
-import { controllerToolsInternal } from "./controllerTools";
+import { controllerToolsInternal, resolveNamedModule } from "./controllerTools";
 import { ExitCodes } from "./exitCodes";
 import * as utils from "./utils";
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -30,25 +30,7 @@ export function getAbsoluteInstanceDataDir(
 
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
 
-function resolveExitCodes(): ExitCodes | never {
-	if ("EXIT_CODES" in controllerToolsInternal)
-		return controllerToolsInternal.EXIT_CODES;
-
-	// We're dealing with JS-Controller <= 4.0
-	const importPath = path.join(utils.controllerDir, "lib/exitCodes");
-	try {
-		// This was a default export prior to the TS migration
-		const EXIT_CODES = require(importPath);
-		if (EXIT_CODES) return EXIT_CODES;
-	} catch {
-		// did not work, continue
-	}
-
-	throw new Error("Cannot resolve EXIT_CODES");
-	return process.exit(10);
-}
-
-export const EXIT_CODES = Object.freeze({
+export const EXIT_CODES: ExitCodes = Object.freeze({
 	// Create a shallow copy so compact adapters cannot overwrite the dict in js-controller
-	...resolveExitCodes(),
+	...resolveNamedModule("exitCodes", "EXIT_CODES"),
 });

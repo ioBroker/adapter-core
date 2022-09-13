@@ -3,12 +3,15 @@ import { tryResolvePackage } from "./helpers";
 import * as utils from "./utils";
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+export let controllerCommonModulesInternal: any;
+
 function resolveControllerTools(): any | never {
 	// Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
 	let importPath = tryResolvePackage(["@iobroker/js-controller-common"]);
 	if (importPath) {
 		try {
-			const { tools } = require(importPath);
+			controllerCommonModulesInternal = require(importPath);
+			const { tools } = controllerCommonModulesInternal;
 			if (tools) return tools;
 		} catch {
 			// did not work, continue
@@ -22,7 +25,8 @@ function resolveControllerTools(): any | never {
 	);
 	if (importPath) {
 		try {
-			const { tools } = require(importPath);
+			controllerCommonModulesInternal = require(importPath);
+			const { tools } = controllerCommonModulesInternal;
 			if (tools) return tools;
 		} catch {
 			// did not work, continue
@@ -48,9 +52,18 @@ export const controllerToolsInternal = resolveControllerTools();
 
 // Export a subset of the utilties in controllerTools
 
-function resolveNamedModule(name: string): any {
+/**
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * @param name - The filename of the module to resolve
+ * @param exportName - The name under which the module may be exported. Defaults to `name`.
+ */
+export function resolveNamedModule(
+	name: string,
+	exportName: string = name,
+): any {
 	// The requested module might be moved to @iobroker/js-controller-common and exported from there
-	if (name in controllerToolsInternal) return controllerToolsInternal[name];
+	if (controllerCommonModulesInternal?.[exportName])
+		return controllerCommonModulesInternal[exportName];
 
 	// Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
 

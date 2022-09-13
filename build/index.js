@@ -39,21 +39,4 @@ function getAbsoluteInstanceDataDir(adapterObject) {
 }
 exports.getAbsoluteInstanceDataDir = getAbsoluteInstanceDataDir;
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
-function resolveExitCodes() {
-    if ("EXIT_CODES" in controllerTools_1.controllerToolsInternal)
-        return controllerTools_1.controllerToolsInternal.EXIT_CODES;
-    // We're dealing with JS-Controller <= 4.0
-    const importPath = path.join(utils.controllerDir, "lib/exitCodes");
-    try {
-        // This was a default export prior to the TS migration
-        const EXIT_CODES = require(importPath);
-        if (EXIT_CODES)
-            return EXIT_CODES;
-    }
-    catch (_a) {
-        // did not work, continue
-    }
-    throw new Error("Cannot resolve EXIT_CODES");
-    return process.exit(10);
-}
-exports.EXIT_CODES = Object.freeze(Object.assign({}, resolveExitCodes()));
+exports.EXIT_CODES = Object.freeze(Object.assign({}, (0, controllerTools_1.resolveNamedModule)("exitCodes", "EXIT_CODES")));

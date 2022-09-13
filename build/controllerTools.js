@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commonTools = exports.controllerToolsInternal = void 0;
+exports.commonTools = exports.resolveNamedModule = exports.controllerToolsInternal = exports.controllerCommonModulesInternal = void 0;
 const path = require("path");
 const helpers_1 = require("./helpers");
 const utils = require("./utils");
-/* eslint-disable @typescript-eslint/no-var-requires */
 function resolveControllerTools() {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
     let importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"]);
     if (importPath) {
         try {
-            const { tools } = require(importPath);
+            exports.controllerCommonModulesInternal = require(importPath);
+            const { tools } = exports.controllerCommonModulesInternal;
             if (tools)
                 return tools;
         }
@@ -22,7 +22,8 @@ function resolveControllerTools() {
     importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
     if (importPath) {
         try {
-            const { tools } = require(importPath);
+            exports.controllerCommonModulesInternal = require(importPath);
+            const { tools } = exports.controllerCommonModulesInternal;
             if (tools)
                 return tools;
         }
@@ -47,10 +48,15 @@ function resolveControllerTools() {
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
 exports.controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
-function resolveNamedModule(name) {
+/**
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * @param name - The filename of the module to resolve
+ * @param exportName - The name under which the module may be exported. Defaults to `name`.
+ */
+function resolveNamedModule(name, exportName = name) {
     // The requested module might be moved to @iobroker/js-controller-common and exported from there
-    if (name in exports.controllerToolsInternal)
-        return exports.controllerToolsInternal[name];
+    if (exports.controllerCommonModulesInternal === null || exports.controllerCommonModulesInternal === void 0 ? void 0 : exports.controllerCommonModulesInternal[exportName])
+        return exports.controllerCommonModulesInternal[exportName];
     // Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
     // Attempt 1: JS-Controller 4.1+
     let importPath = path.join(utils.controllerDir, "build/lib", name);
@@ -77,6 +83,7 @@ function resolveNamedModule(name) {
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
     return process.exit(10);
 }
+exports.resolveNamedModule = resolveNamedModule;
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
 /**
  * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
