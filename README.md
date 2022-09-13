@@ -105,7 +105,8 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 2.6.3 (2022-09-13)
+
+### **WORK IN PROGRESS**
 
 -   (AlCalzone) Expose more JS-Controller internals under the `commonTools` export
 
