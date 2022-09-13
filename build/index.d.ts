@@ -1,4 +1,5 @@
 /// <reference types="iobroker" />
+export { commonTools } from "./controllerTools";
 export * from "./utils";
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.

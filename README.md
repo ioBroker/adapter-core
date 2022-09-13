@@ -58,6 +58,21 @@ adapter.terminate(
 
 Use standardized exit codes if your adapter needs to terminate.
 
+### `commonTools`
+
+A collection of various utility methods and modules from JS-Controller. Prefer this over trying to find `lib/tools.js` and similar internal modules from the controller yourself!
+
+Currently, the following **methods** are available:
+
+-   `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
+
+And the following **modules** are exposed:
+
+-   `commonTools.password` - Previously exposed as `lib/password.js` in JS-Controller.
+-   `commonTools.letsEncrypt` - Previously exposed as `lib/letsencrypt.js` in JS-Controller. Note that `letsEncrypt` has a capital `E`!
+-   `commonTools.session` - Previously exposed as `lib/session.js` in JS-Controller.
+-   `commonTools.zipFiles` - Previously exposed as `lib/zipFiles.js` in JS-Controller.
+
 ## Automatic backup of data files
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
@@ -90,6 +105,11 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   (AlCalzone) Expose more JS-Controller internals under the `commonTools` export
+
 ### 2.6.2 (2022-09-07)
 
 -   (AlCalzone) Fix: Restore compatibility with JS-Controller < 4.1
