@@ -104,11 +104,11 @@ function getAdapterDir(adapter) {
 }
 /**
  * Get list of all installed adapters and controller version on this host
- * @param hostRunningVersion Version of the running js-controller, will be included in the returned information if provided
+ * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
  * @returns object containing information about installed host
  */
-function getInstalledInfo(hostRunningVersion) {
-    return exports.controllerToolsInternal.getInstalledInfo(hostRunningVersion);
+function getInstalledInfo(hostJsControllerVersion) {
+    return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 /**
  * Returns the hostname of this host

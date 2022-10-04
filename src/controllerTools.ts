@@ -144,13 +144,13 @@ export interface GetInstalledInfoReponse {
 }
 /**
  * Get list of all installed adapters and controller version on this host
- * @param hostRunningVersion Version of the running js-controller, will be included in the returned information if provided
+ * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
  * @returns object containing information about installed host
  */
 function getInstalledInfo(
-	hostRunningVersion?: string,
+	hostJsControllerVersion?: string,
 ): GetInstalledInfoReponse {
-	return controllerToolsInternal.getInstalledInfo(hostRunningVersion);
+	return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 
 /**
