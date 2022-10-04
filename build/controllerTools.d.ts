@@ -10,10 +10,59 @@ export declare function resolveNamedModule(name: string, exportName?: string): a
 /**
  * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
  * @param pattern The pattern to convert
+ * @returns The RegEx string
  */
 declare function pattern2RegEx(pattern: string): string;
+/**
+ * Finds the adapter directory of a given adapter
+ *
+ * @param adapter name of the adapter, e.g. hm-rpc
+ * @returns path to adapter directory or null if no directory found
+ */
+declare function getAdapterDir(adapter: string): string | null;
+interface Multilingual {
+    en: string;
+    de?: string;
+    ru?: string;
+    pt?: string;
+    nl?: string;
+    fr?: string;
+    it?: string;
+    es?: string;
+    pl?: string;
+    uk?: string;
+    "zh-cn"?: string;
+}
+export interface GetInstalledInfoReponse {
+    controller?: boolean;
+    version?: string;
+    icon?: string;
+    title?: string;
+    titleLang?: Multilingual;
+    desc?: Multilingual;
+    platform?: string;
+    keywords?: string[];
+    readme?: string;
+    runningVersion?: string;
+    license?: string;
+    licenseUrl?: string;
+}
+/**
+ * Get list of all installed adapters and controller version on this host
+ * @param hostRunningVersion Version of the running js-controller, will be included in the returned information if provided
+ * @returns object containing information about installed host
+ */
+declare function getInstalledInfo(hostRunningVersion?: string): GetInstalledInfoReponse;
+/**
+ * Returns the hostname of this host
+ * @returns hostname
+ */
+declare function getHostName(): string;
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
+    getAdapterDir: typeof getAdapterDir;
+    getInstalledInfo: typeof getInstalledInfo;
+    getHostName: typeof getHostName;
     password: any;
     letsEncrypt: any;
     session: any;
