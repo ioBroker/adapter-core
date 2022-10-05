@@ -44,7 +44,7 @@ function resolveControllerTools(): any | never {
 	}
 
 	throw new Error("Cannot resolve tools module");
-	return process.exit(10);
+	//return process.exit(10);
 }
 
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
@@ -88,7 +88,7 @@ export function resolveNamedModule(
 	}
 
 	throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
-	return process.exit(10);
+	//return process.exit(10);
 }
 
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
@@ -96,13 +96,76 @@ export function resolveNamedModule(
 /**
  * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
  * @param pattern The pattern to convert
+ * @returns The RegEx string
  */
 function pattern2RegEx(pattern: string): string {
 	return controllerToolsInternal.pattern2RegEx(pattern);
 }
 
+/**
+ * Finds the adapter directory of a given adapter
+ *
+ * @param adapter name of the adapter, e.g. hm-rpc
+ * @returns path to adapter directory or null if no directory found
+ */
+function getAdapterDir(adapter: string): string | null {
+	return controllerToolsInternal.getAdapterDir(adapter);
+}
+
+// Types copied from https://github.com/ioBroker/ioBroker.js-controller/blob/master/packages/common/src/lib/common/tools.ts#L898-L924
+// TODO: Import types from @iobroker/js-controller-common
+interface Multilingual {
+	en: string;
+	de?: string;
+	ru?: string;
+	pt?: string;
+	nl?: string;
+	fr?: string;
+	it?: string;
+	es?: string;
+	pl?: string;
+	uk?: string;
+	"zh-cn"?: string;
+}
+
+export interface GetInstalledInfoReponse {
+	controller?: boolean;
+	version?: string;
+	icon?: string;
+	title?: string;
+	titleLang?: Multilingual;
+	desc?: Multilingual;
+	platform?: string;
+	keywords?: string[];
+	readme?: string;
+	runningVersion?: string;
+	license?: string;
+	licenseUrl?: string;
+}
+/**
+ * Get list of all installed adapters and controller version on this host
+ * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
+ * @returns object containing information about installed host
+ */
+function getInstalledInfo(
+	hostJsControllerVersion?: string,
+): GetInstalledInfoReponse {
+	return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
+}
+
+/**
+ * Returns the hostname of this host
+ * @returns hostname
+ */
+function getHostName(): string {
+	return controllerToolsInternal.getHostName();
+}
+
 export const commonTools = {
 	pattern2RegEx,
+	getAdapterDir,
+	getInstalledInfo,
+	getHostName,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),

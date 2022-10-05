@@ -43,7 +43,7 @@ function resolveControllerTools() {
         // did not work, continue
     }
     throw new Error("Cannot resolve tools module");
-    return process.exit(10);
+    //return process.exit(10);
 }
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
 exports.controllerToolsInternal = resolveControllerTools();
@@ -81,19 +81,47 @@ function resolveNamedModule(name, exportName = name) {
         // did not work, continue
     }
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
-    return process.exit(10);
+    //return process.exit(10);
 }
 exports.resolveNamedModule = resolveNamedModule;
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
 /**
  * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
  * @param pattern The pattern to convert
+ * @returns The RegEx string
  */
 function pattern2RegEx(pattern) {
     return exports.controllerToolsInternal.pattern2RegEx(pattern);
 }
+/**
+ * Finds the adapter directory of a given adapter
+ *
+ * @param adapter name of the adapter, e.g. hm-rpc
+ * @returns path to adapter directory or null if no directory found
+ */
+function getAdapterDir(adapter) {
+    return exports.controllerToolsInternal.getAdapterDir(adapter);
+}
+/**
+ * Get list of all installed adapters and controller version on this host
+ * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
+ * @returns object containing information about installed host
+ */
+function getInstalledInfo(hostJsControllerVersion) {
+    return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
+}
+/**
+ * Returns the hostname of this host
+ * @returns hostname
+ */
+function getHostName() {
+    return exports.controllerToolsInternal.getHostName();
+}
 exports.commonTools = {
     pattern2RegEx,
+    getAdapterDir,
+    getInstalledInfo,
+    getHostName,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),
