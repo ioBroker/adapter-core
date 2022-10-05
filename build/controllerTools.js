@@ -110,18 +110,10 @@ function getAdapterDir(adapter) {
 function getInstalledInfo(hostJsControllerVersion) {
     return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
-/**
- * Returns the hostname of this host
- * @returns hostname
- */
-function getHostName() {
-    return exports.controllerToolsInternal.getHostName();
-}
 exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
     getInstalledInfo,
-    getHostName,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),

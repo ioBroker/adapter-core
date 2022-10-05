@@ -65,6 +65,8 @@ A collection of various utility methods and modules from JS-Controller. Prefer t
 Currently, the following **methods** are available:
 
 -   `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
+-   `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
+-   `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
 
 And the following **modules** are exposed:
 
@@ -105,6 +107,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### __WORK IN PROGRESS__
+-   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
+
 ### 2.6.6 (2022-09-13)
 
 -   (AlCalzone) Expose more JS-Controller internals under the `commonTools` export

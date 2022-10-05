@@ -153,19 +153,10 @@ function getInstalledInfo(
 	return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 
-/**
- * Returns the hostname of this host
- * @returns hostname
- */
-function getHostName(): string {
-	return controllerToolsInternal.getHostName();
-}
-
 export const commonTools = {
 	pattern2RegEx,
 	getAdapterDir,
 	getInstalledInfo,
-	getHostName,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),

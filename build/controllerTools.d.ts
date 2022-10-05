@@ -53,16 +53,10 @@ export interface GetInstalledInfoReponse {
  * @returns object containing information about installed host
  */
 declare function getInstalledInfo(hostJsControllerVersion?: string): GetInstalledInfoReponse;
-/**
- * Returns the hostname of this host
- * @returns hostname
- */
-declare function getHostName(): string;
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
     getAdapterDir: typeof getAdapterDir;
     getInstalledInfo: typeof getInstalledInfo;
-    getHostName: typeof getHostName;
     password: any;
     letsEncrypt: any;
     session: any;
