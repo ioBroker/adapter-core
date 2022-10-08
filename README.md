@@ -110,6 +110,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+-   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
+
 ### 2.6.7 (2022-10-08)
 -   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
 
