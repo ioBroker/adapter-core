@@ -110,10 +110,17 @@ function getAdapterDir(adapter) {
 function getInstalledInfo(hostJsControllerVersion) {
     return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
+/**
+ * Checks if we are running inside a docker container
+ */
+function isDocker() {
+    return exports.controllerToolsInternal.isDocker();
+}
 exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
     getInstalledInfo,
+    isDocker,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),

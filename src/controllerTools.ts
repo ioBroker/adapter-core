@@ -153,10 +153,18 @@ function getInstalledInfo(
 	return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 
+/**
+ * Checks if we are running inside a docker container
+ */
+function isDocker(): boolean {
+	return controllerToolsInternal.isDocker();
+}
+
 export const commonTools = {
 	pattern2RegEx,
 	getAdapterDir,
 	getInstalledInfo,
+	isDocker,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),

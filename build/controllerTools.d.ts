@@ -53,10 +53,15 @@ export interface GetInstalledInfoReponse {
  * @returns object containing information about installed host
  */
 declare function getInstalledInfo(hostJsControllerVersion?: string): GetInstalledInfoReponse;
+/**
+ * Checks if we are running inside a docker container
+ */
+declare function isDocker(): boolean;
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
     getAdapterDir: typeof getAdapterDir;
     getInstalledInfo: typeof getInstalledInfo;
+    isDocker: typeof isDocker;
     password: any;
     letsEncrypt: any;
     session: any;
