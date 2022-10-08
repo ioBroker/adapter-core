@@ -57,11 +57,46 @@ declare function getInstalledInfo(hostJsControllerVersion?: string): GetInstalle
  * Checks if we are running inside a docker container
  */
 declare function isDocker(): boolean;
+export interface InstallNodeModuleOptions {
+    unsafePerm?: boolean;
+    debug?: boolean;
+    cwd?: string;
+}
+export interface CommandResult {
+    /** Whether the command execution was successful */
+    success: boolean;
+    /** The exit code of the command execution */
+    exitCode: number;
+    /** The captured stdout */
+    stdout: string;
+    /** The captured stderr */
+    stderr: string;
+    /** The captured stdout and stderr, interleaved like it would appear on the console */
+    stdall: string;
+}
+/**
+ * Installs a node module using npm or a similar package manager
+ * @param npmUrl Which node module to install
+ * @param options Options for the installation
+ */
+export declare function installNodeModule(npmUrl: string, options?: InstallNodeModuleOptions): Promise<CommandResult>;
+export interface UninstallNodeModuleOptions {
+    debug?: boolean;
+    cwd?: string;
+}
+/**
+ * Uninstalls a node module using npm or a similar package manager
+ * @param packageName Which node module to uninstall
+ * @param options Options for the installation
+ */
+export declare function uninstallNodeModule(packageName: string, options?: UninstallNodeModuleOptions): Promise<CommandResult>;
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
     getAdapterDir: typeof getAdapterDir;
     getInstalledInfo: typeof getInstalledInfo;
     isDocker: typeof isDocker;
+    installNodeModule: typeof installNodeModule;
+    uninstallNodeModule: typeof uninstallNodeModule;
     password: any;
     letsEncrypt: any;
     session: any;
