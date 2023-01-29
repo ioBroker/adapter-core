@@ -98,8 +98,10 @@ export declare const commonTools: {
     installNodeModule: typeof installNodeModule;
     uninstallNodeModule: typeof uninstallNodeModule;
     password: any;
+    /** @deprecated */
     letsEncrypt: any;
     session: any;
+    webServer: any;
     zipFiles: any;
 };
 export {};
