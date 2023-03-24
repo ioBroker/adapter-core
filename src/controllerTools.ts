@@ -160,66 +160,11 @@ function isDocker(): boolean {
 	return controllerToolsInternal.isDocker();
 }
 
-export interface InstallNodeModuleOptions {
-	// Whether the `--unsafe-perm` flag should be used
-	unsafePerm?: boolean;
-	// Whether to include `stderr` in the output and increase the loglevel to include more than errors
-	debug?: boolean;
-	// Which directory to work in. If none is given, this defaults to ioBroker's root directory.
-	cwd?: string;
-}
-
-export interface CommandResult {
-	/** Whether the command execution was successful */
-	success: boolean;
-	/** The exit code of the command execution */
-	exitCode: number;
-	/** The captured stdout */
-	stdout: string;
-	/** The captured stderr */
-	stderr: string;
-	/** The captured stdout and stderr, interleaved like it would appear on the console */
-	stdall: string;
-}
-
-/**
- * Installs a node module using npm or a similar package manager
- * @param npmUrl Which node module to install
- * @param options Options for the installation
- */
-export async function installNodeModule(
-	npmUrl: string,
-	options: InstallNodeModuleOptions = {},
-): Promise<CommandResult> {
-	return controllerToolsInternal.installNodeModule(npmUrl, options);
-}
-
-export interface UninstallNodeModuleOptions {
-	// Whether to include `stderr` in the output and increase the loglevel to include more than errors
-	debug?: boolean;
-	// Which directory to work in. If none is given, this defaults to ioBroker's root directory.
-	cwd?: string;
-}
-
-/**
- * Uninstalls a node module using npm or a similar package manager
- * @param packageName Which node module to uninstall
- * @param options Options for the installation
- */
-export async function uninstallNodeModule(
-	packageName: string,
-	options: UninstallNodeModuleOptions = {},
-): Promise<CommandResult> {
-	return controllerToolsInternal.uninstallNodeModule(packageName, options);
-}
-
 export const commonTools = {
 	pattern2RegEx,
 	getAdapterDir,
 	getInstalledInfo,
 	isDocker,
-	installNodeModule,
-	uninstallNodeModule,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),

@@ -1,15 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commonTools = exports.uninstallNodeModule = exports.installNodeModule = exports.resolveNamedModule = exports.controllerToolsInternal = exports.controllerCommonModulesInternal = void 0;
+exports.commonTools = exports.resolveNamedModule = exports.controllerToolsInternal = exports.controllerCommonModulesInternal = void 0;
 const path = require("path");
 const helpers_1 = require("./helpers");
 const utils = require("./utils");
@@ -125,35 +116,11 @@ function getInstalledInfo(hostJsControllerVersion) {
 function isDocker() {
     return exports.controllerToolsInternal.isDocker();
 }
-/**
- * Installs a node module using npm or a similar package manager
- * @param npmUrl Which node module to install
- * @param options Options for the installation
- */
-function installNodeModule(npmUrl, options = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return exports.controllerToolsInternal.installNodeModule(npmUrl, options);
-    });
-}
-exports.installNodeModule = installNodeModule;
-/**
- * Uninstalls a node module using npm or a similar package manager
- * @param packageName Which node module to uninstall
- * @param options Options for the installation
- */
-function uninstallNodeModule(packageName, options = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return exports.controllerToolsInternal.uninstallNodeModule(packageName, options);
-    });
-}
-exports.uninstallNodeModule = uninstallNodeModule;
 exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
     getInstalledInfo,
     isDocker,
-    installNodeModule,
-    uninstallNodeModule,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),

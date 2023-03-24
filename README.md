@@ -67,9 +67,6 @@ Currently, the following **methods** are available:
 -   `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
 -   `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
 -   `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
--   `commonTools.isDocker` - Checks if we are running inside a docker container
--   `commonTools.installNodeModule` - Installs a node module using npm or a similar package manager
--   `commonTools.uninstallNodeModule` - Uninstalls a node module using npm or a similar package manager
 
 And the following **modules** are exposed:
 
