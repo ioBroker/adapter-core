@@ -1,6 +1,6 @@
 {
   "name": "@iobroker/adapter-core",
-  "version": "2.6.7",
+  "version": "2.6.8",
   "description": "Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.",
   "author": {
     "name": "AlCalzone",
