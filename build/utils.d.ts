@@ -11,7 +11,7 @@ export interface AdapterInstance<HasObjectsCache extends boolean | undefined = u
     oStates: HasStatesCache extends true ? Exclude<ioBroker.Adapter["oStates"], undefined> : undefined;
 }
 /** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */
-export declare type AdapterOptions<HasObjectsCache extends boolean | undefined = undefined, HasStatesCache extends boolean | undefined = undefined> = Omit<ioBroker.AdapterOptions, "objects" | "states"> & (true extends HasObjectsCache ? {
+export type AdapterOptions<HasObjectsCache extends boolean | undefined = undefined, HasStatesCache extends boolean | undefined = undefined> = Omit<ioBroker.AdapterOptions, "objects" | "states"> & (true extends HasObjectsCache ? {
     objects: true;
 } : {
     objects?: HasObjectsCache;

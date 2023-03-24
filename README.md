@@ -74,6 +74,7 @@ And the following **modules** are exposed:
 -   `commonTools.letsEncrypt` - Previously exposed as `lib/letsencrypt.js` in JS-Controller. Note that `letsEncrypt` has a capital `E`!
 -   `commonTools.session` - Previously exposed as `lib/session.js` in JS-Controller.
 -   `commonTools.zipFiles` - Previously exposed as `lib/zipFiles.js` in JS-Controller.
+-   `commonTools.isDocker` - Checks if we are running inside a docker container
 
 ## Automatic backup of data files
 

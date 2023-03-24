@@ -1,4 +1,4 @@
-export declare type ExitCodes = Readonly<{
+export type ExitCodes = Readonly<{
     NO_ERROR: number;
     JS_CONTROLLER_STOPPED: number;
     INVALID_ADAPTER_CONFIG: number;
