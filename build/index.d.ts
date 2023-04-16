@@ -1,4 +1,3 @@
-/// <reference types="iobroker" />
 import { ExitCodes } from "./exitCodes";
 export { commonTools } from "./controllerTools";
 export * from "./utils";
