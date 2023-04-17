@@ -2,7 +2,7 @@ export declare let controllerCommonModulesInternal: any;
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
 export declare const controllerToolsInternal: any;
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
@@ -70,15 +70,11 @@ declare function isListenAllAddress(ip: string): boolean;
 /**
  * Retrieve the localhost address according to the configured DNS resolution strategy
  */
-declare function getLocalAddress(): '127.0.0.1' | '::1';
+declare function getLocalAddress(): "127.0.0.1" | "::1";
 /**
  * Get the ip to listen to all addresses according to configured DNS resolution strategy
  */
-declare function getListenAllAddress(): '0.0.0.0' | '::';
-/**
- * Ensure that DNS is resolved according to ioBroker config
- */
-declare function ensureDNSOrder(): void;
+declare function getListenAllAddress(): "0.0.0.0" | "::";
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
     getAdapterDir: typeof getAdapterDir;
@@ -88,7 +84,6 @@ export declare const commonTools: {
     getListenAllAddress: typeof getListenAllAddress;
     isLocalAddress: typeof isLocalAddress;
     isListenAllAddress: typeof isListenAllAddress;
-    ensureDNSOrder: typeof ensureDNSOrder;
     password: any;
     letsEncrypt: any;
     session: any;

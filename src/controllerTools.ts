@@ -1,7 +1,6 @@
 import * as path from "path";
 import { tryResolvePackage } from "./helpers";
 import * as utils from "./utils";
-import {setDefaultResultOrder} from "dns";
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 export let controllerCommonModulesInternal: any;
@@ -54,7 +53,7 @@ export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
 
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
@@ -166,7 +165,7 @@ function isDocker(): boolean {
  * @param ip ipv4 or ipv6 address
  */
 function isLocalAddress(ip: string): boolean {
-	return controllerToolsInternal.isLocalAddress(ip)
+	return controllerToolsInternal.isLocalAddress(ip);
 }
 
 /**
@@ -174,29 +173,21 @@ function isLocalAddress(ip: string): boolean {
  * @param ip ipv4 or ipv6 address
  */
 function isListenAllAddress(ip: string): boolean {
-	return controllerToolsInternal.isListenAllAddress(ip)
+	return controllerToolsInternal.isListenAllAddress(ip);
 }
 
 /**
  * Retrieve the localhost address according to the configured DNS resolution strategy
  */
-function getLocalAddress(): '127.0.0.1' | '::1' {
-	return controllerToolsInternal.getLocalAddress()
+function getLocalAddress(): "127.0.0.1" | "::1" {
+	return controllerToolsInternal.getLocalAddress();
 }
 
 /**
  * Get the ip to listen to all addresses according to configured DNS resolution strategy
  */
-function getListenAllAddress(): '0.0.0.0' | '::' {
-	return controllerToolsInternal.getListenAllAddress()
-
-}
-
-/**
- * Ensure that DNS is resolved according to ioBroker config
- */
-function ensureDNSOrder(): void {
-	return controllerToolsInternal.ensureDNSOrder()
+function getListenAllAddress(): "0.0.0.0" | "::" {
+	return controllerToolsInternal.getListenAllAddress();
 }
 
 export const commonTools = {
@@ -208,7 +199,6 @@ export const commonTools = {
 	getListenAllAddress,
 	isLocalAddress,
 	isListenAllAddress,
-	ensureDNSOrder,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),
@@ -217,4 +207,3 @@ export const commonTools = {
 	zipFiles: resolveNamedModule("zipFiles"),
 	// TODO: expose more (internal) controller modules as needed
 };
-

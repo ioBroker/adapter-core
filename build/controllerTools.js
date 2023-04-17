@@ -49,7 +49,7 @@ function resolveControllerTools() {
 exports.controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
@@ -142,12 +142,6 @@ function getLocalAddress() {
 function getListenAllAddress() {
     return exports.controllerToolsInternal.getListenAllAddress();
 }
-/**
- * Ensure that DNS is resolved according to ioBroker config
- */
-function ensureDNSOrder() {
-    return exports.controllerToolsInternal.ensureDNSOrder();
-}
 exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
@@ -157,7 +151,6 @@ exports.commonTools = {
     getListenAllAddress,
     isLocalAddress,
     isListenAllAddress,
-    ensureDNSOrder,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),
