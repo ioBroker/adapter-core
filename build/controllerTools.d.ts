@@ -57,11 +57,38 @@ declare function getInstalledInfo(hostJsControllerVersion?: string): GetInstalle
  * Checks if we are running inside a docker container
  */
 declare function isDocker(): boolean;
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 localhost
+ * @param ip ipv4 or ipv6 address
+ */
+declare function isLocalAddress(ip: string): boolean;
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
+ * @param ip ipv4 or ipv6 address
+ */
+declare function isListenAllAddress(ip: string): boolean;
+/**
+ * Retrieve the localhost address according to the configured DNS resolution strategy
+ */
+declare function getLocalAddress(): '127.0.0.1' | '::1';
+/**
+ * Get the ip to listen to all addresses according to configured DNS resolution strategy
+ */
+declare function getListenAllAddress(): '0.0.0.0' | '::';
+/**
+ * Ensure that DNS is resolved according to ioBroker config
+ */
+declare function ensureDNSOrder(): void;
 export declare const commonTools: {
     pattern2RegEx: typeof pattern2RegEx;
     getAdapterDir: typeof getAdapterDir;
     getInstalledInfo: typeof getInstalledInfo;
     isDocker: typeof isDocker;
+    getLocalAddress: typeof getLocalAddress;
+    getListenAllAddress: typeof getListenAllAddress;
+    isLocalAddress: typeof isLocalAddress;
+    isListenAllAddress: typeof isListenAllAddress;
+    ensureDNSOrder: typeof ensureDNSOrder;
     password: any;
     letsEncrypt: any;
     session: any;

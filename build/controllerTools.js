@@ -116,11 +116,48 @@ function getInstalledInfo(hostJsControllerVersion) {
 function isDocker() {
     return exports.controllerToolsInternal.isDocker();
 }
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 localhost
+ * @param ip ipv4 or ipv6 address
+ */
+function isLocalAddress(ip) {
+    return exports.controllerToolsInternal.isLocalAddress(ip);
+}
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
+ * @param ip ipv4 or ipv6 address
+ */
+function isListenAllAddress(ip) {
+    return exports.controllerToolsInternal.isListenAllAddress(ip);
+}
+/**
+ * Retrieve the localhost address according to the configured DNS resolution strategy
+ */
+function getLocalAddress() {
+    return exports.controllerToolsInternal.getLocalAddress();
+}
+/**
+ * Get the ip to listen to all addresses according to configured DNS resolution strategy
+ */
+function getListenAllAddress() {
+    return exports.controllerToolsInternal.getListenAllAddress();
+}
+/**
+ * Ensure that DNS is resolved according to ioBroker config
+ */
+function ensureDNSOrder() {
+    return exports.controllerToolsInternal.ensureDNSOrder();
+}
 exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
     getInstalledInfo,
     isDocker,
+    getLocalAddress,
+    getListenAllAddress,
+    isLocalAddress,
+    isListenAllAddress,
+    ensureDNSOrder,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     letsEncrypt: resolveNamedModule("letsencrypt"),
