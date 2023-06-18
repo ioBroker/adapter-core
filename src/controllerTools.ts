@@ -53,7 +53,7 @@ export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
 
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
@@ -160,11 +160,45 @@ function isDocker(): boolean {
 	return controllerToolsInternal.isDocker();
 }
 
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 localhost
+ * @param ip ipv4 or ipv6 address
+ */
+function isLocalAddress(ip: string): boolean {
+	return controllerToolsInternal.isLocalAddress(ip);
+}
+
+/**
+ * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
+ * @param ip ipv4 or ipv6 address
+ */
+function isListenAllAddress(ip: string): boolean {
+	return controllerToolsInternal.isListenAllAddress(ip);
+}
+
+/**
+ * Retrieve the localhost address according to the configured DNS resolution strategy
+ */
+function getLocalAddress(): "127.0.0.1" | "::1" {
+	return controllerToolsInternal.getLocalAddress();
+}
+
+/**
+ * Get the ip to listen to all addresses according to configured DNS resolution strategy
+ */
+function getListenAllAddress(): "0.0.0.0" | "::" {
+	return controllerToolsInternal.getListenAllAddress();
+}
+
 export const commonTools = {
 	pattern2RegEx,
 	getAdapterDir,
 	getInstalledInfo,
 	isDocker,
+	getLocalAddress,
+	getListenAllAddress,
+	isLocalAddress,
+	isListenAllAddress,
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),
