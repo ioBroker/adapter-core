@@ -18,7 +18,7 @@ exports.EXIT_CODES = exports.getAbsoluteInstanceDataDir = exports.getAbsoluteDef
 const path = require("path");
 const controllerTools_1 = require("./controllerTools");
 const utils = require("./utils");
-/* eslint-disable @typescript-eslint/no-var-requires */
+require("@iobroker/types");
 // Export utility methods to be used in adapters
 var controllerTools_2 = require("./controllerTools");
 Object.defineProperty(exports, "commonTools", { enumerable: true, get: function () { return controllerTools_2.commonTools; } });

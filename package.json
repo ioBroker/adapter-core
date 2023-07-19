@@ -33,10 +33,14 @@
   "bugs": {
     "url": "https://github.com/ioBroker/adapter-core/issues"
   },
+  "files": [
+    "build"
+  ],
   "homepage": "https://github.com/ioBroker/adapter-core#readme",
   "devDependencies": {
     "@alcalzone/release-script": "~3.5.9",
     "@alcalzone/release-script-plugin-license": "~3.5.9",
+    "@iobroker/types": "^5.0.8",
     "@types/chai": "^4.3.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
@@ -61,7 +65,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
-  "dependencies": {
-    "@types/iobroker": "npm:@iobroker/types@^5.0.6"
+  "peerDependencies": {
+    "@iobroker/types": "^5.0.8"
   }
 }
