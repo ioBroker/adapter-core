@@ -40,7 +40,7 @@
   "devDependencies": {
     "@alcalzone/release-script": "~3.5.9",
     "@alcalzone/release-script-plugin-license": "~3.5.9",
-    "@iobroker/types": "^5.0.8",
+    "@iobroker/types": "^5.0.10",
     "@types/chai": "^4.3.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
@@ -66,6 +66,6 @@
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
-    "@iobroker/types": "^5.0.8"
+    "@iobroker/types": "^5.0.10"
   }
 }
