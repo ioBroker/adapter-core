@@ -202,10 +202,9 @@ export const commonTools = {
 	// TODO: Add more methods from lib/tools.js as needed
 
 	password: resolveNamedModule("password"),
-	/** @deprecated */
+	/** @deprecated use @iobroker/webserver */
 	letsEncrypt: resolveNamedModule("letsencrypt"),
 	session: resolveNamedModule("session"),
-	webServer: resolveNamedModule("webServer"),
 	zipFiles: resolveNamedModule("zipFiles"),
 	// TODO: expose more (internal) controller modules as needed
 };

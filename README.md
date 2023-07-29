@@ -113,6 +113,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+-   (foxriver76) remove non-existing webserver from tools
+
 ### 3.0.0 (2023-07-28)
 -   (foxriver76) port from `@types/iobroker` to `@iobroker/types`
 -   (foxriver76) export dns resolution methods
