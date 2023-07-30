@@ -113,7 +113,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.0.3 (2023-07-30)
 -   (foxriver76) upgrade to new version of types package
 
 ### 3.0.2 (2023-07-30)
