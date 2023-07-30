@@ -1,8 +1,8 @@
+/// <reference types="@iobroker/types" />
 import * as path from "path";
 import { controllerToolsInternal, resolveNamedModule } from "./controllerTools";
 import { ExitCodes } from "./exitCodes";
 import * as utils from "./utils";
-import "@iobroker/types";
 
 // Export utility methods to be used in adapters
 export { commonTools } from "./controllerTools";

@@ -113,6 +113,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+-   (foxriver76) fix require of `@iobroker/types` in built module
+
 ### 3.0.1 (2023-07-29)
 -   (foxriver76) remove non-existing webserver from tools
 

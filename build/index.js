@@ -15,10 +15,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EXIT_CODES = exports.getAbsoluteInstanceDataDir = exports.getAbsoluteDefaultDataDir = exports.commonTools = void 0;
+/// <reference types="@iobroker/types" />
 const path = require("path");
 const controllerTools_1 = require("./controllerTools");
 const utils = require("./utils");
-require("@iobroker/types");
 // Export utility methods to be used in adapters
 var controllerTools_2 = require("./controllerTools");
 Object.defineProperty(exports, "commonTools", { enumerable: true, get: function () { return controllerTools_2.commonTools; } });
