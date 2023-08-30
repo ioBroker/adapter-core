@@ -125,6 +125,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 ### 3.0.0 (2023-07-28)
 -   (foxriver76) port from `@types/iobroker` to `@iobroker/types`
 -   (foxriver76) export dns resolution methods
+-   **BREAKING:** requires `npm` v7 or newer and/or Node.js 16 or newer
 
 ### 2.6.8 (2023-03-24)
 -   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
