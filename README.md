@@ -113,6 +113,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+-   (foxriver76) ensure, that utility methods work with the returned adapter instance on type level
+
 ### 3.0.3 (2023-07-30)
 -   (foxriver76) upgrade to new version of types package
 

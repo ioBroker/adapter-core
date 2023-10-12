@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
-/* eslint-disable @typescript-eslint/class-name-casing */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as utils from "../../src/index";
 
 const name = "foobar";
-const options = { name };
+const options = { name, objects: true } as const;
 
 const adapter1 = utils.adapter(name);
 const adapter2 = utils.Adapter(name);
@@ -35,5 +34,13 @@ class adapter11 extends utils.Adapter {
 		super({ ...options });
 	}
 }
+
+// default no objects cache
+const res1: undefined = adapter1.oObjects;
+// if objects given, with cache
+const res2: Record<string, ioBroker.Object | undefined> = adapter5.oObjects;
+
+// the created instance is accepted by the utility methods
+utils.getAbsoluteInstanceDataDir(adapter1);
 
 const code: number = utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION;

@@ -97,7 +97,7 @@ export function getConfig(): Record<string, any> {
 export interface AdapterInstance<
 	HasObjectsCache extends boolean | undefined = undefined,
 	HasStatesCache extends boolean | undefined = undefined,
-> extends Omit<ioBroker.Adapter, "oObjects" | "oStates"> {
+> extends ioBroker.Adapter {
 	oObjects: HasObjectsCache extends true
 		? Exclude<ioBroker.Adapter["oObjects"], undefined>
 		: undefined;
