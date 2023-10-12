@@ -67,11 +67,11 @@ Currently, the following **methods** are available:
 -   `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
 -   `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
 -   `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
-- 	`commonTools.getLocalAddress` - Get the localhost (IPv6 or IPv4) address according to the ioBroker config
-- 	`commonTools.getListenAllAddress` - Get the "listen all" (IPv6 or IPv4) address according to the ioBroker config
-- 	`commonTools.isLocalAddress` - Check if given IPv4 or IPv6 ip address corresponds to localhost
-- 	`commonTools.isListenAllAddress` - Check if given IPv4 or IPv6 ip address corresponds to "listen all" address
-- 	`commonTools.ensureDNSOrder` - Ensure that DNS resolution is performed according to ioBroker config
+-         `commonTools.getLocalAddress` - Get the localhost (IPv6 or IPv4) address according to the ioBroker config
+-         `commonTools.getListenAllAddress` - Get the "listen all" (IPv6 or IPv4) address according to the ioBroker config
+-         `commonTools.isLocalAddress` - Check if given IPv4 or IPv6 ip address corresponds to localhost
+-         `commonTools.isListenAllAddress` - Check if given IPv4 or IPv6 ip address corresponds to "listen all" address
+-         `commonTools.ensureDNSOrder` - Ensure that DNS resolution is performed according to ioBroker config
 
 And the following **modules** are exposed:
 
@@ -113,28 +113,34 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 3.0.4 (2023-10-12)
 
-### **WORK IN PROGRESS**
--   (foxriver76) ensure, that utility methods work with the returned adapter instance on type level
+-   (foxriver76) ensure that utility methods work with the returned adapter instance on type level
 
 ### 3.0.3 (2023-07-30)
+
 -   (foxriver76) upgrade to new version of types package
 
 ### 3.0.2 (2023-07-30)
+
 -   (foxriver76) fix require of `@iobroker/types` in built module
 
 ### 3.0.1 (2023-07-29)
+
 -   (foxriver76) remove non-existing webserver from tools
 
 ### 3.0.0 (2023-07-28)
+
 -   (foxriver76) port from `@types/iobroker` to `@iobroker/types`
 -   (foxriver76) export dns resolution methods
 -   **BREAKING:** requires `npm` v7 or newer and/or Node.js 16 or newer
 
 ### 2.6.8 (2023-03-24)
+
 -   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
 
 ### 2.6.7 (2022-10-08)
+
 -   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
 
 ### 2.6.6 (2022-09-13)
