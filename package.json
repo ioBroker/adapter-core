@@ -9,7 +9,7 @@
     "name": "AlCalzone",
     "email": "d.griesel@gmx.net"
   },
-  "main": "build/index.js",
+  "main": "build/cjs/index.js",
   "types": "build/esm/index.d.ts",
   "module": "build/esm/index.js",
   "exports": {
