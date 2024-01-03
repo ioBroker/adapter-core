@@ -3,9 +3,9 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"noEmitOnError": true,
-		"module": "commonjs",
+		"module": "NodeNext",
 		"moduleResolution": "node",
-		"outDir": "build/",
+		"outDir": "build/esm",
 		"removeComments": false,
 		"strict": true,
 		"sourceMap": false,

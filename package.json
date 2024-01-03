@@ -10,10 +10,19 @@
     "email": "d.griesel@gmx.net"
   },
   "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "types": "build/esm/index.d.ts",
+  "module": "build/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./build/esm/index.js",
+      "require": "./build/cjs/index.js",
+      "types": "./build/esm/index.d.ts"
+    }
+  },
   "scripts": {
     "prebuild": "rimraf ./build",
     "build": "tsc -p src/tsconfig.json",
+    "postbuild": "esm2cjs --in build/esm --out build/cjs -l error && cpy ./**/*.d.ts ./build/cjs/ --cwd=build/esm/",
     "watch": "tsc -p src/tsconfig.json --watch",
     "lint:ts": "eslint --ext .ts src",
     "lint": "npm run lint:ts",
@@ -41,6 +50,7 @@
   ],
   "homepage": "https://github.com/ioBroker/adapter-core#readme",
   "devDependencies": {
+    "@alcalzone/esm2cjs": "^1.1.2",
     "@alcalzone/release-script": "~3.5.9",
     "@alcalzone/release-script-plugin-license": "~3.5.9",
     "@types/chai": "^4.3.4",
@@ -54,6 +64,7 @@
     "@typescript-eslint/parser": "^5.56.0",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
+    "cpy-cli": "^4.2.0",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
