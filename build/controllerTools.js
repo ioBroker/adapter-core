@@ -69,6 +69,17 @@ function resolveNamedModule(name, exportName = name) {
     catch (_a) {
         // did not work, continue
     }
+    // Attempt 2: JS-Controller 5.1+
+    importPath = path.join(utils.controllerDir, "build/cjs/lib", name);
+    try {
+        // This was a default export prior to the TS migration
+        const module = require(importPath);
+        if (module)
+            return module;
+    }
+    catch (_b) {
+        // did not work, continue
+    }
     // Attempt 2: JS-Controller <= 4.0
     importPath = path.join(utils.controllerDir, "lib", name);
     try {
@@ -77,7 +88,7 @@ function resolveNamedModule(name, exportName = name) {
         if (module)
             return module;
     }
-    catch (_b) {
+    catch (_c) {
         // did not work, continue
     }
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);

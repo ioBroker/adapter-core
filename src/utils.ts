@@ -80,6 +80,16 @@ function resolveAdapterConstructor(): any | never {
 		// did not work, continue
 	}
 
+	// Attempt 5: JS-Controller 5.1+ with adapter stub
+	adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
+	try {
+		// This was a default export prior to the TS migration
+		const Adapter = require(adapterPath);
+		if (Adapter) return Adapter;
+	} catch {
+		// did not work, continue
+	}
+
 	throw new Error("Cannot resolve adapter class");
 	return process.exit(10);
 }
