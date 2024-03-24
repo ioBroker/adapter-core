@@ -1,3 +1,4 @@
+/// <reference types="iobroker" />
 /** The root directory of JS-Controller */
 export declare const controllerDir: string;
 /** Reads the configuration file of JS-Controller */
