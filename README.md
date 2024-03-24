@@ -113,7 +113,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.0.5 (2024-03-24)
 
 - (foxriver76) compatibility with next controller with new esm/cjs exports
 
@@ -205,7 +205,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 ## MIT License
 
-Copyright (c) 2018-2023 AlCalzone
+Copyright (c) 2018-2024 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
