@@ -59,7 +59,7 @@ function resolveNamedModule(name, exportName = name) {
         return exports.controllerCommonModulesInternal[exportName];
     // Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
     const importPaths = [
-        // Attempt 1: JS-Controller 5.1+
+        // Attempt 1: JS-Controller 6+
         path.join(utils.controllerDir, "build/cjs/lib", name),
         // Attempt 2: JS-Controller 4.1+
         path.join(utils.controllerDir, "build/lib", name),
