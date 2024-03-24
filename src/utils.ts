@@ -43,12 +43,12 @@ function resolveAdapterConstructor(): any | never {
 			["@iobroker/js-controller-adapter"],
 			[path.join(controllerDir, "node_modules")],
 		),
-		// Attempt 3: Legacy resolve - until JS-Controller 4.0
-		path.join(controllerDir, "lib/adapter.js"),
-		// Attempt 4: JS-Controller 4.1+ with adapter stub
+		// Attempt 3: JS-Controller 4.1+ with adapter stub
 		path.join(controllerDir, "build/lib/adapter.js"),
 		// Attempt 4: JS-Controller 5.1+ with adapter stub
 		path.join(controllerDir, "build/cjs/lib/adapter.js"),
+		// Attempt 5: Legacy resolve - until JS-Controller 4.0
+		path.join(controllerDir, "lib/adapter.js"),
 	];
 
 	for (const adapterPath of adapterPaths) {

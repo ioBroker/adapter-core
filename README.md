@@ -115,7 +115,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 -->
 ### **WORK IN PROGRESS**
 
-- (foxriver76) compatibility with new dev controller with new esm/cjs exports
+- (foxriver76) compatibility with next controller with new esm/cjs exports
 
 ### 3.0.4 (2023-10-12)
 
