@@ -58,27 +58,24 @@ function resolveNamedModule(name, exportName = name) {
     if (exports.controllerCommonModulesInternal === null || exports.controllerCommonModulesInternal === void 0 ? void 0 : exports.controllerCommonModulesInternal[exportName])
         return exports.controllerCommonModulesInternal[exportName];
     // Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
-    // Attempt 1: JS-Controller 4.1+
-    let importPath = path.join(utils.controllerDir, "build/lib", name);
-    try {
-        // This was a default export prior to the TS migration
-        const module = require(importPath);
-        if (module)
-            return module;
-    }
-    catch (_a) {
-        // did not work, continue
-    }
-    // Attempt 2: JS-Controller <= 4.0
-    importPath = path.join(utils.controllerDir, "lib", name);
-    try {
-        // This was a default export prior to the TS migration
-        const module = require(importPath);
-        if (module)
-            return module;
-    }
-    catch (_b) {
-        // did not work, continue
+    const importPaths = [
+        // Attempt 1: JS-Controller 5.1+
+        path.join(utils.controllerDir, "build/cjs/lib", name),
+        // Attempt 2: JS-Controller 4.1+
+        path.join(utils.controllerDir, "build/lib", name),
+        // Attempt 3: JS-Controller <= 4.0
+        path.join(utils.controllerDir, "lib", name),
+    ];
+    for (const importPath of importPaths) {
+        try {
+            // This was a default export prior to the TS migration
+            const module = require(importPath);
+            if (module)
+                return module;
+        }
+        catch (_a) {
+            // did not work, continue
+        }
     }
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
     //return process.exit(10);

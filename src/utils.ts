@@ -35,49 +35,31 @@ export const controllerDir = getControllerDir(
 );
 
 function resolveAdapterConstructor(): any | never {
-	// Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
-	let adapterPath = tryResolvePackage(["@iobroker/js-controller-adapter"]);
-	if (adapterPath) {
+	const adapterPaths = [
+		// Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
+		tryResolvePackage(["@iobroker/js-controller-adapter"]),
+		// Attempt 2: Resolve @iobroker/js-controller-adapter in JS-Controller dir - JS-Controller 4.1+
+		tryResolvePackage(
+			["@iobroker/js-controller-adapter"],
+			[path.join(controllerDir, "node_modules")],
+		),
+		// Attempt 3: JS-Controller 4.1+ with adapter stub
+		path.join(controllerDir, "build/lib/adapter.js"),
+		// Attempt 4: JS-Controller 5.1+ with adapter stub
+		path.join(controllerDir, "build/cjs/lib/adapter.js"),
+		// Attempt 5: Legacy resolve - until JS-Controller 4.0
+		path.join(controllerDir, "lib/adapter.js"),
+	];
+
+	for (const adapterPath of adapterPaths) {
+		if (!adapterPath) continue;
+
 		try {
-			const { Adapter } = require(adapterPath);
+			const Adapter = require(adapterPath);
 			if (Adapter) return Adapter;
 		} catch {
 			// did not work, continue
 		}
-	}
-
-	// Attempt 2: Resolve @iobroker/js-controller-adapter in JS-Controller dir - JS-Controller 4.1+
-	adapterPath = tryResolvePackage(
-		["@iobroker/js-controller-adapter"],
-		[path.join(controllerDir, "node_modules")],
-	);
-	if (adapterPath) {
-		try {
-			const { Adapter } = require(adapterPath);
-			if (Adapter) return Adapter;
-		} catch {
-			// did not work, continue
-		}
-	}
-
-	// Attempt 3: Legacy resolve - until JS-Controller 4.0
-	adapterPath = path.join(controllerDir, "lib/adapter.js");
-	try {
-		// This was a default export prior to the TS migration
-		const Adapter = require(adapterPath);
-		if (Adapter) return Adapter;
-	} catch {
-		// did not work, continue
-	}
-
-	// Attempt 4: JS-Controller 4.1+ with adapter stub
-	adapterPath = path.join(controllerDir, "build/lib/adapter.js");
-	try {
-		// This was a default export prior to the TS migration
-		const Adapter = require(adapterPath);
-		if (Adapter) return Adapter;
-	} catch {
-		// did not work, continue
 	}
 
 	throw new Error("Cannot resolve adapter class");
