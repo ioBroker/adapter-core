@@ -113,13 +113,17 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+-   (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
+
 ### 3.0.6 (2024-03-24)
 
-- (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
+-   (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
 
 ### 3.0.5 (2024-03-24)
 
-- (foxriver76) compatibility with next controller with new esm/cjs exports
+-   (foxriver76) compatibility with next controller with new esm/cjs exports
 
 ### 3.0.4 (2023-10-12)
 
