@@ -63,7 +63,6 @@ export declare const commonTools: {
     getInstalledInfo: typeof getInstalledInfo;
     isDocker: typeof isDocker;
     password: any;
-    letsEncrypt: any;
     session: any;
     zipFiles: any;
 };
