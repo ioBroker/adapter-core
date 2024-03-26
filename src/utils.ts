@@ -60,8 +60,8 @@ function resolveAdapterConstructor(): any | never {
 		}
 	}
 
-	// Attempt 3: Legacy resolve - until JS-Controller 4.0
-	adapterPath = path.join(controllerDir, "lib/adapter.js");
+	// Attempt 3: JS-Controller 6+ with adapter stub
+	adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
 	try {
 		// This was a default export prior to the TS migration
 		const Adapter = require(adapterPath);
@@ -72,6 +72,16 @@ function resolveAdapterConstructor(): any | never {
 
 	// Attempt 4: JS-Controller 4.1+ with adapter stub
 	adapterPath = path.join(controllerDir, "build/lib/adapter.js");
+	try {
+		// This was a default export prior to the TS migration
+		const Adapter = require(adapterPath);
+		if (Adapter) return Adapter;
+	} catch {
+		// did not work, continue
+	}
+
+	// Attempt 5: Legacy resolve - until JS-Controller 4.0
+	adapterPath = path.join(controllerDir, "lib/adapter.js");
 	try {
 		// This was a default export prior to the TS migration
 		const Adapter = require(adapterPath);

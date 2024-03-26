@@ -72,7 +72,7 @@ function resolveAdapterConstructor() {
     } catch (_b) {
     }
   }
-  adapterPath = path.join(exports.controllerDir, "lib/adapter.js");
+  adapterPath = path.join(exports.controllerDir, "build/cjs/lib/adapter.js");
   try {
     const Adapter = require(adapterPath);
     if (Adapter)
@@ -85,6 +85,13 @@ function resolveAdapterConstructor() {
     if (Adapter)
       return Adapter;
   } catch (_d) {
+  }
+  adapterPath = path.join(exports.controllerDir, "lib/adapter.js");
+  try {
+    const Adapter = require(adapterPath);
+    if (Adapter)
+      return Adapter;
+  } catch (_e) {
   }
   throw new Error("Cannot resolve adapter class");
   return process.exit(10);

@@ -81,8 +81,8 @@ function resolveAdapterConstructor() {
             // did not work, continue
         }
     }
-    // Attempt 3: Legacy resolve - until JS-Controller 4.0
-    adapterPath = path.join(exports.controllerDir, "lib/adapter.js");
+    // Attempt 3: JS-Controller 6+ with adapter stub
+    adapterPath = path.join(exports.controllerDir, "build/cjs/lib/adapter.js");
     try {
         // This was a default export prior to the TS migration
         const Adapter = require(adapterPath);
@@ -101,6 +101,17 @@ function resolveAdapterConstructor() {
             return Adapter;
     }
     catch (_d) {
+        // did not work, continue
+    }
+    // Attempt 5: Legacy resolve - until JS-Controller 4.0
+    adapterPath = path.join(exports.controllerDir, "lib/adapter.js");
+    try {
+        // This was a default export prior to the TS migration
+        const Adapter = require(adapterPath);
+        if (Adapter)
+            return Adapter;
+    }
+    catch (_e) {
         // did not work, continue
     }
     throw new Error("Cannot resolve adapter class");

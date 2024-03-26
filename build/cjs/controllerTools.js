@@ -70,19 +70,18 @@ exports.controllerToolsInternal = resolveControllerTools();
 function resolveNamedModule(name, exportName = name) {
   if (exports.controllerCommonModulesInternal === null || exports.controllerCommonModulesInternal === void 0 ? void 0 : exports.controllerCommonModulesInternal[exportName])
     return exports.controllerCommonModulesInternal[exportName];
-  let importPath = path.join(utils.controllerDir, "build/lib", name);
-  try {
-    const module2 = require(importPath);
-    if (module2)
-      return module2;
-  } catch (_a) {
-  }
-  importPath = path.join(utils.controllerDir, "lib", name);
-  try {
-    const module2 = require(importPath);
-    if (module2)
-      return module2;
-  } catch (_b) {
+  const importPaths = [
+    path.join(utils.controllerDir, "build/cjs/lib", name),
+    path.join(utils.controllerDir, "build/lib", name),
+    path.join(utils.controllerDir, "lib", name)
+  ];
+  for (const importPath of importPaths) {
+    try {
+      const module2 = require(importPath);
+      if (module2)
+        return module2;
+    } catch (_a) {
+    }
   }
   throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
 }
