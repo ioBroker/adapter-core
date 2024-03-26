@@ -113,6 +113,12 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+<<<<<<< HEAD
+### **WORK IN PROGRESS**
+
+-   (foxriver76) provide `esm` and `cjs` exports
+
+=======
 ### 3.0.6 (2024-03-24)
 
 - (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
@@ -120,6 +126,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 ### 3.0.5 (2024-03-24)
 
 - (foxriver76) compatibility with next controller with new esm/cjs exports
+>>>>>>> 729e73b2947c360e75c2b4a1c6323e0a8688584b
 
 ### 3.0.4 (2023-10-12)
 
