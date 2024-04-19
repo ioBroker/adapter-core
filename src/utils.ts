@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { createRequire } from "node:module";
 import { scanForPackage, tryResolvePackage } from "./helpers";
+
+// eslint-disable-next-line unicorn/prefer-module
+const require = createRequire(import.meta.url || "file:// " + __filename);
 
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process

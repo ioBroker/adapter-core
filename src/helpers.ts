@@ -1,5 +1,14 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { createRequire } from "node:module";
+import * as url from "node:url";
+// eslint-disable-next-line unicorn/prefer-module
+const require = createRequire(import.meta.url || "file:// " + __filename);
+
+const thisDir = url.fileURLToPath(
+	// eslint-disable-next-line unicorn/prefer-module
+	new URL(".", import.meta.url || "file://" + __filename),
+);
 
 /**
  * Tries to resolve a package using Node.js resolution.
@@ -32,7 +41,7 @@ export function tryResolvePackage(
  */
 export function scanForPackage(
 	possiblePaths: string[],
-	startDir: string = __dirname,
+	startDir: string = thisDir,
 ): string | undefined {
 	// We start in the node_modules subfolder of adapter-core, which is the deepest we should be able to expect the controller
 	let curDir = path.join(startDir, "../node_modules");

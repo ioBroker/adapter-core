@@ -1,44 +1,47 @@
 "use strict";
-var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  var desc = Object.getOwnPropertyDescriptor(m, k);
-  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-    desc = { enumerable: true, get: function() {
-      return m[k];
-    } };
-  }
-  Object.defineProperty(o, k2, desc);
-} : function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  o[k2] = m[k];
-});
-var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-  Object.defineProperty(o, "default", { enumerable: true, value: v });
-} : function(o, v) {
-  o["default"] = v;
-});
-var __importStar = exports && exports.__importStar || function(mod) {
-  if (mod && mod.__esModule)
-    return mod;
-  var result = {};
-  if (mod != null) {
-    for (var k in mod)
-      if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
-        __createBinding(result, mod, k);
-  }
-  __setModuleDefault(result, mod);
-  return result;
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.scanForPackage = exports.tryResolvePackage = void 0;
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var helpers_exports = {};
+__export(helpers_exports, {
+  scanForPackage: () => scanForPackage,
+  tryResolvePackage: () => tryResolvePackage
+});
+module.exports = __toCommonJS(helpers_exports);
+var fs = __toESM(require("node:fs"));
+var path = __toESM(require("node:path"));
+var import_node_module = require("node:module");
+var url = __toESM(require("node:url"));
+const import_meta = {};
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
+var thisDir = url.fileURLToPath(
+  new URL(".", import_meta.url || "file://" + __filename)
+);
 function tryResolvePackage(possiblePaths, lookupPaths) {
-  for (const pkg of possiblePaths) {
+  for (var _i = 0, possiblePaths_1 = possiblePaths; _i < possiblePaths_1.length; _i++) {
+    var pkg = possiblePaths_1[_i];
     try {
-      const possiblePath = require.resolve(`${pkg}/package.json`, (lookupPaths === null || lookupPaths === void 0 ? void 0 : lookupPaths.length) ? { paths: lookupPaths } : void 0);
+      var possiblePath = require2.resolve("".concat(pkg, "/package.json"), (lookupPaths === null || lookupPaths === void 0 ? void 0 : lookupPaths.length) ? { paths: lookupPaths } : void 0);
       if (fs.existsSync(possiblePath)) {
         return path.dirname(possiblePath);
       }
@@ -46,12 +49,15 @@ function tryResolvePackage(possiblePaths, lookupPaths) {
     }
   }
 }
-exports.tryResolvePackage = tryResolvePackage;
-function scanForPackage(possiblePaths, startDir = __dirname) {
-  let curDir = path.join(startDir, "../node_modules");
+function scanForPackage(possiblePaths, startDir) {
+  if (startDir === void 0) {
+    startDir = thisDir;
+  }
+  var curDir = path.join(startDir, "../node_modules");
   while (true) {
-    for (const pkg of possiblePaths) {
-      const possiblePath = path.join(curDir, pkg, "package.json");
+    for (var _i = 0, possiblePaths_2 = possiblePaths; _i < possiblePaths_2.length; _i++) {
+      var pkg = possiblePaths_2[_i];
+      var possiblePath = path.join(curDir, pkg, "package.json");
       try {
         if (fs.existsSync(possiblePath) && JSON.parse(fs.readFileSync(possiblePath, "utf8")).name === pkg.toLowerCase()) {
           return path.dirname(possiblePath);
@@ -59,12 +65,16 @@ function scanForPackage(possiblePaths, startDir = __dirname) {
       } catch (_a) {
       }
     }
-    const parentDir = path.dirname(curDir);
+    var parentDir = path.dirname(curDir);
     if (parentDir === curDir) {
       break;
     }
     curDir = parentDir;
   }
 }
-exports.scanForPackage = scanForPackage;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  scanForPackage,
+  tryResolvePackage
+});
 //# sourceMappingURL=helpers.js.map
