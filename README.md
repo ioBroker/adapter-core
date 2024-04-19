@@ -117,6 +117,10 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 
 -   (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
 
+### 3.1.0 (2024-04-16)
+
+-   (foxriver76) provide `esm` and `cjs` exports
+
 ### 3.0.6 (2024-03-24)
 
 -   (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
