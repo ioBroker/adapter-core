@@ -1,7 +1,10 @@
-import * as path from "path";
+import * as path from "node:path";
 import { tryResolvePackage } from "./helpers";
 import * as utils from "./utils";
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { createRequire } from "node:module";
+
+// eslint-disable-next-line unicorn/prefer-module
+const require = createRequire(import.meta.url || "file:// " + __filename);
 
 export let controllerCommonModulesInternal: any;
 

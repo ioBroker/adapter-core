@@ -3,15 +3,13 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"noEmitOnError": true,
-		"module": "NodeNext",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"outDir": "build/esm",
 		"removeComments": false,
 		"strict": true,
 		"sourceMap": false,
 		"inlineSourceMap": false,
-		//"sourceRoot": "src/",
-		"target": "es6"
 	},
 	"include": [
 		"**/*.ts"

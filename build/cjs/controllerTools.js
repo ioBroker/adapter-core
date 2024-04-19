@@ -1,57 +1,58 @@
 "use strict";
-var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  var desc = Object.getOwnPropertyDescriptor(m, k);
-  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-    desc = { enumerable: true, get: function() {
-      return m[k];
-    } };
-  }
-  Object.defineProperty(o, k2, desc);
-} : function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  o[k2] = m[k];
-});
-var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-  Object.defineProperty(o, "default", { enumerable: true, value: v });
-} : function(o, v) {
-  o["default"] = v;
-});
-var __importStar = exports && exports.__importStar || function(mod) {
-  if (mod && mod.__esModule)
-    return mod;
-  var result = {};
-  if (mod != null) {
-    for (var k in mod)
-      if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
-        __createBinding(result, mod, k);
-  }
-  __setModuleDefault(result, mod);
-  return result;
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.commonTools = exports.resolveNamedModule = exports.controllerToolsInternal = exports.controllerCommonModulesInternal = void 0;
-const path = __importStar(require("path"));
-const helpers_1 = require("./helpers");
-const utils = __importStar(require("./utils"));
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var controllerTools_exports = {};
+__export(controllerTools_exports, {
+  commonTools: () => commonTools,
+  controllerCommonModulesInternal: () => controllerCommonModulesInternal,
+  controllerToolsInternal: () => controllerToolsInternal,
+  resolveNamedModule: () => resolveNamedModule
+});
+module.exports = __toCommonJS(controllerTools_exports);
+var path = __toESM(require("node:path"));
+var import_helpers = require("./helpers");
+var utils = __toESM(require("./utils"));
+var import_node_module = require("node:module");
+const import_meta = {};
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
+var controllerCommonModulesInternal;
 function resolveControllerTools() {
-  let importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"]);
+  var importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);
   if (importPath) {
     try {
-      exports.controllerCommonModulesInternal = require(importPath);
-      const { tools } = exports.controllerCommonModulesInternal;
+      controllerCommonModulesInternal = require2(importPath);
+      var tools = controllerCommonModulesInternal.tools;
       if (tools)
         return tools;
     } catch (_a) {
     }
   }
-  importPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
+  importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
   if (importPath) {
     try {
-      exports.controllerCommonModulesInternal = require(importPath);
-      const { tools } = exports.controllerCommonModulesInternal;
+      controllerCommonModulesInternal = require2(importPath);
+      var tools = controllerCommonModulesInternal.tools;
       if (tools)
         return tools;
     } catch (_b) {
@@ -59,58 +60,61 @@ function resolveControllerTools() {
   }
   importPath = path.join(utils.controllerDir, "lib");
   try {
-    const tools = require(path.join(importPath, "tools"));
+    var tools = require2(path.join(importPath, "tools"));
     if (tools)
       return tools;
   } catch (_c) {
   }
   throw new Error("Cannot resolve tools module");
 }
-exports.controllerToolsInternal = resolveControllerTools();
-function resolveNamedModule(name, exportName = name) {
-  if (exports.controllerCommonModulesInternal === null || exports.controllerCommonModulesInternal === void 0 ? void 0 : exports.controllerCommonModulesInternal[exportName])
-    return exports.controllerCommonModulesInternal[exportName];
-  const importPaths = [
+var controllerToolsInternal = resolveControllerTools();
+function resolveNamedModule(name, exportName) {
+  if (exportName === void 0) {
+    exportName = name;
+  }
+  if (controllerCommonModulesInternal === null || controllerCommonModulesInternal === void 0 ? void 0 : controllerCommonModulesInternal[exportName])
+    return controllerCommonModulesInternal[exportName];
+  var importPaths = [
     path.join(utils.controllerDir, "build/cjs/lib", name),
     path.join(utils.controllerDir, "build/lib", name),
     path.join(utils.controllerDir, "lib", name)
   ];
-  for (const importPath of importPaths) {
+  for (var _i = 0, importPaths_1 = importPaths; _i < importPaths_1.length; _i++) {
+    var importPath = importPaths_1[_i];
     try {
-      const module2 = require(importPath);
-      if (module2)
-        return module2;
+      var module_1 = require2(importPath);
+      if (module_1)
+        return module_1;
     } catch (_a) {
     }
   }
-  throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
+  throw new Error("Cannot resolve JS-Controller module ".concat(name, ".js"));
 }
-exports.resolveNamedModule = resolveNamedModule;
 function pattern2RegEx(pattern) {
-  return exports.controllerToolsInternal.pattern2RegEx(pattern);
+  return controllerToolsInternal.pattern2RegEx(pattern);
 }
 function getAdapterDir(adapter) {
-  return exports.controllerToolsInternal.getAdapterDir(adapter);
+  return controllerToolsInternal.getAdapterDir(adapter);
 }
 function getInstalledInfo(hostJsControllerVersion) {
-  return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
+  return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 function isDocker() {
-  return exports.controllerToolsInternal.isDocker();
+  return controllerToolsInternal.isDocker();
 }
 function isLocalAddress(ip) {
-  return exports.controllerToolsInternal.isLocalAddress(ip);
+  return controllerToolsInternal.isLocalAddress(ip);
 }
 function isListenAllAddress(ip) {
-  return exports.controllerToolsInternal.isListenAllAddress(ip);
+  return controllerToolsInternal.isListenAllAddress(ip);
 }
 function getLocalAddress() {
-  return exports.controllerToolsInternal.getLocalAddress();
+  return controllerToolsInternal.getLocalAddress();
 }
 function getListenAllAddress() {
-  return exports.controllerToolsInternal.getListenAllAddress();
+  return controllerToolsInternal.getListenAllAddress();
 }
-exports.commonTools = {
+var commonTools = {
   pattern2RegEx,
   getAdapterDir,
   getInstalledInfo,
@@ -123,4 +127,11 @@ exports.commonTools = {
   session: resolveNamedModule("session"),
   zipFiles: resolveNamedModule("zipFiles")
 };
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  commonTools,
+  controllerCommonModulesInternal,
+  controllerToolsInternal,
+  resolveNamedModule
+});
 //# sourceMappingURL=controllerTools.js.map

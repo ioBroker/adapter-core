@@ -1,50 +1,50 @@
 "use strict";
-var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  var desc = Object.getOwnPropertyDescriptor(m, k);
-  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-    desc = { enumerable: true, get: function() {
-      return m[k];
-    } };
-  }
-  Object.defineProperty(o, k2, desc);
-} : function(o, m, k, k2) {
-  if (k2 === void 0)
-    k2 = k;
-  o[k2] = m[k];
-});
-var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-  Object.defineProperty(o, "default", { enumerable: true, value: v });
-} : function(o, v) {
-  o["default"] = v;
-});
-var __importStar = exports && exports.__importStar || function(mod) {
-  if (mod && mod.__esModule)
-    return mod;
-  var result = {};
-  if (mod != null) {
-    for (var k in mod)
-      if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
-        __createBinding(result, mod, k);
-  }
-  __setModuleDefault(result, mod);
-  return result;
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var utils_exports = {};
+__export(utils_exports, {
+  Adapter: () => Adapter,
+  adapter: () => adapter,
+  controllerDir: () => controllerDir,
+  getConfig: () => getConfig
+});
+module.exports = __toCommonJS(utils_exports);
+var fs = __toESM(require("node:fs"));
+var path = __toESM(require("node:path"));
+var import_node_module = require("node:module");
+var import_helpers = require("./helpers");
+const import_meta = {};
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Adapter = exports.adapter = exports.getConfig = exports.controllerDir = void 0;
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-const helpers_1 = require("./helpers");
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
 function getControllerDir(isInstall) {
-  const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
-  let controllerDir = (0, helpers_1.tryResolvePackage)(possibilities);
-  if (controllerDir)
-    return controllerDir;
-  controllerDir = (0, helpers_1.scanForPackage)(possibilities);
-  if (controllerDir)
-    return controllerDir;
+  var possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
+  var controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
+  if (controllerDir2)
+    return controllerDir2;
+  controllerDir2 = (0, import_helpers.scanForPackage)(possibilities);
+  if (controllerDir2)
+    return controllerDir2;
   if (!isInstall) {
     console.log("Cannot find js-controller");
     return process.exit(10);
@@ -52,54 +52,60 @@ function getControllerDir(isInstall) {
     return process.exit();
   }
 }
-exports.controllerDir = getControllerDir(!!((_a = process === null || process === void 0 ? void 0 : process.argv) === null || _a === void 0 ? void 0 : _a.includes("--install")));
+var controllerDir = getControllerDir(!!((_a = process === null || process === void 0 ? void 0 : process.argv) === null || _a === void 0 ? void 0 : _a.includes("--install")));
 function resolveAdapterConstructor() {
-  let adapterPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
+  var adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
   if (adapterPath) {
     try {
-      const { Adapter } = require(adapterPath);
-      if (Adapter)
-        return Adapter;
+      var Adapter_1 = require2(adapterPath).Adapter;
+      if (Adapter_1)
+        return Adapter_1;
     } catch (_a2) {
     }
   }
-  adapterPath = (0, helpers_1.tryResolvePackage)(["@iobroker/js-controller-adapter"], [path.join(exports.controllerDir, "node_modules")]);
+  adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"], [path.join(controllerDir, "node_modules")]);
   if (adapterPath) {
     try {
-      const { Adapter } = require(adapterPath);
-      if (Adapter)
-        return Adapter;
+      var Adapter_2 = require2(adapterPath).Adapter;
+      if (Adapter_2)
+        return Adapter_2;
     } catch (_b) {
     }
   }
-  adapterPath = path.join(exports.controllerDir, "build/cjs/lib/adapter.js");
+  adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
   try {
-    const Adapter = require(adapterPath);
-    if (Adapter)
-      return Adapter;
+    var Adapter_3 = require2(adapterPath);
+    if (Adapter_3)
+      return Adapter_3;
   } catch (_c) {
   }
-  adapterPath = path.join(exports.controllerDir, "build/lib/adapter.js");
+  adapterPath = path.join(controllerDir, "build/lib/adapter.js");
   try {
-    const Adapter = require(adapterPath);
-    if (Adapter)
-      return Adapter;
+    var Adapter_4 = require2(adapterPath);
+    if (Adapter_4)
+      return Adapter_4;
   } catch (_d) {
   }
-  adapterPath = path.join(exports.controllerDir, "lib/adapter.js");
+  adapterPath = path.join(controllerDir, "lib/adapter.js");
   try {
-    const Adapter = require(adapterPath);
-    if (Adapter)
-      return Adapter;
+    var Adapter_5 = require2(adapterPath);
+    if (Adapter_5)
+      return Adapter_5;
   } catch (_e) {
   }
   throw new Error("Cannot resolve adapter class");
   return process.exit(10);
 }
 function getConfig() {
-  return JSON.parse(fs.readFileSync(path.join(exports.controllerDir, "conf/iobroker.json"), "utf8"));
+  return JSON.parse(fs.readFileSync(path.join(controllerDir, "conf/iobroker.json"), "utf8"));
 }
-exports.getConfig = getConfig;
-exports.adapter = resolveAdapterConstructor();
-exports.Adapter = exports.adapter;
+var adapter = resolveAdapterConstructor();
+var Adapter = adapter;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  Adapter,
+  adapter,
+  controllerDir,
+  getConfig
+});
 //# sourceMappingURL=utils.js.map

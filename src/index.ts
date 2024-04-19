@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 import { controllerToolsInternal, resolveNamedModule } from "./controllerTools";
 import { ExitCodes } from "./exitCodes";
 import * as utils from "./utils";
