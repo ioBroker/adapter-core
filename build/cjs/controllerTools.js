@@ -120,7 +120,6 @@ exports.commonTools = {
   isLocalAddress,
   isListenAllAddress,
   password: resolveNamedModule("password"),
-  letsEncrypt: resolveNamedModule("letsencrypt"),
   session: resolveNamedModule("session"),
   zipFiles: resolveNamedModule("zipFiles")
 };

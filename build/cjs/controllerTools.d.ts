@@ -85,8 +85,6 @@ export declare const commonTools: {
     isLocalAddress: typeof isLocalAddress;
     isListenAllAddress: typeof isListenAllAddress;
     password: any;
-    /** @deprecated use @iobroker/webserver */
-    letsEncrypt: any;
     session: any;
     zipFiles: any;
 };
