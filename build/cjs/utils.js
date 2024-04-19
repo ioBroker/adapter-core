@@ -36,7 +36,7 @@ var import_node_module = require("node:module");
 var import_helpers = require("./helpers");
 const import_meta = {};
 var _a;
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
 function getControllerDir(isInstall) {
   var possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
   var controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);

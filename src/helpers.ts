@@ -3,7 +3,7 @@ import * as path from "node:path";
 import { createRequire } from "node:module";
 import * as url from "node:url";
 // eslint-disable-next-line unicorn/prefer-module
-const require = createRequire(import.meta.url || "file:// " + __filename);
+const require = createRequire(import.meta.url || "file://" + __filename);
 
 const thisDir = url.fileURLToPath(
 	// eslint-disable-next-line unicorn/prefer-module

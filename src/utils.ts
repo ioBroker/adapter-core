@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { scanForPackage, tryResolvePackage } from "./helpers";
 
 // eslint-disable-next-line unicorn/prefer-module
-const require = createRequire(import.meta.url || "file:// " + __filename);
+const require = createRequire(import.meta.url || "file://" + __filename);
 
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process

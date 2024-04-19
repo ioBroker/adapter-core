@@ -3,7 +3,7 @@ import { tryResolvePackage } from "./helpers";
 import * as utils from "./utils";
 import { createRequire } from "node:module";
 // eslint-disable-next-line unicorn/prefer-module
-var require = createRequire(import.meta.url || "file:// " + __filename);
+var require = createRequire(import.meta.url || "file://" + __filename);
 export var controllerCommonModulesInternal;
 function resolveControllerTools() {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+

@@ -33,7 +33,7 @@ var path = __toESM(require("node:path"));
 var import_node_module = require("node:module");
 var url = __toESM(require("node:url"));
 const import_meta = {};
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
 var thisDir = url.fileURLToPath(
   new URL(".", import_meta.url || "file://" + __filename)
 );

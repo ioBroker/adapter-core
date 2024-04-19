@@ -35,7 +35,7 @@ var import_helpers = require("./helpers");
 var utils = __toESM(require("./utils"));
 var import_node_module = require("node:module");
 const import_meta = {};
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file:// " + __filename);
+var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
 var controllerCommonModulesInternal;
 function resolveControllerTools() {
   var importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);

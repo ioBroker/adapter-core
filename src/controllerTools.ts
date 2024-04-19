@@ -4,7 +4,7 @@ import * as utils from "./utils";
 import { createRequire } from "node:module";
 
 // eslint-disable-next-line unicorn/prefer-module
-const require = createRequire(import.meta.url || "file:// " + __filename);
+const require = createRequire(import.meta.url || "file://" + __filename);
 
 export let controllerCommonModulesInternal: any;
 

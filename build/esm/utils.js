@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { createRequire } from "node:module";
 import { scanForPackage, tryResolvePackage } from "./helpers";
 // eslint-disable-next-line unicorn/prefer-module
-var require = createRequire(import.meta.url || "file:// " + __filename);
+var require = createRequire(import.meta.url || "file://" + __filename);
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process
  * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally

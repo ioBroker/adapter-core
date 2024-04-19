@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"noEmitOnError": true,
-		"module": "ESNext",
+		"module": "ES2020",
 		"moduleResolution": "node",
 		"outDir": "build/esm",
 		"removeComments": false,
