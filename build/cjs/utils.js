@@ -33,7 +33,7 @@ module.exports = __toCommonJS(utils_exports);
 var fs = __toESM(require("node:fs"));
 var path = __toESM(require("node:path"));
 var import_node_module = require("node:module");
-var import_helpers = require("./helpers");
+var import_helpers = require("./helpers.js");
 const import_meta = {};
 var _a;
 var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);

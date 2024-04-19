@@ -32,11 +32,11 @@ __export(esm_exports, {
 });
 module.exports = __toCommonJS(esm_exports);
 var path = __toESM(require("node:path"));
-var import_controllerTools = require("./controllerTools");
-var utils = __toESM(require("./utils"));
+var import_controllerTools = require("./controllerTools.js");
+var utils = __toESM(require("./utils.js"));
 var import_types = require("@iobroker/types");
-var import_controllerTools2 = require("./controllerTools");
-__reExport(esm_exports, require("./utils"), module.exports);
+var import_controllerTools2 = require("./controllerTools.js");
+__reExport(esm_exports, require("./utils.js"), module.exports);
 var __assign = function() {
   __assign = Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {

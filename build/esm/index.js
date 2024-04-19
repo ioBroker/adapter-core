@@ -10,12 +10,12 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import * as path from "node:path";
-import { controllerToolsInternal, resolveNamedModule } from "./controllerTools";
-import * as utils from "./utils";
+import { controllerToolsInternal, resolveNamedModule, } from "./controllerTools.js";
+import * as utils from "./utils.js";
 import "@iobroker/types";
 // Export utility methods to be used in adapters
-export { commonTools } from "./controllerTools";
-export * from "./utils";
+export { commonTools } from "./controllerTools.js";
+export * from "./utils.js";
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
  */

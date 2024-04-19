@@ -1,6 +1,6 @@
 import * as path from "node:path";
-import { tryResolvePackage } from "./helpers";
-import * as utils from "./utils";
+import { tryResolvePackage } from "./helpers.js";
+import * as utils from "./utils.js";
 import { createRequire } from "node:module";
 // eslint-disable-next-line unicorn/prefer-module
 var require = createRequire(import.meta.url || "file://" + __filename);

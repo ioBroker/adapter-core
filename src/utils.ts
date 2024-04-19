@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { createRequire } from "node:module";
-import { scanForPackage, tryResolvePackage } from "./helpers";
+import { scanForPackage, tryResolvePackage } from "./helpers.js";
 
 // eslint-disable-next-line unicorn/prefer-module
 const require = createRequire(import.meta.url || "file://" + __filename);

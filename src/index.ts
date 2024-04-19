@@ -1,12 +1,15 @@
 import * as path from "node:path";
-import { controllerToolsInternal, resolveNamedModule } from "./controllerTools";
-import { ExitCodes } from "./exitCodes";
-import * as utils from "./utils";
+import {
+	controllerToolsInternal,
+	resolveNamedModule,
+} from "./controllerTools.js";
+import { ExitCodes } from "./exitCodes.js";
+import * as utils from "./utils.js";
 import "@iobroker/types";
 
 // Export utility methods to be used in adapters
-export { commonTools } from "./controllerTools";
-export * from "./utils";
+export { commonTools } from "./controllerTools.js";
+export * from "./utils.js";
 
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
