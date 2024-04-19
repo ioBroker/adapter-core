@@ -113,8 +113,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 3.1.4 (2024-04-19)
 
    - (foxriver76) fixes for adapters which are written in ESM
 
