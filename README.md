@@ -64,22 +64,23 @@ A collection of various utility methods and modules from JS-Controller. Prefer t
 
 Currently, the following **methods** are available:
 
--   `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
--   `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
--   `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
--         `commonTools.getLocalAddress` - Get the localhost (IPv6 or IPv4) address according to the ioBroker config
--         `commonTools.getListenAllAddress` - Get the "listen all" (IPv6 or IPv4) address according to the ioBroker config
--         `commonTools.isLocalAddress` - Check if given IPv4 or IPv6 ip address corresponds to localhost
--         `commonTools.isListenAllAddress` - Check if given IPv4 or IPv6 ip address corresponds to "listen all" address
--         `commonTools.ensureDNSOrder` - Ensure that DNS resolution is performed according to ioBroker config
+- `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
+- `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
+- `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
+- `commonTools.getLocalAddress` - Get the localhost (IPv6 or IPv4) address according to the ioBroker config
+- `commonTools.getListenAllAddress` - Get the "listen all" (IPv6 or IPv4) address according to the ioBroker config
+- `commonTools.isLocalAddress` - Check if given IPv4 or IPv6 ip address corresponds to localhost
+- `commonTools.isListenAllAddress` - Check if given IPv4 or IPv6 ip address corresponds to "listen all" address
+- `commonTools.ensureDNSOrder` - Ensure that DNS resolution is performed according to ioBroker config
 
 And the following **modules** are exposed:
 
--   `commonTools.password` - Previously exposed as `lib/password.js` in JS-Controller.
--   `commonTools.letsEncrypt` - Previously exposed as `lib/letsencrypt.js` in JS-Controller. Note that `letsEncrypt` has a capital `E`!
--   `commonTools.session` - Previously exposed as `lib/session.js` in JS-Controller.
--   `commonTools.zipFiles` - Previously exposed as `lib/zipFiles.js` in JS-Controller.
--   `commonTools.isDocker` - Checks if we are running inside a docker container
+- `commonTools.password` - Previously exposed as `lib/password.js` in JS-Controller.
+- `commonTools.session` - Previously exposed as `lib/session.js` in JS-Controller.
+- `commonTools.zipFiles` - Previously exposed as `lib/zipFiles.js` in JS-Controller.
+- `commonTools.isDocker` - Checks if we are running inside a docker container
+
+Note that `commonTools.letsEncrypt` is not available anymore as the next controller won't support it (use `@iobroker/webserver` instead).
 
 ## Automatic backup of data files
 
@@ -99,13 +100,13 @@ This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The
 
 ## Tips while working on this module
 
--   `npm run build` creates a clean rebuild of the module. This is done automatically before every build
--   `npm run lint` checks for linting errors
--   `npm run watch` creates an initial build and then incrementally compiles the changes while working.
+- `npm run build` creates a clean rebuild of the module. This is done automatically before every build
+- `npm run lint` checks for linting errors
+- `npm run watch` creates an initial build and then incrementally compiles the changes while working.
 
 ## Errors in the definitions?
 
-If you find errors in the definitions, e.g. function calls that should be allowed but aren't, please open an issue here or over at https://github.com/DefinitelyTyped/DefinitelyTyped and make sure to mention @AlCalzone.
+If you find errors in the definitions, e.g., function calls that should be allowed but aren't, please open an issue here or over at https://github.com/DefinitelyTyped/DefinitelyTyped and make sure to mention @AlCalzone.
 
 ## Changelog
 
@@ -114,118 +115,91 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	### **WORK IN PROGRESS**
 -->
 ### 3.1.4 (2024-04-19)
-
-   - (foxriver76) fixes for adapters which are written in ESM
+- (foxriver76) fixes for adapters which are written in ESM
 
 ### 3.1.3 (2024-04-19)
-
-   - (foxriver76) fixes for cjs adapters
+- (foxriver76) fixes for cjs adapters
 
 ### 3.1.2 (2024-04-19)
-
-   - (foxriver76) fixes for adapters which are written in ESM
+- (foxriver76) fixes for adapters which are written in ESM
 
 ### 3.1.1 (2024-04-19)
-
--   (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
+- (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
 
 ### 3.1.0 (2024-04-16)
-
--   (foxriver76) provide `esm` and `cjs` exports
+- (foxriver76) provide `esm` and `cjs` exports
 
 ### 3.0.6 (2024-03-24)
-
--   (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
+- (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
 
 ### 3.0.5 (2024-03-24)
-
--   (foxriver76) compatibility with next controller with new esm/cjs exports
+- (foxriver76) compatibility with next controller with new esm/cjs exports
 
 ### 3.0.4 (2023-10-12)
-
--   (foxriver76) ensure that utility methods work with the returned adapter instance on type level
+- (foxriver76) ensure that utility methods work with the returned adapter instance on type level
 
 ### 3.0.3 (2023-07-30)
-
--   (foxriver76) upgrade to new version of types package
+- (foxriver76) upgrade to a new version of types package
 
 ### 3.0.2 (2023-07-30)
-
--   (foxriver76) fix require of `@iobroker/types` in built module
+- (foxriver76) fix require of `@iobroker/types` in built module
 
 ### 3.0.1 (2023-07-29)
-
--   (foxriver76) remove non-existing webserver from tools
+- (foxriver76) remove non-existing webserver from tools
 
 ### 3.0.0 (2023-07-28)
-
--   (foxriver76) port from `@types/iobroker` to `@iobroker/types`
--   (foxriver76) export dns resolution methods
--   **BREAKING:** requires `npm` v7 or newer and/or Node.js 16 or newer
+- (foxriver76) port from `@types/iobroker` to `@iobroker/types`
+- (foxriver76) export dns resolution methods
+- **BREAKING:** requires `npm` v7 or newer and/or Node.js 16 or newer
 
 ### 2.6.8 (2023-03-24)
-
--   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
+- (Apollon77) Expose more JS-Controller internals under the `commonTools` export
 
 ### 2.6.7 (2022-10-08)
-
--   (Apollon77) Expose more JS-Controller internals under the `commonTools` export
+- (Apollon77) Expose more JS-Controller internals under the `commonTools` export
 
 ### 2.6.6 (2022-09-13)
-
--   (AlCalzone) Expose more JS-Controller internals under the `commonTools` export
+- (AlCalzone) Expose more JS-Controller internals under the `commonTools` export
 
 ### 2.6.2 (2022-09-07)
-
--   (AlCalzone) Fix: Restore compatibility with JS-Controller < 4.1
+- (AlCalzone) Fix: Restore compatibility with JS-Controller < 4.1
 
 ### 2.6.1 (2022-09-06)
-
--   (AlCalzone) Fix: detecting JS-Controller now finds the correct directory and not a subdirectory.
+- (AlCalzone) Fix: detecting JS-Controller now finds the correct directory and not a subdirectory.
 
 ### 2.6.0 (2022-02-20)
-
--   (AlCalzone) Updated core declarations to `v4.0.1` for support with JS-Controller 4.x
+- (AlCalzone) Updated core declarations to `v4.0.1` for support with JS-Controller 4.x
 
 ### 2.5.1 (2021-07-22)
-
--   (AlCalzone) Updated core declarations to `v3.3.4`.
+- (AlCalzone) Updated core declarations to `v3.3.4`.
 
 ### 2.5.0 (2021-05-19)
-
--   (AlCalzone) Add fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
--   (AlCalzone) Use release-script for releases
--   (AlCalzone) Updated core declarations to `v3.3.0` to be up to date with JS-Controller 3.3.x.
+- (AlCalzone) Added the fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
+- (AlCalzone) Use release-script for releases
+- (AlCalzone) Updated core declarations to `v3.3.0` to be up to date with JS-Controller 3.3.x.
 
 ### v2.4.0 (2020-05-03)
-
--   (AlCalzone) Updated core declarations to v3.0.6.
--   (AlCalzone) Expose the predefined collection of adapter exit codes as `utils.EXIT_CODES`
+- (AlCalzone) Updated core declarations to v3.0.6.
+- (AlCalzone) Expose the predefined collection of adapter exit codes as `utils.EXIT_CODES`
 
 ### v2.3.1 (2020-04-17)
-
--   (AlCalzone) Updated core declarations to v3.0.4.
+- (AlCalzone) Updated core declarations to v3.0.4.
 
 ### v2.3.0 (2020-04-15)
-
--   (AlCalzone) Updated core declarations to v3.0.2. This includes support for new methods in JS-Controller 3.0
+- (AlCalzone) Updated core declarations to v3.0.2. This includes support for new methods in JS-Controller 3.0
 
 ### v2.2.1 (2020-01-27)
-
--   (AlCalzone) Included typings for the objects and states cache in the adapter class
+- (AlCalzone) Included typings for the objects and states cache in the adapter class
 
 ### v2.0.0 (2019-12-27)
-
--   (AlCalzone) Updated core declarations to v2.0.0. This removes access to `adapter.objects` and `adapter.states`. You must use the new methods `adapter.getObjectView` and `adapter.getObjectList` instead of their counterparts from `objects`.
+- (AlCalzone) Updated core declarations to v2.0.0. This removes access to `adapter.objects` and `adapter.states`. You must use the new methods `adapter.getObjectView` and `adapter.getObjectList` instead of their counterparts from `objects`.
 
 ### v1.0.3 (2019-01-06)
-
--   (AlCalzone) Updated core declarations
--   (AlCalzone) Fix included declarations to allow creating adapter instances with `new`.
+- (AlCalzone) Updated core declarations
+- (AlCalzone) Fix included declarations to allow creating adapter instances with `new`.
 
 ### v1.0.0 (2018-27-11)
-
--   (AlCalzone) Initial version
+- (AlCalzone) Initial version
 
 ## MIT License
 
