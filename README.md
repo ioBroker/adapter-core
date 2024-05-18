@@ -108,7 +108,7 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.6.10 (2024-05-18)
 * (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
 
 ### 2.6.9 (2024-03-24)
