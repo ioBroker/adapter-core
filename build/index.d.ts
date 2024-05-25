@@ -1,5 +1,5 @@
-/// <reference types="iobroker" />
 import { ExitCodes } from "./exitCodes";
+import "@iobroker/types";
 export { commonTools } from "./controllerTools";
 export * from "./utils";
 /**

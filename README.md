@@ -108,6 +108,9 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (foxriver76) removed `@types/iobroker`
+
 ### 2.6.11 (2024-05-18)
 * (foxriver76) removed letsEncrypt support as next controller won't support it anymore (use `@iobroker/webserver` instead)
 
