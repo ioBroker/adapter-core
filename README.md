@@ -114,6 +114,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (foxriver76) improve exported types
+
 ### 3.1.5 (2024-06-03)
 * (foxriver76) provide up-to-date types
 
