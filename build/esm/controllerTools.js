@@ -3,19 +3,19 @@ import { tryResolvePackage } from "./helpers.js";
 import * as utils from "./utils.js";
 import { createRequire } from "node:module";
 // eslint-disable-next-line unicorn/prefer-module
-var require = createRequire(import.meta.url || "file://" + __filename);
-export var controllerCommonModulesInternal;
+const require = createRequire(import.meta.url || "file://" + __filename);
+export let controllerCommonModulesInternal;
 function resolveControllerTools() {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
-    var importPath = tryResolvePackage(["@iobroker/js-controller-common"]);
+    let importPath = tryResolvePackage(["@iobroker/js-controller-common"]);
     if (importPath) {
         try {
             controllerCommonModulesInternal = require(importPath);
-            var tools = controllerCommonModulesInternal.tools;
+            const { tools } = controllerCommonModulesInternal;
             if (tools)
                 return tools;
         }
-        catch (_a) {
+        catch {
             // did not work, continue
         }
     }
@@ -24,11 +24,11 @@ function resolveControllerTools() {
     if (importPath) {
         try {
             controllerCommonModulesInternal = require(importPath);
-            var tools = controllerCommonModulesInternal.tools;
+            const { tools } = controllerCommonModulesInternal;
             if (tools)
                 return tools;
         }
-        catch (_b) {
+        catch {
             // did not work, continue
         }
     }
@@ -36,31 +36,30 @@ function resolveControllerTools() {
     importPath = path.join(utils.controllerDir, "lib");
     try {
         // This was a default export prior to the TS migration
-        var tools = require(path.join(importPath, "tools"));
+        const tools = require(path.join(importPath, "tools"));
         if (tools)
             return tools;
     }
-    catch (_c) {
+    catch {
         // did not work, continue
     }
     throw new Error("Cannot resolve tools module");
     //return process.exit(10);
 }
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
-export var controllerToolsInternal = resolveControllerTools();
+export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilties in controllerTools
 /**
  * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
-export function resolveNamedModule(name, exportName) {
-    if (exportName === void 0) { exportName = name; }
+export function resolveNamedModule(name, exportName = name) {
     // The requested module might be moved to @iobroker/js-controller-common and exported from there
-    if (controllerCommonModulesInternal === null || controllerCommonModulesInternal === void 0 ? void 0 : controllerCommonModulesInternal[exportName])
+    if (controllerCommonModulesInternal?.[exportName])
         return controllerCommonModulesInternal[exportName];
     // Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
-    var importPaths = [
+    const importPaths = [
         // Attempt 1: JS-Controller 6+
         path.join(utils.controllerDir, "build/cjs/lib", name),
         // Attempt 2: JS-Controller 4.1+
@@ -68,19 +67,18 @@ export function resolveNamedModule(name, exportName) {
         // Attempt 3: JS-Controller <= 4.0
         path.join(utils.controllerDir, "lib", name),
     ];
-    for (var _i = 0, importPaths_1 = importPaths; _i < importPaths_1.length; _i++) {
-        var importPath = importPaths_1[_i];
+    for (const importPath of importPaths) {
         try {
             // This was a default export prior to the TS migration
-            var module_1 = require(importPath);
-            if (module_1)
-                return module_1;
+            const module = require(importPath);
+            if (module)
+                return module;
         }
-        catch (_a) {
+        catch {
             // did not work, continue
         }
     }
-    throw new Error("Cannot resolve JS-Controller module ".concat(name, ".js"));
+    throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
     //return process.exit(10);
 }
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
@@ -141,15 +139,15 @@ function getLocalAddress() {
 function getListenAllAddress() {
     return controllerToolsInternal.getListenAllAddress();
 }
-export var commonTools = {
-    pattern2RegEx: pattern2RegEx,
-    getAdapterDir: getAdapterDir,
-    getInstalledInfo: getInstalledInfo,
-    isDocker: isDocker,
-    getLocalAddress: getLocalAddress,
-    getListenAllAddress: getListenAllAddress,
-    isLocalAddress: isLocalAddress,
-    isListenAllAddress: isListenAllAddress,
+export const commonTools = {
+    pattern2RegEx,
+    getAdapterDir,
+    getInstalledInfo,
+    isDocker,
+    getLocalAddress,
+    getListenAllAddress,
+    isLocalAddress,
+    isListenAllAddress,
     // TODO: Add more methods from lib/tools.js as needed
     password: resolveNamedModule("password"),
     session: resolveNamedModule("session"),

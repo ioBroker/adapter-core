@@ -36,10 +36,10 @@ var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 const import_meta = {};
 var _a;
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
 function getControllerDir(isInstall) {
-  var possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
-  var controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
+  const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
+  let controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
   if (controllerDir2)
     return controllerDir2;
   controllerDir2 = (0, import_helpers.scanForPackage)(possibilities);
@@ -52,46 +52,46 @@ function getControllerDir(isInstall) {
     return process.exit();
   }
 }
-var controllerDir = getControllerDir(!!((_a = process === null || process === void 0 ? void 0 : process.argv) === null || _a === void 0 ? void 0 : _a.includes("--install")));
+const controllerDir = getControllerDir(!!((_a = process == null ? void 0 : process.argv) == null ? void 0 : _a.includes("--install")));
 function resolveAdapterConstructor() {
-  var adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
+  let adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
   if (adapterPath) {
     try {
-      var Adapter_1 = require2(adapterPath).Adapter;
-      if (Adapter_1)
-        return Adapter_1;
-    } catch (_a2) {
+      const { Adapter: Adapter2 } = require2(adapterPath);
+      if (Adapter2)
+        return Adapter2;
+    } catch {
     }
   }
   adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"], [path.join(controllerDir, "node_modules")]);
   if (adapterPath) {
     try {
-      var Adapter_2 = require2(adapterPath).Adapter;
-      if (Adapter_2)
-        return Adapter_2;
-    } catch (_b) {
+      const { Adapter: Adapter2 } = require2(adapterPath);
+      if (Adapter2)
+        return Adapter2;
+    } catch {
     }
   }
   adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
   try {
-    var Adapter_3 = require2(adapterPath);
-    if (Adapter_3)
-      return Adapter_3;
-  } catch (_c) {
+    const Adapter2 = require2(adapterPath);
+    if (Adapter2)
+      return Adapter2;
+  } catch {
   }
   adapterPath = path.join(controllerDir, "build/lib/adapter.js");
   try {
-    var Adapter_4 = require2(adapterPath);
-    if (Adapter_4)
-      return Adapter_4;
-  } catch (_d) {
+    const Adapter2 = require2(adapterPath);
+    if (Adapter2)
+      return Adapter2;
+  } catch {
   }
   adapterPath = path.join(controllerDir, "lib/adapter.js");
   try {
-    var Adapter_5 = require2(adapterPath);
-    if (Adapter_5)
-      return Adapter_5;
-  } catch (_e) {
+    const Adapter2 = require2(adapterPath);
+    if (Adapter2)
+      return Adapter2;
+  } catch {
   }
   throw new Error("Cannot resolve adapter class");
   return process.exit(10);
@@ -99,8 +99,8 @@ function resolveAdapterConstructor() {
 function getConfig() {
   return JSON.parse(fs.readFileSync(path.join(controllerDir, "conf/iobroker.json"), "utf8"));
 }
-var adapter = resolveAdapterConstructor();
-var Adapter = adapter;
+const adapter = resolveAdapterConstructor();
+const Adapter = adapter;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Adapter,

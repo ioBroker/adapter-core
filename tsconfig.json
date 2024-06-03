@@ -1,6 +1,7 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
+		"target": "ESNext",
 		"noEmit": true,
 		"noEmitOnError": true,
 		"module": "ES2020",

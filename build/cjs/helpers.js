@@ -33,39 +33,34 @@ var path = __toESM(require("node:path"));
 var import_node_module = require("node:module");
 var url = __toESM(require("node:url"));
 const import_meta = {};
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
-var thisDir = url.fileURLToPath(
+const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+const thisDir = url.fileURLToPath(
   new URL(".", import_meta.url || "file://" + __filename)
 );
 function tryResolvePackage(possiblePaths, lookupPaths) {
-  for (var _i = 0, possiblePaths_1 = possiblePaths; _i < possiblePaths_1.length; _i++) {
-    var pkg = possiblePaths_1[_i];
+  for (const pkg of possiblePaths) {
     try {
-      var possiblePath = require2.resolve("".concat(pkg, "/package.json"), (lookupPaths === null || lookupPaths === void 0 ? void 0 : lookupPaths.length) ? { paths: lookupPaths } : void 0);
+      const possiblePath = require2.resolve(`${pkg}/package.json`, (lookupPaths == null ? void 0 : lookupPaths.length) ? { paths: lookupPaths } : void 0);
       if (fs.existsSync(possiblePath)) {
         return path.dirname(possiblePath);
       }
-    } catch (_a) {
+    } catch {
     }
   }
 }
-function scanForPackage(possiblePaths, startDir) {
-  if (startDir === void 0) {
-    startDir = thisDir;
-  }
-  var curDir = path.join(startDir, "../node_modules");
+function scanForPackage(possiblePaths, startDir = thisDir) {
+  let curDir = path.join(startDir, "../node_modules");
   while (true) {
-    for (var _i = 0, possiblePaths_2 = possiblePaths; _i < possiblePaths_2.length; _i++) {
-      var pkg = possiblePaths_2[_i];
-      var possiblePath = path.join(curDir, pkg, "package.json");
+    for (const pkg of possiblePaths) {
+      const possiblePath = path.join(curDir, pkg, "package.json");
       try {
         if (fs.existsSync(possiblePath) && JSON.parse(fs.readFileSync(possiblePath, "utf8")).name === pkg.toLowerCase()) {
           return path.dirname(possiblePath);
         }
-      } catch (_a) {
+      } catch {
       }
     }
-    var parentDir = path.dirname(curDir);
+    const parentDir = path.dirname(curDir);
     if (parentDir === curDir) {
       break;
     }

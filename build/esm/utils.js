@@ -1,19 +1,18 @@
-var _a;
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { createRequire } from "node:module";
 import { scanForPackage, tryResolvePackage } from "./helpers.js";
 // eslint-disable-next-line unicorn/prefer-module
-var require = createRequire(import.meta.url || "file://" + __filename);
+const require = createRequire(import.meta.url || "file://" + __filename);
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process
  * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally
  */
 function getControllerDir(isInstall) {
     // Find the js-controller location
-    var possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
+    const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
     // First try to let Node.js resolve the package by itself
-    var controllerDir = tryResolvePackage(possibilities);
+    let controllerDir = tryResolvePackage(possibilities);
     // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
     // Thus we check for falsyness, which includes failing on an empty path
     if (controllerDir)
@@ -31,17 +30,17 @@ function getControllerDir(isInstall) {
     }
 }
 /** The root directory of JS-Controller */
-export var controllerDir = getControllerDir(!!((_a = process === null || process === void 0 ? void 0 : process.argv) === null || _a === void 0 ? void 0 : _a.includes("--install")));
+export const controllerDir = getControllerDir(!!process?.argv?.includes("--install"));
 function resolveAdapterConstructor() {
     // Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
-    var adapterPath = tryResolvePackage(["@iobroker/js-controller-adapter"]);
+    let adapterPath = tryResolvePackage(["@iobroker/js-controller-adapter"]);
     if (adapterPath) {
         try {
-            var Adapter_1 = require(adapterPath).Adapter;
-            if (Adapter_1)
-                return Adapter_1;
+            const { Adapter } = require(adapterPath);
+            if (Adapter)
+                return Adapter;
         }
-        catch (_a) {
+        catch {
             // did not work, continue
         }
     }
@@ -49,11 +48,11 @@ function resolveAdapterConstructor() {
     adapterPath = tryResolvePackage(["@iobroker/js-controller-adapter"], [path.join(controllerDir, "node_modules")]);
     if (adapterPath) {
         try {
-            var Adapter_2 = require(adapterPath).Adapter;
-            if (Adapter_2)
-                return Adapter_2;
+            const { Adapter } = require(adapterPath);
+            if (Adapter)
+                return Adapter;
         }
-        catch (_b) {
+        catch {
             // did not work, continue
         }
     }
@@ -61,33 +60,33 @@ function resolveAdapterConstructor() {
     adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
     try {
         // This was a default export prior to the TS migration
-        var Adapter_3 = require(adapterPath);
-        if (Adapter_3)
-            return Adapter_3;
+        const Adapter = require(adapterPath);
+        if (Adapter)
+            return Adapter;
     }
-    catch (_c) {
+    catch {
         // did not work, continue
     }
     // Attempt 4: JS-Controller 4.1+ with adapter stub
     adapterPath = path.join(controllerDir, "build/lib/adapter.js");
     try {
         // This was a default export prior to the TS migration
-        var Adapter_4 = require(adapterPath);
-        if (Adapter_4)
-            return Adapter_4;
+        const Adapter = require(adapterPath);
+        if (Adapter)
+            return Adapter;
     }
-    catch (_d) {
+    catch {
         // did not work, continue
     }
     // Attempt 5: Legacy resolve - until JS-Controller 4.0
     adapterPath = path.join(controllerDir, "lib/adapter.js");
     try {
         // This was a default export prior to the TS migration
-        var Adapter_5 = require(adapterPath);
-        if (Adapter_5)
-            return Adapter_5;
+        const Adapter = require(adapterPath);
+        if (Adapter)
+            return Adapter;
     }
-    catch (_e) {
+    catch {
         // did not work, continue
     }
     throw new Error("Cannot resolve adapter class");
@@ -98,6 +97,6 @@ export function getConfig() {
     return JSON.parse(fs.readFileSync(path.join(controllerDir, "conf/iobroker.json"), "utf8"));
 }
 /** Creates a new adapter instance */
-export var adapter = resolveAdapterConstructor();
+export const adapter = resolveAdapterConstructor();
 /** Creates a new adapter instance */
-export var Adapter = adapter;
+export const Adapter = adapter;

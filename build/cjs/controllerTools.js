@@ -35,60 +35,56 @@ var import_helpers = require("./helpers.js");
 var utils = __toESM(require("./utils.js"));
 var import_node_module = require("node:module");
 const import_meta = {};
-var require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
-var controllerCommonModulesInternal;
+const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+let controllerCommonModulesInternal;
 function resolveControllerTools() {
-  var importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);
+  let importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);
   if (importPath) {
     try {
       controllerCommonModulesInternal = require2(importPath);
-      var tools = controllerCommonModulesInternal.tools;
+      const { tools } = controllerCommonModulesInternal;
       if (tools)
         return tools;
-    } catch (_a) {
+    } catch {
     }
   }
   importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
   if (importPath) {
     try {
       controllerCommonModulesInternal = require2(importPath);
-      var tools = controllerCommonModulesInternal.tools;
+      const { tools } = controllerCommonModulesInternal;
       if (tools)
         return tools;
-    } catch (_b) {
+    } catch {
     }
   }
   importPath = path.join(utils.controllerDir, "lib");
   try {
-    var tools = require2(path.join(importPath, "tools"));
+    const tools = require2(path.join(importPath, "tools"));
     if (tools)
       return tools;
-  } catch (_c) {
+  } catch {
   }
   throw new Error("Cannot resolve tools module");
 }
-var controllerToolsInternal = resolveControllerTools();
-function resolveNamedModule(name, exportName) {
-  if (exportName === void 0) {
-    exportName = name;
-  }
-  if (controllerCommonModulesInternal === null || controllerCommonModulesInternal === void 0 ? void 0 : controllerCommonModulesInternal[exportName])
+const controllerToolsInternal = resolveControllerTools();
+function resolveNamedModule(name, exportName = name) {
+  if (controllerCommonModulesInternal == null ? void 0 : controllerCommonModulesInternal[exportName])
     return controllerCommonModulesInternal[exportName];
-  var importPaths = [
+  const importPaths = [
     path.join(utils.controllerDir, "build/cjs/lib", name),
     path.join(utils.controllerDir, "build/lib", name),
     path.join(utils.controllerDir, "lib", name)
   ];
-  for (var _i = 0, importPaths_1 = importPaths; _i < importPaths_1.length; _i++) {
-    var importPath = importPaths_1[_i];
+  for (const importPath of importPaths) {
     try {
-      var module_1 = require2(importPath);
-      if (module_1)
-        return module_1;
-    } catch (_a) {
+      const module2 = require2(importPath);
+      if (module2)
+        return module2;
+    } catch {
     }
   }
-  throw new Error("Cannot resolve JS-Controller module ".concat(name, ".js"));
+  throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
 }
 function pattern2RegEx(pattern) {
   return controllerToolsInternal.pattern2RegEx(pattern);
@@ -114,7 +110,7 @@ function getLocalAddress() {
 function getListenAllAddress() {
   return controllerToolsInternal.getListenAllAddress();
 }
-var commonTools = {
+const commonTools = {
   pattern2RegEx,
   getAdapterDir,
   getInstalledInfo,

@@ -37,25 +37,15 @@ var utils = __toESM(require("./utils.js"));
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(esm_exports, require("./utils.js"), module.exports);
-var __assign = function() {
-  __assign = Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p))
-          t[p] = s[p];
-    }
-    return t;
-  };
-  return __assign.apply(this, arguments);
-};
 function getAbsoluteDefaultDataDir() {
   return path.join(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
 function getAbsoluteInstanceDataDir(adapterObject) {
   return path.join(getAbsoluteDefaultDataDir(), adapterObject.namespace);
 }
-var EXIT_CODES = Object.freeze(__assign({}, (0, import_controllerTools.resolveNamedModule)("exitCodes", "EXIT_CODES")));
+const EXIT_CODES = Object.freeze({
+  ...(0, import_controllerTools.resolveNamedModule)("exitCodes", "EXIT_CODES")
+});
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   EXIT_CODES,
