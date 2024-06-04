@@ -108,6 +108,9 @@ If you find errors in the definitions, e.g. function calls that should be allowe
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (foxriver76) optimized own exported types
+
 ### 2.6.12 (2024-05-25)
 * (foxriver76) removed `@types/iobroker`
 

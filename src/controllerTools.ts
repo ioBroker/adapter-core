@@ -122,29 +122,13 @@ function getAdapterDir(adapter: string): string | null {
 	return controllerToolsInternal.getAdapterDir(adapter);
 }
 
-// Types copied from https://github.com/ioBroker/ioBroker.js-controller/blob/master/packages/common/src/lib/common/tools.ts#L898-L924
-// TODO: Import types from @iobroker/js-controller-common
-interface Multilingual {
-	en: string;
-	de?: string;
-	ru?: string;
-	pt?: string;
-	nl?: string;
-	fr?: string;
-	it?: string;
-	es?: string;
-	pl?: string;
-	uk?: string;
-	"zh-cn"?: string;
-}
-
-export interface GetInstalledInfoReponse {
+export interface InstalledInfo {
 	controller?: boolean;
 	version?: string;
 	icon?: string;
 	title?: string;
-	titleLang?: Multilingual;
-	desc?: Multilingual;
+	titleLang?: ioBroker.Translated;
+	desc?: ioBroker.Translated;
 	platform?: string;
 	keywords?: string[];
 	readme?: string;
@@ -152,6 +136,7 @@ export interface GetInstalledInfoReponse {
 	license?: string;
 	licenseUrl?: string;
 }
+
 /**
  * Get list of all installed adapters and controller version on this host
  * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
@@ -159,7 +144,7 @@ export interface GetInstalledInfoReponse {
  */
 function getInstalledInfo(
 	hostJsControllerVersion?: string,
-): GetInstalledInfoReponse {
+): Record<string, InstalledInfo> {
 	return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 
