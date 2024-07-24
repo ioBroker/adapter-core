@@ -57,7 +57,7 @@ jobs:
     if: |
       always() &&
       github.event_name == 'pull_request'
-    needs: [ adapter-tests ]
+    needs: [ unit-tests ]
     runs-on: ubuntu-latest
     steps:
       - id: automerge
