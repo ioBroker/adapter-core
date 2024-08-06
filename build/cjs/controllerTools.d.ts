@@ -16,7 +16,7 @@ declare function pattern2RegEx(pattern: string): string;
 /**
  * Finds the adapter directory of a given adapter
  *
- * @param adapter name of the adapter, e.g. hm-rpc
+ * @param adapter name of the adapter, e.g., hm-rpc
  * @returns path to adapter directory or null if no directory found
  */
 declare function getAdapterDir(adapter: string): string | null;
@@ -35,7 +35,7 @@ export interface InstalledInfo {
     licenseUrl?: string;
 }
 /**
- * Get list of all installed adapters and controller version on this host
+ * Get a list of all installed adapters and controller version on this host
  * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
  * @returns object containing information about installed host
  */
