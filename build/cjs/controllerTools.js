@@ -30,9 +30,9 @@ __export(controllerTools_exports, {
   resolveNamedModule: () => resolveNamedModule
 });
 module.exports = __toCommonJS(controllerTools_exports);
-var path = __toESM(require("node:path"));
+var path = __toESM(require("node:path"), 1);
 var import_helpers = require("./helpers.js");
-var utils = __toESM(require("./utils.js"));
+var utils = __toESM(require("./utils.js"), 1);
 var import_node_module = require("node:module");
 const import_meta = {};
 const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);

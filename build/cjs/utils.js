@@ -30,8 +30,8 @@ __export(utils_exports, {
   getConfig: () => getConfig
 });
 module.exports = __toCommonJS(utils_exports);
-var fs = __toESM(require("node:fs"));
-var path = __toESM(require("node:path"));
+var fs = __toESM(require("node:fs"), 1);
+var path = __toESM(require("node:path"), 1);
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 const import_meta = {};

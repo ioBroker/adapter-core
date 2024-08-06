@@ -66,7 +66,7 @@ Currently, the following **methods** are available:
 
 - `commonTools.pattern2RegEx` - Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
 - `commonTools.getAdapterDir` - Finds the adapter directory of a given adapter
-- `commonTools.getInstalledInfo` - Get list of all installed adapters and controller version on this host
+- `commonTools.getInstalledInfo` - Get a list of all installed adapters and controller version on this host
 - `commonTools.getLocalAddress` - Get the localhost (IPv6 or IPv4) address according to the ioBroker config
 - `commonTools.getListenAllAddress` - Get the "listen all" (IPv6 or IPv4) address according to the ioBroker config
 - `commonTools.isLocalAddress` - Check if given IPv4 or IPv6 ip address corresponds to localhost
@@ -100,8 +100,8 @@ This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The
 
 ## Tips while working on this module
 
-- `npm run build` creates a clean rebuild of the module. This is done automatically before every build
-- `npm run lint` checks for linting errors
+- `npm run build` creates a clean rebuild of the module. This is done automatically before every build;
+- `npm run lint` checks for linting errors;
 - `npm run watch` creates an initial build and then incrementally compiles the changes while working.
 
 ## Errors in the definitions?
@@ -199,7 +199,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 - (AlCalzone) Updated core declarations to v3.0.2. This includes support for new methods in JS-Controller 3.0
 
 ### v2.2.1 (2020-01-27)
-- (AlCalzone) Included typings for the objects and states cache in the adapter class
+- (AlCalzone) Included the typings for the objects and states cache in the adapter class
 
 ### v2.0.0 (2019-12-27)
 - (AlCalzone) Updated core declarations to v2.0.0. This removes access to `adapter.objects` and `adapter.states`. You must use the new methods `adapter.getObjectView` and `adapter.getObjectList` instead of their counterparts from `objects`.
