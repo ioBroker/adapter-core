@@ -28,14 +28,14 @@ __export(helpers_exports, {
   tryResolvePackage: () => tryResolvePackage
 });
 module.exports = __toCommonJS(helpers_exports);
-var fs = __toESM(require("node:fs"));
-var path = __toESM(require("node:path"));
+var fs = __toESM(require("node:fs"), 1);
+var path = __toESM(require("node:path"), 1);
 var import_node_module = require("node:module");
-var url = __toESM(require("node:url"));
+var url = __toESM(require("node:url"), 1);
 const import_meta = {};
-const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
 const thisDir = url.fileURLToPath(
-  new URL(".", import_meta.url || "file://" + __filename)
+  new URL(".", import_meta.url || `file://${__filename}`)
 );
 function tryResolvePackage(possiblePaths, lookupPaths) {
   for (const pkg of possiblePaths) {

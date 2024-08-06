@@ -31,9 +31,9 @@ __export(esm_exports, {
   getAbsoluteInstanceDataDir: () => getAbsoluteInstanceDataDir
 });
 module.exports = __toCommonJS(esm_exports);
-var path = __toESM(require("node:path"));
+var path = __toESM(require("node:path"), 1);
 var import_controllerTools = require("./controllerTools.js");
-var utils = __toESM(require("./utils.js"));
+var utils = __toESM(require("./utils.js"), 1);
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(esm_exports, require("./utils.js"), module.exports);

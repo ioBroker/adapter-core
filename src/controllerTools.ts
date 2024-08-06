@@ -1,10 +1,10 @@
 import * as path from "node:path";
+import { createRequire } from "node:module";
 import { tryResolvePackage } from "./helpers.js";
 import * as utils from "./utils.js";
-import { createRequire } from "node:module";
 
 // eslint-disable-next-line unicorn/prefer-module
-const require = createRequire(import.meta.url || "file://" + __filename);
+const require = createRequire(import.meta.url || `file://${__filename}`);
 
 export let controllerCommonModulesInternal: any;
 
@@ -15,7 +15,9 @@ function resolveControllerTools(): any | never {
 		try {
 			controllerCommonModulesInternal = require(importPath);
 			const { tools } = controllerCommonModulesInternal;
-			if (tools) return tools;
+			if (tools) {
+				return tools;
+			}
 		} catch {
 			// did not work, continue
 		}
@@ -30,7 +32,9 @@ function resolveControllerTools(): any | never {
 		try {
 			controllerCommonModulesInternal = require(importPath);
 			const { tools } = controllerCommonModulesInternal;
-			if (tools) return tools;
+			if (tools) {
+				return tools;
+			}
 		} catch {
 			// did not work, continue
 		}
@@ -41,7 +45,9 @@ function resolveControllerTools(): any | never {
 	try {
 		// This was a default export prior to the TS migration
 		const tools = require(path.join(importPath, "tools"));
-		if (tools) return tools;
+		if (tools) {
+			return tools;
+		}
 	} catch {
 		// did not work, continue
 	}
@@ -53,7 +59,7 @@ function resolveControllerTools(): any | never {
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
 export const controllerToolsInternal = resolveControllerTools();
 
-// Export a subset of the utilties in controllerTools
+// Export a subset of the utilities in controllerTools
 
 /**
  * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
@@ -83,7 +89,9 @@ export function resolveNamedModule(
 		try {
 			// This was a default export prior to the TS migration
 			const module = require(importPath);
-			if (module) return module;
+			if (module) {
+				return module;
+			}
 		} catch {
 			// did not work, continue
 		}
@@ -107,7 +115,7 @@ function pattern2RegEx(pattern: string): string {
 /**
  * Finds the adapter directory of a given adapter
  *
- * @param adapter name of the adapter, e.g. hm-rpc
+ * @param adapter name of the adapter, e.g., hm-rpc
  * @returns path to adapter directory or null if no directory found
  */
 function getAdapterDir(adapter: string): string | null {
@@ -129,7 +137,7 @@ export interface InstalledInfo {
 	licenseUrl?: string;
 }
 /**
- * Get list of all installed adapters and controller version on this host
+ * Get a list of all installed adapters and controller version on this host
  * @param hostJsControllerVersion Version of the running js-controller, will be included in the returned information if provided
  * @returns object containing information about installed host
  */

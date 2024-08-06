@@ -3,7 +3,7 @@ import * as path from "node:path";
 import { createRequire } from "node:module";
 import { scanForPackage, tryResolvePackage } from "./helpers.js";
 // eslint-disable-next-line unicorn/prefer-module
-const require = createRequire(import.meta.url || "file://" + __filename);
+const require = createRequire(import.meta.url || `file://${__filename}`);
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process
  * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally
@@ -11,23 +11,23 @@ const require = createRequire(import.meta.url || "file://" + __filename);
 function getControllerDir(isInstall) {
     // Find the js-controller location
     const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
-    // First try to let Node.js resolve the package by itself
+    // First, try to let Node.js resolve the package by itself
     let controllerDir = tryResolvePackage(possibilities);
-    // Apparently, checking vs null/undefined may miss the odd case of controllerPath being ""
-    // Thus we check for falsyness, which includes failing on an empty path
-    if (controllerDir)
+    // Apparently, checking vs. null/undefined may miss the odd case of controllerPath being ""
+    // Thus we check for falseness, which includes failing on an empty path
+    if (controllerDir) {
         return controllerDir;
+    }
     // As a fallback solution, we walk up the directory tree until we reach the root or find js-controller
     controllerDir = scanForPackage(possibilities);
-    if (controllerDir)
+    if (controllerDir) {
         return controllerDir;
+    }
     if (!isInstall) {
         console.log("Cannot find js-controller");
         return process.exit(10);
     }
-    else {
-        return process.exit();
-    }
+    return process.exit();
 }
 /** The root directory of JS-Controller */
 export const controllerDir = getControllerDir(!!process?.argv?.includes("--install"));
@@ -37,8 +37,9 @@ function resolveAdapterConstructor() {
     if (adapterPath) {
         try {
             const { Adapter } = require(adapterPath);
-            if (Adapter)
+            if (Adapter) {
                 return Adapter;
+            }
         }
         catch {
             // did not work, continue
@@ -49,8 +50,9 @@ function resolveAdapterConstructor() {
     if (adapterPath) {
         try {
             const { Adapter } = require(adapterPath);
-            if (Adapter)
+            if (Adapter) {
                 return Adapter;
+            }
         }
         catch {
             // did not work, continue
@@ -61,8 +63,9 @@ function resolveAdapterConstructor() {
     try {
         // This was a default export prior to the TS migration
         const Adapter = require(adapterPath);
-        if (Adapter)
+        if (Adapter) {
             return Adapter;
+        }
     }
     catch {
         // did not work, continue
@@ -72,8 +75,9 @@ function resolveAdapterConstructor() {
     try {
         // This was a default export prior to the TS migration
         const Adapter = require(adapterPath);
-        if (Adapter)
+        if (Adapter) {
             return Adapter;
+        }
     }
     catch {
         // did not work, continue
@@ -83,8 +87,9 @@ function resolveAdapterConstructor() {
     try {
         // This was a default export prior to the TS migration
         const Adapter = require(adapterPath);
-        if (Adapter)
+        if (Adapter) {
             return Adapter;
+        }
     }
     catch {
         // did not work, continue
