@@ -28,7 +28,8 @@ __export(esm_exports, {
   EXIT_CODES: () => EXIT_CODES,
   commonTools: () => import_controllerTools2.commonTools,
   getAbsoluteDefaultDataDir: () => getAbsoluteDefaultDataDir,
-  getAbsoluteInstanceDataDir: () => getAbsoluteInstanceDataDir
+  getAbsoluteInstanceDataDir: () => getAbsoluteInstanceDataDir,
+  i18n: () => i18n
 });
 module.exports = __toCommonJS(esm_exports);
 var path = __toESM(require("node:path"));
@@ -37,6 +38,7 @@ var utils = __toESM(require("./utils.js"));
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(esm_exports, require("./utils.js"), module.exports);
+var i18n = __toESM(require("./utils.js"));
 function getAbsoluteDefaultDataDir() {
   return path.join(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
@@ -51,6 +53,7 @@ const EXIT_CODES = Object.freeze({
   EXIT_CODES,
   commonTools,
   getAbsoluteDefaultDataDir,
-  getAbsoluteInstanceDataDir
+  getAbsoluteInstanceDataDir,
+  i18n
 });
 //# sourceMappingURL=index.js.map

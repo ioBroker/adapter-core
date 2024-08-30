@@ -82,6 +82,26 @@ And the following **modules** are exposed:
 
 Note that `commonTools.letsEncrypt` is not available anymore as the next controller won't support it (use `@iobroker/webserver` instead).
 
+## i18n
+Developer can use internationalisation in backend.
+
+For that call
+```javascript
+const i18n = require('@iobroker/adapter-core').i18n;
+
+// later in "ready" method
+i18n.init(__dirname, adapter);
+// If you use class syntax, you can use `this` instead of `adapter`
+i18n.init(__dirname, this);
+```
+
+and then in code
+```javascript
+  console.log(i18n.t('text to translate %s', 'argument1'));
+    // or to get the ioBroker.Translated object
+  console.log(JSON.stringify(i18n.tt('text to translate %s and %s', 'argument1', 'argument2')));
+```
+
 ## Automatic backup of data files
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
@@ -117,6 +137,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### **WORK IN PROGRESS**
 * (foxriver76) updated types
+* (bluefox) Added i18n module
 
 ### 3.1.6 (2024-06-04)
 * (foxriver76) improve exported types
