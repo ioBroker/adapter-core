@@ -31,11 +31,11 @@ __export(controllerTools_exports, {
 });
 module.exports = __toCommonJS(controllerTools_exports);
 var path = __toESM(require("node:path"));
+var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 var utils = __toESM(require("./utils.js"));
-var import_node_module = require("node:module");
 const import_meta = {};
-const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
 let controllerCommonModulesInternal;
 function resolveControllerTools() {
   let importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);
@@ -43,8 +43,9 @@ function resolveControllerTools() {
     try {
       controllerCommonModulesInternal = require2(importPath);
       const { tools } = controllerCommonModulesInternal;
-      if (tools)
+      if (tools) {
         return tools;
+      }
     } catch {
     }
   }
@@ -53,16 +54,18 @@ function resolveControllerTools() {
     try {
       controllerCommonModulesInternal = require2(importPath);
       const { tools } = controllerCommonModulesInternal;
-      if (tools)
+      if (tools) {
         return tools;
+      }
     } catch {
     }
   }
   importPath = path.join(utils.controllerDir, "lib");
   try {
     const tools = require2(path.join(importPath, "tools"));
-    if (tools)
+    if (tools) {
       return tools;
+    }
   } catch {
   }
   throw new Error("Cannot resolve tools module");
@@ -79,8 +82,9 @@ function resolveNamedModule(name, exportName = name) {
   for (const importPath of importPaths) {
     try {
       const module2 = require2(importPath);
-      if (module2)
+      if (module2) {
         return module2;
+      }
     } catch {
     }
   }

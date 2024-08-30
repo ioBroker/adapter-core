@@ -36,21 +36,22 @@ var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 const import_meta = {};
 var _a;
-const require2 = (0, import_node_module.createRequire)(import_meta.url || "file://" + __filename);
+const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
 function getControllerDir(isInstall) {
   const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
   let controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
-  if (controllerDir2)
+  if (controllerDir2) {
     return controllerDir2;
+  }
   controllerDir2 = (0, import_helpers.scanForPackage)(possibilities);
-  if (controllerDir2)
+  if (controllerDir2) {
     return controllerDir2;
+  }
   if (!isInstall) {
     console.log("Cannot find js-controller");
     return process.exit(10);
-  } else {
-    return process.exit();
   }
+  return process.exit();
 }
 const controllerDir = getControllerDir(!!((_a = process == null ? void 0 : process.argv) == null ? void 0 : _a.includes("--install")));
 function resolveAdapterConstructor() {
@@ -58,8 +59,9 @@ function resolveAdapterConstructor() {
   if (adapterPath) {
     try {
       const { Adapter: Adapter2 } = require2(adapterPath);
-      if (Adapter2)
+      if (Adapter2) {
         return Adapter2;
+      }
     } catch {
     }
   }
@@ -67,30 +69,34 @@ function resolveAdapterConstructor() {
   if (adapterPath) {
     try {
       const { Adapter: Adapter2 } = require2(adapterPath);
-      if (Adapter2)
+      if (Adapter2) {
         return Adapter2;
+      }
     } catch {
     }
   }
   adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
-    if (Adapter2)
+    if (Adapter2) {
       return Adapter2;
+    }
   } catch {
   }
   adapterPath = path.join(controllerDir, "build/lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
-    if (Adapter2)
+    if (Adapter2) {
       return Adapter2;
+    }
   } catch {
   }
   adapterPath = path.join(controllerDir, "lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
-    if (Adapter2)
+    if (Adapter2) {
       return Adapter2;
+    }
   } catch {
   }
   throw new Error("Cannot resolve adapter class");
