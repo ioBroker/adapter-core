@@ -2,7 +2,11 @@ import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 let language = "en";
 let words = null;
-// Init internationalization
+/**
+ * Init internationalization
+ * @param rootDir The path, where i18n directory is located
+ * @param languageOrAdapter The adapter instance or the language to use
+ */
 export async function init(
 /** The root directory of the adapter */
 rootDir, 
@@ -16,7 +20,7 @@ languageOrAdapter) {
             language = systemConfig?.common.language;
         }
     }
-    else if (typeof languageOrAdapter === "string") {
+    else {
         language = languageOrAdapter;
     }
     let files;
@@ -74,12 +78,10 @@ languageOrAdapter) {
 }
 /**
  * Get translation as one string
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export function t(
-/** Word to translate */
-key, 
-/** Optional parameters to replace %s */
-...args) {
+export function translate(key, ...args) {
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
@@ -88,40 +90,35 @@ key,
     }
     let text = words[key][language] || words[key].en || key;
     if (args.length) {
-        for (let i = 0; i < args.length; i++) {
-            text = text.replace("%s", 
-            // @ts-expect-error No idea why args[i] is not accepted here
-            args[i] === null ? "null" : args[i].toString());
+        for (const arg of args) {
+            text = text.replace("%s", arg === null ? "null" : arg.toString());
         }
     }
     return text;
 }
 /**
  * Get translation as ioBroker.Translated object
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export function tt(
-/** Word to translate */
-key, 
-/** Optional parameters to replace %s */
-...args) {
+export function getTranslatedObject(key, ...args) {
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
     if (words[key]) {
-        if (words[key].en && words[key].en.includes("%s")) {
+        const word = words[key];
+        if (word.en && word.en.includes("%s")) {
             const result = {};
-            Object.keys(words[key]).forEach((lang) => {
-                for (let i = 0; i < args.length; i++) {
-                    result[lang] =
-                        // @ts-expect-error words[key] cannot be null
-                        words[key][lang].replace("%s", 
-                        // @ts-expect-error No idea why args[i] is not accepted here
-                        args[i] === null ? "null" : args[i].toString());
+            Object.keys(word).forEach((lang) => {
+                for (const arg of args) {
+                    result[lang] = word[lang].replace("%s", arg === null ? "null" : arg.toString());
                 }
             });
             return result;
         }
         return words[key];
     }
-    return key;
+    return {
+        en: key,
+    };
 }

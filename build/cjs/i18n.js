@@ -18,9 +18,9 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var i18n_exports = {};
 __export(i18n_exports, {
+  getTranslatedObject: () => getTranslatedObject,
   init: () => init,
-  t: () => t,
-  tt: () => tt
+  translate: () => translate
 });
 module.exports = __toCommonJS(i18n_exports);
 var import_node_fs = require("node:fs");
@@ -35,7 +35,7 @@ async function init(rootDir, languageOrAdapter) {
     if (systemConfig == null ? void 0 : systemConfig.common.language) {
       language = systemConfig == null ? void 0 : systemConfig.common.language;
     }
-  } else if (typeof languageOrAdapter === "string") {
+  } else {
     language = languageOrAdapter;
   }
   let files;
@@ -86,7 +86,7 @@ async function init(rootDir, languageOrAdapter) {
     });
   }
 }
-function t(key, ...args) {
+function translate(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
@@ -95,40 +95,37 @@ function t(key, ...args) {
   }
   let text = words[key][language] || words[key].en || key;
   if (args.length) {
-    for (let i = 0; i < args.length; i++) {
-      text = text.replace(
-        "%s",
-        args[i] === null ? "null" : args[i].toString()
-      );
+    for (const arg of args) {
+      text = text.replace("%s", arg === null ? "null" : arg.toString());
     }
   }
   return text;
 }
-function tt(key, ...args) {
+function getTranslatedObject(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
   if (words[key]) {
-    if (words[key].en && words[key].en.includes("%s")) {
+    const word = words[key];
+    if (word.en && word.en.includes("%s")) {
       const result = {};
-      Object.keys(words[key]).forEach((lang) => {
-        for (let i = 0; i < args.length; i++) {
-          result[lang] = words[key][lang].replace(
-            "%s",
-            args[i] === null ? "null" : args[i].toString()
-          );
+      Object.keys(word).forEach((lang) => {
+        for (const arg of args) {
+          result[lang] = word[lang].replace("%s", arg === null ? "null" : arg.toString());
         }
       });
       return result;
     }
     return words[key];
   }
-  return key;
+  return {
+    en: key
+  };
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  getTranslatedObject,
   init,
-  t,
-  tt
+  translate
 });
 //# sourceMappingURL=i18n.js.map

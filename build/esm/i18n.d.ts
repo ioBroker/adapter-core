@@ -1,3 +1,8 @@
+/**
+ * Init internationalization
+ * @param rootDir The path, where i18n directory is located
+ * @param languageOrAdapter The adapter instance or the language to use
+ */
 export declare function init(
 /** The root directory of the adapter */
 rootDir: string, 
@@ -5,17 +10,13 @@ rootDir: string,
 languageOrAdapter: ioBroker.Adapter | ioBroker.Languages): Promise<void>;
 /**
  * Get translation as one string
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export declare function t(
-/** Word to translate */
-key: string, 
-/** Optional parameters to replace %s */
-...args: (string | number | boolean | null)[]): string;
+export declare function translate(key: string, ...args: (string | number | boolean | null)[]): string;
 /**
  * Get translation as ioBroker.Translated object
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export declare function tt(
-/** Word to translate */
-key: string, 
-/** Optional parameters to replace %s */
-...args: (string | number | boolean | null)[]): ioBroker.StringOrTranslated;
+export declare function getTranslatedObject(key: string, ...args: (string | number | boolean | null)[]): ioBroker.Translated;
