@@ -1,45 +1,53 @@
-import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 let language: ioBroker.Languages = "en";
 let words: null | Record<string, ioBroker.Translated> = null;
 
-// Init internationalization
+/**
+ * Init internationalization
+ * @param rootDir The path, where i18n directory is located
+ * @param languageOrAdapter The adapter instance or the language to use
+ */
 export async function init(
 	/** The root directory of the adapter */
 	rootDir: string,
 	/** The adapter instance or the language to use */
-	langOrAdmin: ioBroker.Adapter | ioBroker.Languages,
+	languageOrAdapter: ioBroker.Adapter | ioBroker.Languages,
 ): Promise<void> {
-	if (langOrAdmin && typeof langOrAdmin === "object") {
-		const adapter = langOrAdmin as ioBroker.Adapter;
+	let adapter: ioBroker.Adapter | undefined;
+	if (languageOrAdapter && typeof languageOrAdapter === "object") {
+		adapter = languageOrAdapter as ioBroker.Adapter;
 		const systemConfig =
 			await adapter.getForeignObjectAsync("system.config");
 		if (systemConfig?.common.language) {
 			language = systemConfig?.common.language;
 		}
-	} else if (typeof langOrAdmin === "string") {
-		language = langOrAdmin as ioBroker.Languages;
+	} else {
+		language = languageOrAdapter;
 	}
 
 	let files: string[];
 	if (existsSync(join(rootDir, "i18n"))) {
 		files = readdirSync(join(rootDir, "i18n"));
-	} else if (existsSync(join(rootDir, "lib/i18n"))) {
-		files = readdirSync(join(rootDir, "lib/i18n"));
+	} else if (existsSync(join(rootDir, "lib", "i18n"))) {
+		rootDir = join(rootDir, "lib");
+		files = readdirSync(join(rootDir, "i18n"));
 	} else {
 		throw new Error("Cannot find i18n directory");
 	}
 
 	words = {};
 
+	let count = 0;
 	files.forEach((file: string) => {
 		if (file.endsWith(".json")) {
+			count++;
 			const lang: ioBroker.Languages = file.split(
 				".",
 			)[0] as ioBroker.Languages;
 			const wordsForLanguage = JSON.parse(
-				readFileSync(join(rootDir, `/i18n/${file}`)).toString("utf8"),
+				readFileSync(join(rootDir, "i18n", file)).toString("utf8"),
 			);
 			Object.keys(wordsForLanguage).forEach((key: string) => {
 				if (words) {
@@ -51,20 +59,55 @@ export async function init(
 			});
 		}
 	});
+
+	if (!count) {
+		// may be it is an old structure: i18n/lang/translation.json
+		files.forEach((file: string) => {
+			if (
+				(file.match(/^[a-z]{2}$/) || file === "zh-cn") &&
+				statSync(join(rootDir, "i18n", file)).isDirectory()
+			) {
+				if (adapter) {
+					adapter.log.warn(
+						"Looks like you use old structure of i18n. " +
+							"Please switch to 1i8n/lang.json instead of i18n/lang/translation.json",
+					);
+				}
+				const lang: ioBroker.Languages = file as ioBroker.Languages;
+				if (
+					existsSync(join(rootDir, "i18n", lang, "translations.json"))
+				) {
+					const wordsForLanguage = JSON.parse(
+						readFileSync(
+							join(rootDir, "i18n", lang, "translations.json"),
+						).toString("utf8"),
+					);
+					Object.keys(wordsForLanguage).forEach((key: string) => {
+						if (words) {
+							if (!words[key]) {
+								words[key] = {} as ioBroker.Translated;
+							}
+							words[key][lang] = wordsForLanguage[key];
+						}
+					});
+				}
+			}
+		});
+	}
 }
 
 /**
  * Get translation as one string
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export function t(
-	/** Word to translate */
+export function translate(
 	key: string,
-	/** Optional parameters to replace %s */
 	...args: (string | number | boolean | null)[]
 ): string {
 	if (!words) {
 		throw new Error(
-			"i18n not initialized. Please call 'init(adapter)' before",
+			"i18n not initialized. Please call 'init(__dirname, adapter)' before",
 		);
 	}
 	if (!words[key]) {
@@ -72,12 +115,8 @@ export function t(
 	}
 	let text = words[key][language] || words[key].en || key;
 	if (args.length) {
-		for (let i = 0; i < args.length; i++) {
-			text = text.replace(
-				"%s",
-				// @ts-expect-error No idea why args[i] is not accepted here
-				args[i] === null ? "null" : args[i].toString(),
-			);
+		for (const arg of args) {
+			text = text.replace("%s", arg === null ? "null" : arg.toString());
 		}
 	}
 	return text;
@@ -85,31 +124,31 @@ export function t(
 
 /**
  * Get translation as ioBroker.Translated object
+ * @param key Word to translate
+ * @param args Optional parameters to replace %s
  */
-export function tt(
-	/** Word to translate */
+export function getTranslatedObject(
 	key: string,
-	/** Optional parameters to replace %s */
 	...args: (string | number | boolean | null)[]
-): ioBroker.StringOrTranslated {
+): ioBroker.Translated {
 	if (!words) {
 		throw new Error(
-			"i18n not initialized. Please call 'init(adapter)' before",
+			"i18n not initialized. Please call 'init(__dirname, adapter)' before",
 		);
 	}
 
 	if (words[key]) {
-		if (words[key].en && words[key].en.includes("%s")) {
+		const word = words[key];
+		if (word.en && word.en.includes("%s")) {
 			const result: Partial<ioBroker.Translated> = {};
-			Object.keys(words[key]).forEach((lang: string) => {
-				for (let i = 0; i < args.length; i++) {
-					(result as Record<string, string>)[lang] =
-						// @ts-expect-error words[key] cannot be null
-						(words[key] as Record<string, string>)[lang].replace(
-							"%s",
-							// @ts-expect-error No idea why args[i] is not accepted here
-							args[i] === null ? "null" : args[i].toString(),
-						);
+			Object.keys(word).forEach((lang: string) => {
+				for (const arg of args) {
+					(result as Record<string, string>)[lang] = (
+						word as Record<string, string>
+					)[lang].replace(
+						"%s",
+						arg === null ? "null" : arg.toString(),
+					);
 				}
 			});
 			return result as ioBroker.Translated;
@@ -118,5 +157,7 @@ export function tt(
 		return words[key];
 	}
 
-	return key;
+	return {
+		en: key,
+	};
 }

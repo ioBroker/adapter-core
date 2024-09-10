@@ -2,7 +2,7 @@ export declare function init(
 /** The root directory of the adapter */
 rootDir: string, 
 /** The adapter instance or the language to use */
-langOrAdmin: ioBroker.Adapter | ioBroker.Languages): Promise<void>;
+languageOrAdapter: ioBroker.Adapter | ioBroker.Languages): Promise<void>;
 /**
  * Get translation as one string
  */

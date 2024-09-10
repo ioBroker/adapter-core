@@ -27,29 +27,33 @@ var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
 let language = "en";
 let words = null;
-async function init(rootDir, langOrAdmin) {
-  if (langOrAdmin && typeof langOrAdmin === "object") {
-    const adapter = langOrAdmin;
+async function init(rootDir, languageOrAdapter) {
+  let adapter;
+  if (languageOrAdapter && typeof languageOrAdapter === "object") {
+    adapter = languageOrAdapter;
     const systemConfig = await adapter.getForeignObjectAsync("system.config");
     if (systemConfig == null ? void 0 : systemConfig.common.language) {
       language = systemConfig == null ? void 0 : systemConfig.common.language;
     }
-  } else if (typeof langOrAdmin === "string") {
-    language = langOrAdmin;
+  } else if (typeof languageOrAdapter === "string") {
+    language = languageOrAdapter;
   }
   let files;
   if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "i18n"))) {
     files = (0, import_node_fs.readdirSync)((0, import_node_path.join)(rootDir, "i18n"));
-  } else if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "lib/i18n"))) {
-    files = (0, import_node_fs.readdirSync)((0, import_node_path.join)(rootDir, "lib/i18n"));
+  } else if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "lib", "i18n"))) {
+    rootDir = (0, import_node_path.join)(rootDir, "lib");
+    files = (0, import_node_fs.readdirSync)((0, import_node_path.join)(rootDir, "i18n"));
   } else {
     throw new Error("Cannot find i18n directory");
   }
   words = {};
+  let count = 0;
   files.forEach((file) => {
     if (file.endsWith(".json")) {
+      count++;
       const lang = file.split(".")[0];
-      const wordsForLanguage = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, `/i18n/${file}`)).toString("utf8"));
+      const wordsForLanguage = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", file)).toString("utf8"));
       Object.keys(wordsForLanguage).forEach((key) => {
         if (words) {
           if (!words[key]) {
@@ -60,10 +64,31 @@ async function init(rootDir, langOrAdmin) {
       });
     }
   });
+  if (!count) {
+    files.forEach((file) => {
+      if ((file.match(/^[a-z]{2}$/) || file === "zh-cn") && (0, import_node_fs.statSync)((0, import_node_path.join)(rootDir, "i18n", file)).isDirectory()) {
+        if (adapter) {
+          adapter.log.warn("Looks like you use old structure of i18n. Please switch to 1i8n/lang.json instead of i18n/lang/translation.json");
+        }
+        const lang = file;
+        if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "i18n", lang, "translations.json"))) {
+          const wordsForLanguage = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", lang, "translations.json")).toString("utf8"));
+          Object.keys(wordsForLanguage).forEach((key) => {
+            if (words) {
+              if (!words[key]) {
+                words[key] = {};
+              }
+              words[key][lang] = wordsForLanguage[key];
+            }
+          });
+        }
+      }
+    });
+  }
 }
 function t(key, ...args) {
   if (!words) {
-    throw new Error("i18n not initialized. Please call 'init(adapter)' before");
+    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
   if (!words[key]) {
     return key;
@@ -81,7 +106,7 @@ function t(key, ...args) {
 }
 function tt(key, ...args) {
   if (!words) {
-    throw new Error("i18n not initialized. Please call 'init(adapter)' before");
+    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
   if (words[key]) {
     if (words[key].en && words[key].en.includes("%s")) {
