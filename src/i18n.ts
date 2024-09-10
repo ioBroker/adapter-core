@@ -17,7 +17,7 @@ export async function init(
 ): Promise<void> {
 	let adapter: ioBroker.Adapter | undefined;
 	if (languageOrAdapter && typeof languageOrAdapter === "object") {
-		adapter = languageOrAdapter as ioBroker.Adapter;
+		adapter = languageOrAdapter;
 		const systemConfig =
 			await adapter.getForeignObjectAsync("system.config");
 		if (systemConfig?.common.language) {
