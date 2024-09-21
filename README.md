@@ -120,12 +120,14 @@ Expected structure of `i18n` directory
   - es.json
   - fr.json
   - it.json
-  - po.json
+  - nl.json
+  - pl.json
   - pt.json
   - ru.json
   - uk.json
   - zh-cn.json
 ```
+And an example of i18n files could be found [here](test/i18n/de.json)
 
 ## Automatic backup of data files
 
