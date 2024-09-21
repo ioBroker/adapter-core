@@ -10,7 +10,7 @@ import "@iobroker/types";
 // Export utility methods to be used in adapters
 export { commonTools } from "./controllerTools.js";
 export * from "./utils.js";
-export * as i18n from "./utils.js";
+export * as I18n from "./utils.js";
 
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
