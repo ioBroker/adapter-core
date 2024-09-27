@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,10 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utils_exports = {};
 __export(utils_exports, {
@@ -30,8 +24,8 @@ __export(utils_exports, {
   getConfig: () => getConfig
 });
 module.exports = __toCommonJS(utils_exports);
-var fs = __toESM(require("node:fs"));
-var path = __toESM(require("node:path"));
+var import_node_fs = require("node:fs");
+var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 const import_meta = {};
@@ -65,7 +59,7 @@ function resolveAdapterConstructor() {
     } catch {
     }
   }
-  adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"], [path.join(controllerDir, "node_modules")]);
+  adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"], [(0, import_node_path.join)(controllerDir, "node_modules")]);
   if (adapterPath) {
     try {
       const { Adapter: Adapter2 } = require2(adapterPath);
@@ -75,7 +69,7 @@ function resolveAdapterConstructor() {
     } catch {
     }
   }
-  adapterPath = path.join(controllerDir, "build/cjs/lib/adapter.js");
+  adapterPath = (0, import_node_path.join)(controllerDir, "build/cjs/lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
     if (Adapter2) {
@@ -83,7 +77,7 @@ function resolveAdapterConstructor() {
     }
   } catch {
   }
-  adapterPath = path.join(controllerDir, "build/lib/adapter.js");
+  adapterPath = (0, import_node_path.join)(controllerDir, "build/lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
     if (Adapter2) {
@@ -91,7 +85,7 @@ function resolveAdapterConstructor() {
     }
   } catch {
   }
-  adapterPath = path.join(controllerDir, "lib/adapter.js");
+  adapterPath = (0, import_node_path.join)(controllerDir, "lib/adapter.js");
   try {
     const Adapter2 = require2(adapterPath);
     if (Adapter2) {
@@ -103,7 +97,7 @@ function resolveAdapterConstructor() {
   return process.exit(10);
 }
 function getConfig() {
-  return JSON.parse(fs.readFileSync(path.join(controllerDir, "conf/iobroker.json"), "utf8"));
+  return JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(controllerDir, "conf/iobroker.json"), "utf8"));
 }
 const adapter = resolveAdapterConstructor();
 const Adapter = adapter;

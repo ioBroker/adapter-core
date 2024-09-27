@@ -72,8 +72,9 @@ function resolveControllerTools() {
 }
 const controllerToolsInternal = resolveControllerTools();
 function resolveNamedModule(name, exportName = name) {
-  if (controllerCommonModulesInternal == null ? void 0 : controllerCommonModulesInternal[exportName])
+  if (controllerCommonModulesInternal == null ? void 0 : controllerCommonModulesInternal[exportName]) {
     return controllerCommonModulesInternal[exportName];
+  }
   const importPaths = [
     path.join(utils.controllerDir, "build/cjs/lib", name),
     path.join(utils.controllerDir, "build/lib", name),

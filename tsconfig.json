@@ -1,22 +1,17 @@
 {
-	"compileOnSave": true,
-	"compilerOptions": {
-		"target": "ESNext",
-		"noEmit": true,
-		"noEmitOnError": true,
-		"module": "ES2020",
-		"moduleResolution": "node",
-		"outDir": "build/esm",
-		"removeComments": false,
-		"strict": true,
-		"sourceMap": false,
-		"inlineSourceMap": false,
-	},
-	"include": [
-		"**/*.ts"
-	],
-	"exclude": [
-		"build/**",
-		"node_modules/**"
-	]
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "ESNext",
+        "noEmit": true,
+        "noEmitOnError": true,
+        "module": "ES2020",
+        "moduleResolution": "node",
+        "outDir": "build/esm",
+        "removeComments": false,
+        "strict": true,
+        "sourceMap": false,
+        "inlineSourceMap": false
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["build/**", "node_modules/**"]
 }

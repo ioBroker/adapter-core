@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as utils from "../../src/index";
+import * as utils from '../../src/index';
 
-const name = "foobar";
+const name = 'foobar';
 const options = { name, objects: true } as const;
 
 const adapter1 = utils.adapter(name);
@@ -18,21 +17,21 @@ const adapter7 = new utils.adapter(options);
 const adapter8 = new utils.Adapter({ ...options, objects: true });
 
 class adapter9 extends utils.Adapter<false, true> {
-	constructor(options: utils.AdapterOptions) {
-		super({ ...options, states: true });
-	}
+    constructor(options: utils.AdapterOptions) {
+        super({ ...options, states: true });
+    }
 }
 
 class adapter10 extends utils.Adapter<true> {
-	constructor(options: utils.AdapterOptions) {
-		super({ ...options, objects: true });
-	}
+    constructor(options: utils.AdapterOptions) {
+        super({ ...options, objects: true });
+    }
 }
 
 class adapter11 extends utils.Adapter {
-	constructor(options: utils.AdapterOptions) {
-		super({ ...options });
-	}
+    constructor(options: utils.AdapterOptions) {
+        super({ ...options });
+    }
 }
 
 // default no objects cache
