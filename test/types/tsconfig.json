@@ -3,17 +3,15 @@
 */
 
 {
-	"include": [
-		"./*.ts"
-	],
-	"compilerOptions": {
-		"module": "ESNext",
-		"allowJs": true,
-		"checkJs": true,
-		"noEmit": true,
-		"target": "es6",
-		"moduleResolution": "node",
-		"skipLibCheck": true,
-		"strict": true
-	}
+    "include": ["./*.ts"],
+    "compilerOptions": {
+        "module": "ESNext",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "target": "es6",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "strict": true
+    }
 }
