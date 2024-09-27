@@ -82,11 +82,58 @@ And the following **modules** are exposed:
 
 Note that `commonTools.letsEncrypt` is not available anymore as the next controller won't support it (use `@iobroker/webserver` instead).
 
+## I18n
+Developer can use internationalisation in backend.
+
+For that call
+```javascript
+const I18n = require('@iobroker/adapter-core').I18n;
+
+// later in "ready" method
+await I18n.init(__dirname, adapter);
+// If you use class syntax, you can use `this` instead of `adapter`
+await I18n.init(__dirname, this);
+// You can provide the language directly
+await I18n.init(__dirname, 'de');
+```
+
+and then in code
+```javascript
+  console.log(I18n.translate('text to translate %s', 'argument1'));
+    // or to get the ioBroker.Translated object
+  console.log(JSON.stringify(I18n.getTranslatedObject('text to translate %s and %s', 'argument1', 'argument2')));
+```
+
+You can place your `i18n` folder in root of adapter or in `lib` folder. If your `i18n` files are in `lib` directory, so call the `init` function like this:
+```javascript
+const { join } = require('node:path');
+const I18n = require('@iobroker/adapter-core').I18n;
+
+await I18n.init(join(__dirname, 'lib'), adapter);
+```
+
+Expected structure of `i18n` directory
+```
++ i18n
+  - de.json
+  - en.json
+  - es.json
+  - fr.json
+  - it.json
+  - nl.json
+  - pl.json
+  - pt.json
+  - ru.json
+  - uk.json
+  - zh-cn.json
+```
+And an example of i18n files could be found [here](test/i18n/de.json)
+
 ## Automatic backup of data files
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
 
-```js
+```json
 {
 	// ...
 	"common": {
@@ -117,6 +164,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### **WORK IN PROGRESS**
 * (foxriver76) updated types
+* (bluefox) Added i18n module
 
 ### 3.1.6 (2024-06-04)
 * (foxriver76) improve exported types
