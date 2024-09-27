@@ -23,10 +23,7 @@ function resolveControllerTools(): any {
     }
 
     // Attempt 2: Resolve @iobroker/js-controller-common in JS-Controller dir - JS-Controller 4.1+
-    importPath = tryResolvePackage(
-        ['@iobroker/js-controller-common'],
-        [join(utils.controllerDir, 'node_modules')],
-    );
+    importPath = tryResolvePackage(['@iobroker/js-controller-common'], [join(utils.controllerDir, 'node_modules')]);
     if (importPath) {
         try {
             controllerCommonModulesInternal = require(importPath);
