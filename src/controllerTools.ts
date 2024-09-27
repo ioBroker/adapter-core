@@ -1,4 +1,4 @@
-import * as path from 'node:path';
+import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
 import * as utils from './utils.js';
@@ -25,7 +25,7 @@ function resolveControllerTools(): any {
     // Attempt 2: Resolve @iobroker/js-controller-common in JS-Controller dir - JS-Controller 4.1+
     importPath = tryResolvePackage(
         ['@iobroker/js-controller-common'],
-        [path.join(utils.controllerDir, 'node_modules')],
+        [join(utils.controllerDir, 'node_modules')],
     );
     if (importPath) {
         try {
@@ -40,10 +40,10 @@ function resolveControllerTools(): any {
     }
 
     // Attempt 3: Legacy resolve - until JS-Controller 4.0
-    importPath = path.join(utils.controllerDir, 'lib');
+    importPath = join(utils.controllerDir, 'lib');
     try {
         // This was a default export prior to the TS migration
-        const tools = require(path.join(importPath, 'tools'));
+        const tools = require(join(importPath, 'tools'));
         if (tools) {
             return tools;
         }
@@ -76,11 +76,11 @@ export function resolveNamedModule(name: string, exportName: string = name): any
 
     const importPaths = [
         // Attempt 1: JS-Controller 6+
-        path.join(utils.controllerDir, 'build/cjs/lib', name),
+        join(utils.controllerDir, 'build/cjs/lib', name),
         // Attempt 2: JS-Controller 4.1+
-        path.join(utils.controllerDir, 'build/lib', name),
+        join(utils.controllerDir, 'build/lib', name),
         // Attempt 3: JS-Controller <= 4.0
-        path.join(utils.controllerDir, 'lib', name),
+        join(utils.controllerDir, 'lib', name),
     ];
 
     for (const importPath of importPaths) {
