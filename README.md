@@ -167,9 +167,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### **WORK IN PROGRESS**
 
--   (foxriver76) updated types
--   (bluefox) Added i18n module
--   (bluefox) Migrated eslint to iobroker.eslint-config
+-   (@foxriver76) updated types
+-   (@GermanBluefox) Added i18n module
+-   (@GermanBluefox) Migrated eslint to iobroker.eslint-config
 
 ### 3.1.6 (2024-06-04)
 
