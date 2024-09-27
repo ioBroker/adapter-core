@@ -30,7 +30,7 @@ __export(controllerTools_exports, {
   resolveNamedModule: () => resolveNamedModule
 });
 module.exports = __toCommonJS(controllerTools_exports);
-var path = __toESM(require("node:path"));
+var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 var utils = __toESM(require("./utils.js"));
@@ -49,7 +49,7 @@ function resolveControllerTools() {
     } catch {
     }
   }
-  importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"], [path.join(utils.controllerDir, "node_modules")]);
+  importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"], [(0, import_node_path.join)(utils.controllerDir, "node_modules")]);
   if (importPath) {
     try {
       controllerCommonModulesInternal = require2(importPath);
@@ -60,9 +60,9 @@ function resolveControllerTools() {
     } catch {
     }
   }
-  importPath = path.join(utils.controllerDir, "lib");
+  importPath = (0, import_node_path.join)(utils.controllerDir, "lib");
   try {
-    const tools = require2(path.join(importPath, "tools"));
+    const tools = require2((0, import_node_path.join)(importPath, "tools"));
     if (tools) {
       return tools;
     }
@@ -76,9 +76,9 @@ function resolveNamedModule(name, exportName = name) {
     return controllerCommonModulesInternal[exportName];
   }
   const importPaths = [
-    path.join(utils.controllerDir, "build/cjs/lib", name),
-    path.join(utils.controllerDir, "build/lib", name),
-    path.join(utils.controllerDir, "lib", name)
+    (0, import_node_path.join)(utils.controllerDir, "build/cjs/lib", name),
+    (0, import_node_path.join)(utils.controllerDir, "build/lib", name),
+    (0, import_node_path.join)(utils.controllerDir, "lib", name)
   ];
   for (const importPath of importPaths) {
     try {
