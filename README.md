@@ -136,7 +136,7 @@ And an example of i18n files could be found [here](test/i18n/de.json)
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
 
-```json
+```json5
 {
     // ...
     "common": {
