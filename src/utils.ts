@@ -101,7 +101,6 @@ function resolveAdapterConstructor(): any {
     }
 
     throw new Error('Cannot resolve adapter class');
-    return process.exit(10);
 }
 
 /** Reads the configuration file of JS-Controller */
@@ -116,7 +115,9 @@ export interface AdapterInstance<
     HasObjectsCache extends boolean | undefined = undefined,
     HasStatesCache extends boolean | undefined = undefined,
 > extends ioBroker.Adapter {
+    /** Objects cache */
     oObjects: HasObjectsCache extends true ? Exclude<ioBroker.Adapter['oObjects'], undefined> : undefined;
+    /** States cache */
     oStates: HasStatesCache extends true ? Exclude<ioBroker.Adapter['oStates'], undefined> : undefined;
 }
 

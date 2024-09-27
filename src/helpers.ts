@@ -9,6 +9,9 @@ const thisDir = fileURLToPath(new URL('.', import.meta.url || `file://${__filena
 /**
  * Tries to resolve a package using Node.js resolution.
  * Directory names differing from the package name and alternate lookup paths can be passed.
+ *
+ * @param possiblePaths all possible paths the package can be resolved from
+ * @param lookupPaths lookup paths passed to `require.resolve`
  */
 export function tryResolvePackage(possiblePaths: string[], lookupPaths?: string[]): string | undefined {
     for (const pkg of possiblePaths) {
@@ -31,6 +34,9 @@ export function tryResolvePackage(possiblePaths: string[], lookupPaths?: string[
 /**
  * Scans for a package by walking up the directory tree and inspecting package.json
  * Directory names differing from the package name and an alternate start dir can be passed.
+ *
+ * @param possiblePaths All possible paths to check
+ * @param startDir Optional start directory where we scan for the package
  */
 export function scanForPackage(possiblePaths: string[], startDir: string = thisDir): string | undefined {
     // We start in the node_modules subfolder of adapter-core,

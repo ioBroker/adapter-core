@@ -118,18 +118,31 @@ function getAdapterDir(adapter: string): string | null {
     return controllerToolsInternal.getAdapterDir(adapter);
 }
 
+/** Information about Host */
 export interface InstalledInfo {
+    /** If it is the js-controller */
     controller?: boolean;
+    /** Version of adapter */
     version?: string;
+    /** Path to adapter icon */
     icon?: string;
+    /** Title of adapter */
     title?: string;
+    /** I18n title of adapter */
     titleLang?: ioBroker.Translated;
+    /** I18n adapter description */
     desc?: ioBroker.Translated;
+    /** Supported adapter platform */
     platform?: string;
+    /** The keywords */
     keywords?: string[];
+    /** Path to ReadMe */
     readme?: string;
+    /** Running version of adapter */
     runningVersion?: string;
+    /** The license */
     license?: string;
+    /** The url of the license */
     licenseUrl?: string;
 }
 /**
