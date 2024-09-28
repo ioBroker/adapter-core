@@ -31,7 +31,7 @@
         "test:i18n": "mocha test/testI18n.js",
         "test": "npm run test:declarations && npm run test:i18n",
         "prepublishOnly": "npm run lint && npm run build",
-        "release": "release-script"
+        "release": "release-script -y --noPush"
     },
     "repository": {
         "type": "git",
