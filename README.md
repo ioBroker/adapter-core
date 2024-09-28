@@ -164,7 +164,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.2.0 (2024-09-28)
 
 -   (@foxriver76) updated types
 -   (@GermanBluefox) Added i18n module
