@@ -104,7 +104,7 @@ console.log(I18n.translate('text to translate %s', 'argument1'));
 console.log(JSON.stringify(I18n.getTranslatedObject('text to translate %s and %s', 'argument1', 'argument2')));
 ```
 
-You can place your `i18n` folder in root of adapter or in `lib` folder. If your `i18n` directory containing the `i18n` files is in `lib` directory, call the `init` function like this:
+You can place your `i18n` folder in root of adapter or in `lib` folder. If your `i18n` folder containing the `i18n` files is in `lib` directory, call the `init` function like this:
 
 ```javascript
 const { join } = require('node:path');
