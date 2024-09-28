@@ -38,7 +38,7 @@ var utils = __toESM(require("./utils.js"));
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(esm_exports, require("./utils.js"), module.exports);
-var I18n = __toESM(require("./utils.js"));
+var I18n = __toESM(require("./i18n.js"));
 function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
