@@ -6,7 +6,9 @@ export declare function getConfig(): Record<string, any>;
  * This type is used to include and exclude the states and objects cache from the adapter's type definition depending on the creation options
  */
 export interface AdapterInstance<HasObjectsCache extends boolean | undefined = undefined, HasStatesCache extends boolean | undefined = undefined> extends ioBroker.Adapter {
+    /** Objects cache */
     oObjects: HasObjectsCache extends true ? Exclude<ioBroker.Adapter['oObjects'], undefined> : undefined;
+    /** States cache */
     oStates: HasStatesCache extends true ? Exclude<ioBroker.Adapter['oStates'], undefined> : undefined;
 }
 /** This type augments the ioBroker Adapter options to accept two generics for the objects and states cache */

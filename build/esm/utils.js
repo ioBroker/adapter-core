@@ -95,7 +95,6 @@ function resolveAdapterConstructor() {
         // did not work, continue
     }
     throw new Error('Cannot resolve adapter class');
-    return process.exit(10);
 }
 /** Reads the configuration file of JS-Controller */
 export function getConfig() {

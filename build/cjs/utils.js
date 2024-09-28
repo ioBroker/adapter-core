@@ -94,7 +94,6 @@ function resolveAdapterConstructor() {
   } catch {
   }
   throw new Error("Cannot resolve adapter class");
-  return process.exit(10);
 }
 function getConfig() {
   return JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(controllerDir, "conf/iobroker.json"), "utf8"));
