@@ -33,7 +33,7 @@ module.exports = __toCommonJS(controllerTools_exports);
 var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
-var utils = __toESM(require("./utils.js"));
+var utils = __toESM(require("./utils.js"), 1);
 const import_meta = {};
 const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
 let controllerCommonModulesInternal;
