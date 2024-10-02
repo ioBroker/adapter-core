@@ -34,11 +34,11 @@ __export(esm_exports, {
 module.exports = __toCommonJS(esm_exports);
 var import_node_path = require("node:path");
 var import_controllerTools = require("./controllerTools.js");
-var utils = __toESM(require("./utils.js"), 1);
+var utils = __toESM(require("./utils.js"));
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(esm_exports, require("./utils.js"), module.exports);
-var I18n = __toESM(require("./i18n.js"), 1);
+var I18n = __toESM(require("./i18n.js"));
 function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }

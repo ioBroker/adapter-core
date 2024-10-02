@@ -164,8 +164,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### __WORK IN PROGRESS__
+### 3.2.2 (2024-10-02)
 
 - (Apollon77) Fix types
 
