@@ -164,7 +164,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.2.3 (2024-12-04)
 
 - (@foxriver76) loosen `@iobroker/types` peer dependency
 
