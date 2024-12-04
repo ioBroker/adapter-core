@@ -82,6 +82,6 @@
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
-    "@iobroker/types": "^6.0.11"
+    "@iobroker/types": ">=6.0.11"
   }
 }
