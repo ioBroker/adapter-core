@@ -196,6 +196,8 @@ export class YourAdapter extends Adapter {
 Important to use OAuth2 infrastructure in your adapter [contact](mailto:info@iobroker.net) the ioBroker team so we can implement a cloud code for https://oauth2.iobroker.in/YOUR_SERVICE_NAME.
 This will allow you to use the OAuth2 infrastructure in your adapter without having to implement it yourself.
 
+Here is a description of how to implement OAuth2 in your adapter: https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/OAUTH2.md
+
 ## Tips while working on this module
 
 -   `npm run build` creates a clean rebuild of the module. This is done automatically before every build;
