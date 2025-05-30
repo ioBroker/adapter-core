@@ -3,6 +3,7 @@ var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -32,8 +33,8 @@ async function init(rootDir, languageOrAdapter) {
   if (languageOrAdapter && typeof languageOrAdapter === "object") {
     adapter = languageOrAdapter;
     const systemConfig = await adapter.getForeignObjectAsync("system.config");
-    if (systemConfig == null ? void 0 : systemConfig.common.language) {
-      language = systemConfig == null ? void 0 : systemConfig.common.language;
+    if (systemConfig?.common.language) {
+      language = systemConfig?.common.language;
     }
   } else {
     language = languageOrAdapter;
@@ -86,6 +87,7 @@ async function init(rootDir, languageOrAdapter) {
     });
   }
 }
+__name(init, "init");
 function translate(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
@@ -101,6 +103,7 @@ function translate(key, ...args) {
   }
   return text;
 }
+__name(translate, "translate");
 function getTranslatedObject(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
@@ -122,6 +125,7 @@ function getTranslatedObject(key, ...args) {
     en: key
   };
 }
+__name(getTranslatedObject, "getTranslatedObject");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   getTranslatedObject,

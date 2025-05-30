@@ -3,6 +3,7 @@ import '@iobroker/types';
 export { commonTools } from './controllerTools.js';
 export * from './utils.js';
 export * as I18n from './i18n.js';
+export * as TokenRefresher from './TokenRefresher';
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
  */
