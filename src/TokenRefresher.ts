@@ -5,6 +5,9 @@
  */
 import axios from 'axios';
 
+/**
+ * Token structure
+ */
 export interface AccessTokens {
     /** The access token used for authentication */
     access_token: string;
@@ -12,13 +15,19 @@ export interface AccessTokens {
     expires_in: number;
     /** The date and time when the access token expires, in ISO format */
     access_token_expires_on: string;
+    /** Extended expiration time in seconds, when the access token will expire */
     ext_expires_in: number;
+    /** Type */
     token_type: 'Bearer';
+    /** Scopes */
     scope: string;
     /** The refresh token used to obtain a new access token */
     refresh_token: string;
 }
 
+/**
+ * TokenRefresher class manages OAuth2 access tokens for an ioBroker adapter.
+ */
 export class TokenRefresher {
     private readonly adapter: ioBroker.Adapter;
     private readonly stateName: string;
@@ -30,6 +39,7 @@ export class TokenRefresher {
 
     /**
      * Creates an instance of TokenRefresher.
+     *
      * @param adapter Instance of ioBroker adapter
      * @param serviceName Name of the service for which the tokens are managed, e.g., 'spotify', 'dropbox', etc.
      * @param stateName Optional name of the state where tokens are stored. Defaults to 'oauth2Tokens' and that will store tokens in `ADAPTER.X.oauth2Tokens`.
@@ -75,7 +85,8 @@ export class TokenRefresher {
         }
     }
 
-    /** This method is called when the state changes for the token.
+    /**
+     * This method is called when the state changes for the token.
      *
      * @param id ID of the state that changed
      * @param state Value
@@ -87,7 +98,7 @@ export class TokenRefresher {
                     this.accessToken = JSON.parse(state.val as string);
                     this.refreshTokens().catch(error => this.adapter.log.error(`Cannot refresh tokens: ${error}`));
                 } catch (error) {
-                    this.adapter.log.error(`Cannot parse tokens: ${error}`);
+                    this.adapter.log.error(`Cannot parse tokens: ${error as Error}`);
                     this.accessToken = undefined;
                 }
             }
@@ -142,7 +153,7 @@ export class TokenRefresher {
                 }
                 this.accessToken = response.data;
             } catch (error) {
-                this.adapter.log.error(`Cannot refresh tokens: ${error}`);
+                this.adapter.log.error(`Cannot refresh tokens: ${error as Error}`);
             }
 
             if (this.accessToken) {
