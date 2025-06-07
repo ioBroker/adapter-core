@@ -102,6 +102,9 @@ export function translate(key: string, ...args: (string | number | boolean | nul
     return text;
 }
 
+/** Alias shortcut for translate function */
+export const t = translate;
+
 /**
  * Get translation as ioBroker.Translated object
  *
