@@ -149,30 +149,22 @@ ioBroker has the ability to include files written by adapters in its backups. To
 This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The placeholder `%INSTANCE%` is automatically replaced by the instance number of each adapter, for example `"dataFolder": "my-adapter.%INSTANCE%"`.
 
 ## OAuth2 token refresher
-To keep the OAuth2 access token up to date, you can use the `TokenRefresher` class.
+To keep the OAuth2 access token up to date, you can use the `TokenRefresher` class and do not forget to include `axios` in your adapter dependencies (in `package.json`).
 
 ```Typescript
-import { TokenRefresher } from './lib/TokenRefresher';
+import { TokenRefresher } from '@iobroker/adapter-core';
 
 export class YourAdapter extends Adapter {
     private tokenWorker?: TokenRefresher;
 
     // It is important to call this method in the `onReady` method of your adapter and not in the constructor.
     async onReady(): Promise<void> {
+        // Not in constructor, but in onReady
         this.tokenWorker = new TokenRefresher(this, 'yourService');
         // Your other initialization code...
-        
+
         // Then later in code, you can get the access token like this:
-        this.tokenWorker.getAccessToken()
-            .then(accessToken => {
-                this.log.info(`Spotify OAuth2 Token Refresher is ready: ${accessToken}`);
-            })
-            .catch(error => {
-                this.log.error(`Error initializing Spotify OAuth2 Token Refresher: ${error}`);
-            });
-        
         try {
-            // Or you can await the access token directly
             const accessToken = await this.tokenWorker.getAccessToken();
             this.log.info(`Spotify OAuth2 Token Refresher is ready: ${accessToken}`);
         } catch (error) {
@@ -181,6 +173,7 @@ export class YourAdapter extends Adapter {
     }
     
     onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+        // It detects `adapterName.X.oauth2Tokens` or similar
         this.tokenWorker?.onStateChange(id, state);
         // Your other state change code...
     }

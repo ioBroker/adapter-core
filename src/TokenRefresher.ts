@@ -3,8 +3,7 @@
  *
  * Instructions: https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/OAUTH2.md
  */
-import axios from 'axios';
-
+import { request } from 'node:https';
 /**
  * Token structure
  */
@@ -48,31 +47,84 @@ export class TokenRefresher {
         this.adapter = adapter;
         this.stateName = stateName || 'oauth2Tokens';
         this.url = `https://oauth2.iobroker.in/${serviceName}`;
-        this.name = this.stateName.replace('info.', '').replace('Tokens', '').replace('tokens', '');
+        this.name = serviceName || adapter.name;
+
         if (this.name === 'oauth2') {
             this.name = adapter.name;
         }
 
-        this.readyPromise = this.adapter.getForeignStateAsync(`${adapter.namespace}.${this.stateName}`).then(state => {
-            if (state) {
-                this.accessToken = JSON.parse(state.val as string);
-                if (
-                    this.accessToken?.access_token_expires_on &&
-                    new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()
-                ) {
-                    this.adapter.log.error('Access token is expired. Please make a authorization again');
-                } else {
-                    this.adapter.log.debug(`Access token for ${this.name} found`);
-                }
-            } else {
-                this.adapter.log.error(`No tokens for ${this.name} found`);
-            }
-            this.adapter
-                .subscribeStatesAsync(this.stateName)
-                .catch(error => this.adapter.log.error(`Cannot read tokens: ${error}`));
+        this.readyPromise = this.init();
+    }
 
-            return this.refreshTokens().catch(error => this.adapter.log.error(`Cannot refresh tokens: ${error}`));
+    private httpPost(url: string, data: AccessTokens, timeout = 20_000): Promise<AccessTokens> {
+        return new Promise((resolve, reject) => {
+            const req = request(
+                url,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(JSON.stringify(data)),
+                    },
+                    timeout,
+                },
+                res => {
+                    let responseData = '';
+                    res.on('data', chunk => {
+                        responseData += chunk;
+                    });
+                    res.on('end', () => {
+                        if (res.statusCode === 200 || res.statusCode === 201) {
+                            resolve(JSON.parse(responseData));
+                        } else {
+                            reject(new Error(`HTTP ${res.statusCode}: ${responseData}`));
+                        }
+                    });
+                    res.on('error', reject);
+                },
+            );
+
+            req.on('error', error => reject(error));
+            req.write(JSON.stringify(data));
+            req.end();
         });
+    }
+
+    private async init(): Promise<void> {
+        // Check if the object for the state exists, if not create it
+        const obj = await this.adapter.getObjectAsync(this.stateName);
+        if (!obj) {
+            await this.adapter.setObjectAsync(this.stateName, {
+                type: 'state',
+                common: {
+                    name: this.stateName,
+                    type: 'string',
+                    role: 'json',
+                    read: true,
+                    write: true,
+                    def: '',
+                },
+                native: {},
+            });
+            this.adapter.log.debug(`State ${this.stateName} created for ${this.name}`);
+        }
+        const state = await this.adapter.getStateAsync(this.stateName);
+        if (state) {
+            try {
+                this.accessToken = JSON.parse(state.val as string);
+            } catch (error) {
+                this.adapter.log.error(`Cannot parse tokens: ${state.val}`);
+                this.accessToken = undefined;
+            }
+        } else {
+            this.adapter.log.error(`No tokens for ${this.name} found`);
+        }
+
+        this.adapter
+            .subscribeStatesAsync(this.stateName)
+            .catch(error => this.adapter.log.error(`Cannot read tokens: ${error}`));
+
+        return this.refreshTokens().catch(error => this.adapter.log.error(`Cannot refresh tokens: ${error}`));
     }
 
     /**
@@ -92,7 +144,7 @@ export class TokenRefresher {
      * @param state Value
      */
     onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-        if (state?.ack && id.endsWith(`.${this.stateName}`)) {
+        if (state?.ack && id === `${this.adapter.namespace}.${this.stateName}`) {
             if (JSON.stringify(this.accessToken) !== state.val) {
                 try {
                     this.accessToken = JSON.parse(state.val as string);
@@ -146,13 +198,9 @@ export class TokenRefresher {
         if (expiresIn <= 0) {
             // Refresh token
             try {
-                const response = await axios.post(this.url, this.accessToken);
-                if (response.status !== 200) {
-                    this.adapter.log.error(`Cannot refresh tokens: ${response.statusText}`);
-                    return;
-                }
-                this.accessToken = response.data;
+                this.accessToken = await this.httpPost(this.url, this.accessToken);
             } catch (error) {
+                this.accessToken = undefined;
                 this.adapter.log.error(`Cannot refresh tokens: ${error as Error}`);
             }
 
