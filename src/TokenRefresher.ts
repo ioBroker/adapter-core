@@ -113,7 +113,7 @@ export class TokenRefresher {
             try {
                 this.accessToken = JSON.parse(state.val as string);
             } catch (error) {
-                this.adapter.log.error(`Cannot parse tokens: ${state.val}`);
+                this.adapter.log.error(`Cannot parse tokens: ${state.val}: ${error.message}`);
                 this.accessToken = undefined;
             }
         } else {
