@@ -168,7 +168,7 @@ export class TokenRefresher {
             !this.accessToken.access_token_expires_on ||
             new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()
         ) {
-            this.adapter.log.error('Access token is expired. Please make a authorization again');
+            this.adapter.log.error('Access token is expired. Please authorize with your credentials via Admin interface again');
             return undefined;
         }
         return this.accessToken.access_token;
