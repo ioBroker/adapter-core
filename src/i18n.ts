@@ -90,10 +90,12 @@ export function translate(key: string, ...args: (string | number | boolean | nul
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
+    let text: string;
     if (!words[key]) {
-        return key;
+        text = key;
+    } else {
+        text = words[key][language] || words[key].en || key;
     }
-    let text = words[key][language] || words[key].en || key;
     if (args.length) {
         for (const arg of args) {
             text = text.replace('%s', arg === null ? 'null' : arg.toString());

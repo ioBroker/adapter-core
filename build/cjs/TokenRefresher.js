@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 var __export = (target, all) => {
@@ -18,21 +16,13 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var TokenRefresher_exports = {};
 __export(TokenRefresher_exports, {
   TokenRefresher: () => TokenRefresher
 });
 module.exports = __toCommonJS(TokenRefresher_exports);
-var import_axios = __toESM(require("axios"));
+var import_node_https = require("node:https");
 class TokenRefresher {
   static {
     __name(this, "TokenRefresher");
@@ -46,6 +36,7 @@ class TokenRefresher {
   name;
   /**
    * Creates an instance of TokenRefresher.
+   *
    * @param adapter Instance of ioBroker adapter
    * @param serviceName Name of the service for which the tokens are managed, e.g., 'spotify', 'dropbox', etc.
    * @param stateName Optional name of the state where tokens are stored. Defaults to 'oauth2Tokens' and that will store tokens in `ADAPTER.X.oauth2Tokens`.
@@ -54,24 +45,71 @@ class TokenRefresher {
     this.adapter = adapter;
     this.stateName = stateName || "oauth2Tokens";
     this.url = `https://oauth2.iobroker.in/${serviceName}`;
-    this.name = this.stateName.replace("info.", "").replace("Tokens", "").replace("tokens", "");
+    this.name = serviceName || adapter.name;
     if (this.name === "oauth2") {
       this.name = adapter.name;
     }
-    this.readyPromise = this.adapter.getForeignStateAsync(`${adapter.namespace}.${this.stateName}`).then((state) => {
-      if (state) {
-        this.accessToken = JSON.parse(state.val);
-        if (this.accessToken?.access_token_expires_on && new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()) {
-          this.adapter.log.error("Access token is expired. Please make a authorization again");
-        } else {
-          this.adapter.log.debug(`Access token for ${this.name} found`);
-        }
-      } else {
-        this.adapter.log.error(`No tokens for ${this.name} found`);
-      }
-      this.adapter.subscribeStatesAsync(this.stateName).catch((error) => this.adapter.log.error(`Cannot read tokens: ${error}`));
-      return this.refreshTokens().catch((error) => this.adapter.log.error(`Cannot refresh tokens: ${error}`));
+    this.readyPromise = this.init();
+  }
+  httpPost(url, data, timeout = 2e4) {
+    return new Promise((resolve, reject) => {
+      const req = (0, import_node_https.request)(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(JSON.stringify(data))
+        },
+        timeout
+      }, (res) => {
+        let responseData = "";
+        res.on("data", (chunk) => {
+          responseData += chunk;
+        });
+        res.on("end", () => {
+          if (res.statusCode === 200 || res.statusCode === 201) {
+            resolve(JSON.parse(responseData));
+          } else {
+            reject(new Error(`HTTP ${res.statusCode}: ${responseData}`));
+          }
+        });
+        res.on("error", reject);
+      });
+      req.on("error", (error) => reject(error));
+      req.write(JSON.stringify(data));
+      req.end();
     });
+  }
+  async init() {
+    const obj = await this.adapter.getObjectAsync(this.stateName);
+    if (!obj) {
+      await this.adapter.setObjectAsync(this.stateName, {
+        type: "state",
+        common: {
+          name: this.stateName,
+          expert: true,
+          type: "string",
+          role: "json",
+          read: true,
+          write: true,
+          def: ""
+        },
+        native: {}
+      });
+      this.adapter.log.debug(`State ${this.stateName} created for ${this.name}`);
+    }
+    const state = await this.adapter.getStateAsync(this.stateName);
+    if (state) {
+      try {
+        this.accessToken = JSON.parse(state.val);
+      } catch (error) {
+        this.adapter.log.error(`Cannot parse tokens: ${state.val}: ${error.message}`);
+        this.accessToken = void 0;
+      }
+    } else {
+      this.adapter.log.error(`No tokens for ${this.name} found`);
+    }
+    this.adapter.subscribeStatesAsync(this.stateName).catch((error) => this.adapter.log.error(`Cannot read tokens: ${error}`));
+    return this.refreshTokens().catch((error) => this.adapter.log.error(`Cannot refresh tokens: ${error}`));
   }
   /**
    * Destroys the TokenRefresher instance, clearing any timeouts and stopping state subscriptions.
@@ -82,13 +120,14 @@ class TokenRefresher {
       this.refreshTokenTimeout = void 0;
     }
   }
-  /** This method is called when the state changes for the token.
+  /**
+   * This method is called when the state changes for the token.
    *
    * @param id ID of the state that changed
    * @param state Value
    */
   onStateChange(id, state) {
-    if (state?.ack && id.endsWith(`.${this.stateName}`)) {
+    if (state?.ack && id === `${this.adapter.namespace}.${this.stateName}`) {
       if (JSON.stringify(this.accessToken) !== state.val) {
         try {
           this.accessToken = JSON.parse(state.val);
@@ -108,7 +147,7 @@ class TokenRefresher {
       return void 0;
     }
     if (!this.accessToken.access_token_expires_on || new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()) {
-      this.adapter.log.error("Access token is expired. Please make a authorization again");
+      this.adapter.log.error("Access token is expired. Please authorize with your credentials via Admin interface again");
       return void 0;
     }
     return this.accessToken.access_token;
@@ -119,7 +158,7 @@ class TokenRefresher {
       this.refreshTokenTimeout = void 0;
     }
     if (!this.accessToken?.refresh_token) {
-      this.adapter.log.error(`No tokens for ${this.name} found`);
+      this.adapter.log.error(`No tokens for ${this.name} found. Please authorize anew with your credentials via Admin interface.`);
       return;
     }
     if (!this.accessToken.access_token_expires_on || new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()) {
@@ -128,13 +167,9 @@ class TokenRefresher {
     let expiresIn = new Date(this.accessToken.access_token_expires_on).getTime() - Date.now() - 18e4;
     if (expiresIn <= 0) {
       try {
-        const response = await import_axios.default.post(this.url, this.accessToken);
-        if (response.status !== 200) {
-          this.adapter.log.error(`Cannot refresh tokens: ${response.statusText}`);
-          return;
-        }
-        this.accessToken = response.data;
+        this.accessToken = await this.httpPost(this.url, this.accessToken);
       } catch (error) {
+        this.accessToken = void 0;
         this.adapter.log.error(`Cannot refresh tokens: ${error}`);
       }
       if (this.accessToken) {

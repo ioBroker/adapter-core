@@ -98,6 +98,7 @@ export class TokenRefresher {
                 type: 'state',
                 common: {
                     name: this.stateName,
+                    expert: true,
                     type: 'string',
                     role: 'json',
                     read: true,
@@ -113,7 +114,7 @@ export class TokenRefresher {
             try {
                 this.accessToken = JSON.parse(state.val as string);
             } catch (error) {
-                this.adapter.log.error(`Cannot parse tokens: ${state.val}: ${error.message}`);
+                this.adapter.log.error(`Cannot parse tokens: ${state.val}: ${(error as Error).message}`);
                 this.accessToken = undefined;
             }
         } else {
@@ -181,7 +182,7 @@ export class TokenRefresher {
         }
 
         if (!this.accessToken?.refresh_token) {
-            this.adapter.log.error(`No tokens for ${this.name} found`);
+            this.adapter.log.error(`No tokens for ${this.name} found. Please authorize anew with your credentials via Admin interface.`);
             return;
         }
 

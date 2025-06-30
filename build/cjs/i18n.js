@@ -21,6 +21,7 @@ var i18n_exports = {};
 __export(i18n_exports, {
   getTranslatedObject: () => getTranslatedObject,
   init: () => init,
+  t: () => t,
   translate: () => translate
 });
 module.exports = __toCommonJS(i18n_exports);
@@ -92,10 +93,12 @@ function translate(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
+  let text;
   if (!words[key]) {
-    return key;
+    text = key;
+  } else {
+    text = words[key][language] || words[key].en || key;
   }
-  let text = words[key][language] || words[key].en || key;
   if (args.length) {
     for (const arg of args) {
       text = text.replace("%s", arg === null ? "null" : arg.toString());
@@ -104,6 +107,7 @@ function translate(key, ...args) {
   return text;
 }
 __name(translate, "translate");
+const t = translate;
 function getTranslatedObject(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
@@ -130,6 +134,7 @@ __name(getTranslatedObject, "getTranslatedObject");
 0 && (module.exports = {
   getTranslatedObject,
   init,
+  t,
   translate
 });
 //# sourceMappingURL=i18n.js.map

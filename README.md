@@ -100,6 +100,10 @@ and then in code
 
 ```javascript
 console.log(I18n.translate('text to translate %s', 'argument1'));
+
+// Or you can use short form
+console.log(I18n.t('text to translate %s', 'argument1'));
+
 // or to get the ioBroker.Translated object
 console.log(JSON.stringify(I18n.getTranslatedObject('text to translate %s and %s', 'argument1', 'argument2')));
 ```
