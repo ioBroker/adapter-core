@@ -28,6 +28,8 @@ export declare class TokenRefresher {
     private readonly url;
     private readonly readyPromise;
     private readonly name;
+    /** Threshold in milliseconds before the access token expires to trigger a refresh */
+    static TOKEN_REFRESH_THRESHOLD_MS: number;
     /**
      * Creates an instance of TokenRefresher.
      *

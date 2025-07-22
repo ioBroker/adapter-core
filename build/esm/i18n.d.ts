@@ -21,3 +21,10 @@ export declare const t: typeof translate;
  * @param args Optional parameters to replace %s
  */
 export declare function getTranslatedObject(key: string, ...args: (string | number | boolean | null)[]): ioBroker.Translated;
+declare const _default: {
+    init: typeof init;
+    translate: typeof translate;
+    getTranslatedObject: typeof getTranslatedObject;
+    t: typeof translate;
+};
+export default _default;

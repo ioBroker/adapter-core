@@ -34,6 +34,9 @@ class TokenRefresher {
   url;
   readyPromise;
   name;
+  /** Threshold in milliseconds before the access token expires to trigger a refresh */
+  static TOKEN_REFRESH_THRESHOLD_MS = 18e4;
+  // 3 minutes in milliseconds
   /**
    * Creates an instance of TokenRefresher.
    *
@@ -164,7 +167,7 @@ class TokenRefresher {
     if (!this.accessToken.access_token_expires_on || new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()) {
       this.adapter.log.debug("Access token is expired. Retrying to refresh tokens...");
     }
-    let expiresIn = new Date(this.accessToken.access_token_expires_on).getTime() - Date.now() - 18e4;
+    let expiresIn = new Date(this.accessToken.access_token_expires_on).getTime() - Date.now() - TokenRefresher.TOKEN_REFRESH_THRESHOLD_MS;
     if (expiresIn <= 0) {
       try {
         this.accessToken = await this.httpPost(this.url, this.accessToken);

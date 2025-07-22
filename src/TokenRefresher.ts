@@ -36,6 +36,9 @@ export class TokenRefresher {
     private readonly readyPromise: Promise<void>;
     private readonly name: string;
 
+    /** Threshold in milliseconds before the access token expires to trigger a refresh */
+    static TOKEN_REFRESH_THRESHOLD_MS = 180_000; // 3 minutes in milliseconds
+
     /**
      * Creates an instance of TokenRefresher.
      *
@@ -169,7 +172,9 @@ export class TokenRefresher {
             !this.accessToken.access_token_expires_on ||
             new Date(this.accessToken.access_token_expires_on).getTime() < Date.now()
         ) {
-            this.adapter.log.error('Access token is expired. Please authorize with your credentials via Admin interface again');
+            this.adapter.log.error(
+                'Access token is expired. Please authorize with your credentials via Admin interface again',
+            );
             return undefined;
         }
         return this.accessToken.access_token;
@@ -182,7 +187,9 @@ export class TokenRefresher {
         }
 
         if (!this.accessToken?.refresh_token) {
-            this.adapter.log.error(`No tokens for ${this.name} found. Please authorize anew with your credentials via Admin interface.`);
+            this.adapter.log.error(
+                `No tokens for ${this.name} found. Please authorize anew with your credentials via Admin interface.`,
+            );
             return;
         }
 
@@ -193,7 +200,10 @@ export class TokenRefresher {
             this.adapter.log.debug('Access token is expired. Retrying to refresh tokens...');
         }
 
-        let expiresIn = new Date(this.accessToken.access_token_expires_on).getTime() - Date.now() - TokenRefresher.TOKEN_REFRESH_THRESHOLD_MS;
+        let expiresIn =
+            new Date(this.accessToken.access_token_expires_on).getTime() -
+            Date.now() -
+            TokenRefresher.TOKEN_REFRESH_THRESHOLD_MS;
 
         // If expiration is in less than 3 minutes, refresh the token
         if (expiresIn <= 0) {

@@ -19,6 +19,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var i18n_exports = {};
 __export(i18n_exports, {
+  default: () => i18n_default,
   getTranslatedObject: () => getTranslatedObject,
   init: () => init,
   t: () => t,
@@ -130,6 +131,12 @@ function getTranslatedObject(key, ...args) {
   };
 }
 __name(getTranslatedObject, "getTranslatedObject");
+var i18n_default = {
+  init,
+  translate,
+  getTranslatedObject,
+  t
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   getTranslatedObject,

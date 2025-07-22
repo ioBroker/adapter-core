@@ -25,6 +25,7 @@ export async function init(rootDir, languageOrAdapter) {
         files = readdirSync(join(rootDir, 'i18n'));
     }
     else if (existsSync(join(rootDir, 'lib', 'i18n'))) {
+        // if iobroker.adapter folder and in it exists lib/i18n
         rootDir = join(rootDir, 'lib');
         files = readdirSync(join(rootDir, 'i18n'));
     }
@@ -125,3 +126,9 @@ export function getTranslatedObject(key, ...args) {
         en: key,
     };
 }
+export default {
+    init,
+    translate,
+    getTranslatedObject,
+    t,
+};
