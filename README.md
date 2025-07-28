@@ -81,7 +81,7 @@ Note that `commonTools.letsEncrypt` is not available anymore as the next control
 
 ## I18n
 
-Developer can use internationalisation in backend.
+Developers can use internationalisation in backend.
 
 For that call
 
@@ -100,6 +100,10 @@ and then in code
 
 ```javascript
 console.log(I18n.translate('text to translate %s', 'argument1'));
+
+// Or you can use short form
+console.log(I18n.t('text to translate %s', 'argument1'));
+
 // or to get the ioBroker.Translated object
 console.log(JSON.stringify(I18n.getTranslatedObject('text to translate %s and %s', 'argument1', 'argument2')));
 ```
@@ -148,6 +152,49 @@ ioBroker has the ability to include files written by adapters in its backups. To
 
 This path is relative to the path returned by `getAbsoluteDefaultDataDir()`. The placeholder `%INSTANCE%` is automatically replaced by the instance number of each adapter, for example `"dataFolder": "my-adapter.%INSTANCE%"`.
 
+## OAuth2 token refresher
+To keep the OAuth2 access token up to date, you can use the `TokenRefresher` class and do not forget to include `axios` in your adapter dependencies (in `package.json`).
+
+```Typescript
+import { TokenRefresher } from '@iobroker/adapter-core';
+
+export class YourAdapter extends Adapter {
+    private tokenWorker?: TokenRefresher;
+
+    // It is important to call this method in the `onReady` method of your adapter and not in the constructor.
+    async onReady(): Promise<void> {
+        // Not in constructor, but in onReady
+        this.tokenWorker = new TokenRefresher(this, 'yourService');
+        // Your other initialization code...
+
+        // Then later in code, you can get the access token like this:
+        try {
+            const accessToken = await this.tokenWorker.getAccessToken();
+            this.log.info(`Spotify OAuth2 Token Refresher is ready: ${accessToken}`);
+        } catch (error) {
+            this.log.error(`Error initializing Spotify OAuth2 Token Refresher: ${error}`);
+        }
+    }
+    
+    onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+        // It detects `adapterName.X.oauth2Tokens` or similar
+        this.tokenWorker?.onStateChange(id, state);
+        // Your other state change code...
+    }
+    
+    onUnload(callback: () => void): void {
+        this.tokenWorker?.destroy();
+        // Your other unload code...
+        callback();
+    }
+}
+```
+
+Important to use OAuth2 infrastructure in your adapter [contact](mailto:info@iobroker.net) the ioBroker team so we can implement a cloud code for https://oauth2.iobroker.in/YOUR_SERVICE_NAME.
+This will allow you to use the OAuth2 infrastructure in your adapter without having to implement it yourself.
+
+Here is a description of how to implement OAuth2 in your adapter: https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/OAUTH2.md
+
 ## Tips while working on this module
 
 -   `npm run build` creates a clean rebuild of the module. This is done automatically before every build;
@@ -164,6 +211,10 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- (@GermanBluefox) Added the token refresher class
+
 ### 3.2.3 (2024-12-04)
 
 - (@foxriver76) loosen `@iobroker/types` peer dependency

@@ -3,6 +3,7 @@ var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -22,17 +23,17 @@ __export(helpers_exports, {
   tryResolvePackage: () => tryResolvePackage
 });
 module.exports = __toCommonJS(helpers_exports);
+var __import_meta_url = typeof document === "undefined" ? new (require("url".replace("", ""))).URL("file:" + __filename).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
 var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_node_url = require("node:url");
-const import_meta = {};
-const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
-const thisDir = (0, import_node_url.fileURLToPath)(new URL(".", import_meta.url || `file://${__filename}`));
+const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
+const thisDir = (0, import_node_url.fileURLToPath)(new URL(".", __import_meta_url || `file://${__filename}`));
 function tryResolvePackage(possiblePaths, lookupPaths) {
   for (const pkg of possiblePaths) {
     try {
-      const possiblePath = require2.resolve(`${pkg}/package.json`, (lookupPaths == null ? void 0 : lookupPaths.length) ? { paths: lookupPaths } : void 0);
+      const possiblePath = require2.resolve(`${pkg}/package.json`, lookupPaths?.length ? { paths: lookupPaths } : void 0);
       if ((0, import_node_fs.existsSync)(possiblePath)) {
         return (0, import_node_path.dirname)(possiblePath);
       }
@@ -40,6 +41,7 @@ function tryResolvePackage(possiblePaths, lookupPaths) {
     }
   }
 }
+__name(tryResolvePackage, "tryResolvePackage");
 function scanForPackage(possiblePaths, startDir = thisDir) {
   let curDir = (0, import_node_path.join)(startDir, "../node_modules");
   while (true) {
@@ -59,6 +61,7 @@ function scanForPackage(possiblePaths, startDir = thisDir) {
     curDir = parentDir;
   }
 }
+__name(scanForPackage, "scanForPackage");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   scanForPackage,

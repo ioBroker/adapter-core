@@ -25,6 +25,7 @@ export async function init(rootDir, languageOrAdapter) {
         files = readdirSync(join(rootDir, 'i18n'));
     }
     else if (existsSync(join(rootDir, 'lib', 'i18n'))) {
+        // if iobroker.adapter folder and in it exists lib/i18n
         rootDir = join(rootDir, 'lib');
         files = readdirSync(join(rootDir, 'i18n'));
     }
@@ -82,10 +83,13 @@ export function translate(key, ...args) {
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
+    let text;
     if (!words[key]) {
-        return key;
+        text = key;
     }
-    let text = words[key][language] || words[key].en || key;
+    else {
+        text = words[key][language] || words[key].en || key;
+    }
     if (args.length) {
         for (const arg of args) {
             text = text.replace('%s', arg === null ? 'null' : arg.toString());
@@ -93,6 +97,8 @@ export function translate(key, ...args) {
     }
     return text;
 }
+/** Alias shortcut for translate function */
+export const t = translate;
 /**
  * Get translation as ioBroker.Translated object
  *
@@ -120,3 +126,9 @@ export function getTranslatedObject(key, ...args) {
         en: key,
     };
 }
+export default {
+    init,
+    translate,
+    getTranslatedObject,
+    t,
+};
