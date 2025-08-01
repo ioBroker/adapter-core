@@ -353,7 +353,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ## MIT License
 
-Copyright (c) 2018-2024 AlCalzone
+Copyright (c) 2018-2025 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
