@@ -211,6 +211,10 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- (@GermanBluefox) Changed getAbsoluteInstanceDataDir to accept the namespace as argument
+
 ### 3.3.0 (2025-08-01)
 
 - (@GermanBluefox) Added the token refresher class
