@@ -50,8 +50,8 @@ function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
 __name(getAbsoluteDefaultDataDir, "getAbsoluteDefaultDataDir");
-function getAbsoluteInstanceDataDir(adapterObject) {
-  return (0, import_node_path.join)(getAbsoluteDefaultDataDir(), adapterObject.namespace);
+function getAbsoluteInstanceDataDir(adapterObjectOrNamespace) {
+  return (0, import_node_path.join)(getAbsoluteDefaultDataDir(), typeof adapterObjectOrNamespace === "string" ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace);
 }
 __name(getAbsoluteInstanceDataDir, "getAbsoluteInstanceDataDir");
 const EXIT_CODES = Object.freeze({

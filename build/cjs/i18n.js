@@ -48,7 +48,7 @@ async function init(rootDir, languageOrAdapter) {
     rootDir = (0, import_node_path.join)(rootDir, "lib");
     files = (0, import_node_fs.readdirSync)((0, import_node_path.join)(rootDir, "i18n"));
   } else {
-    throw new Error("Cannot find i18n directory");
+    throw new Error(`Cannot find i18n directory in "${(0, import_node_path.join)(rootDir, "i18n")}", "${(0, import_node_path.join)(rootDir, "lib", "i18n")}"`);
   }
   words = {};
   let count = 0;

@@ -17,10 +17,10 @@ export function getAbsoluteDefaultDataDir() {
  * Returns the absolute path of the data directory for the current adapter instance.
  * On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
  *
- * @param adapterObject The adapter instance
+ * @param adapterObjectOrNamespace The adapter instance or namespace string (e.g. "myAdapter.0").
  */
-export function getAbsoluteInstanceDataDir(adapterObject) {
-    return join(getAbsoluteDefaultDataDir(), adapterObject.namespace);
+export function getAbsoluteInstanceDataDir(adapterObjectOrNamespace) {
+    return join(getAbsoluteDefaultDataDir(), typeof adapterObjectOrNamespace === 'string' ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace);
 }
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
 export const EXIT_CODES = Object.freeze({
