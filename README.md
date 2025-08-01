@@ -211,7 +211,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.3.1 (2025-08-01)
 
 - (@GermanBluefox) Changed getAbsoluteInstanceDataDir to accept the namespace as argument
 
