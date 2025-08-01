@@ -26,7 +26,7 @@ export function getAbsoluteDefaultDataDir(): string {
 export function getAbsoluteInstanceDataDir(adapterObjectOrNamespace: ioBroker.Adapter | string): string {
     return join(
         getAbsoluteDefaultDataDir(),
-        typeof adapterObjectOrNamespace === 'object' ? adapterObjectOrNamespace.namespace : adapterObjectOrNamespace,
+        typeof adapterObjectOrNamespace === 'string' ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace,
     );
 }
 

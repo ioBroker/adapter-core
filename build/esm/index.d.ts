@@ -12,7 +12,7 @@ export declare function getAbsoluteDefaultDataDir(): string;
  * Returns the absolute path of the data directory for the current adapter instance.
  * On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
  *
- * @param adapterObject The adapter instance
+ * @param adapterObjectOrNamespace The adapter instance or namespace string (e.g. "myAdapter.0").
  */
-export declare function getAbsoluteInstanceDataDir(adapterObject: ioBroker.Adapter): string;
+export declare function getAbsoluteInstanceDataDir(adapterObjectOrNamespace: ioBroker.Adapter | string): string;
 export declare const EXIT_CODES: ExitCodes;
