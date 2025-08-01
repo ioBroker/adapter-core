@@ -30,7 +30,7 @@ export async function init(rootDir: string, languageOrAdapter: ioBroker.Adapter 
         rootDir = join(rootDir, 'lib');
         files = readdirSync(join(rootDir, 'i18n'));
     } else {
-        throw new Error('Cannot find i18n directory');
+        throw new Error(`Cannot find i18n directory in "${join(rootDir, 'i18n')}", "${join(rootDir, 'lib', 'i18n')}"`);
     }
 
     words = {};
