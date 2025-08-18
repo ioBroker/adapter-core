@@ -211,7 +211,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### __WORK IN PROGRESS__
+### 3.3.2 (2025-08-18)
 
 - (@jogibear9988) Fixed ESM export of TokenRefresher
 
