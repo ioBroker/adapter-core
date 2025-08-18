@@ -45,7 +45,7 @@ var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(index_exports, require("./utils.js"), module.exports);
 var I18n = __toESM(require("./i18n.js"));
-var TokenRefresher = __toESM(require("./TokenRefresher"));
+var TokenRefresher = __toESM(require("./TokenRefresher.js"));
 function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
