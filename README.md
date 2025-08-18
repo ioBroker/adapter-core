@@ -213,7 +213,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 -->
 ### __WORK IN PROGRESS__
 
-- (@jogibear9988) Fixed ESM export opf TokenRefresher
+- (@jogibear9988) Fixed ESM export of TokenRefresher
 
 ### 3.3.1 (2025-08-01)
 
