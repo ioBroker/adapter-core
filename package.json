@@ -58,19 +58,19 @@
   "homepage": "https://github.com/ioBroker/adapter-core#readme",
   "devDependencies": {
     "@alcalzone/esm2cjs": "^1.4.1",
-    "@alcalzone/release-script": "~3.8.0",
-    "@alcalzone/release-script-plugin-license": "~3.7.0",
+    "@alcalzone/release-script": "^3.8.0",
+    "@alcalzone/release-script-plugin-license": "^3.7.0",
     "@iobroker/eslint-config": "^2.0.2",
     "@types/chai": "^4.3.20",
     "@types/chai-as-promised": "^7.1.8",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.0.7",
+    "@types/node": "^24.3.0",
     "@types/proxyquire": "^1.3.31",
     "@types/sinon": "^17.0.4",
     "@types/sinon-chai": "^3.2.12",
     "chai": "^4.5.0",
     "chai-as-promised": "^7.1.2",
-    "cpy-cli": "^5.0.0",
+    "cpy-cli": "^6.0.0",
     "mocha": "^11.7.1",
     "prettier": "^3.6.2",
     "proxyquire": "^2.1.3",
@@ -79,7 +79,7 @@
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "@iobroker/types": ">=6.0.11"
