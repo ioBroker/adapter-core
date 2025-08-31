@@ -8,6 +8,7 @@ import '@iobroker/types';
 export { commonTools } from './controllerTools.js';
 export * from './utils.js';
 export * as I18n from './i18n.js';
+export * as TokenRefresher from './TokenRefresher.js';
 
 /**
  * Returns the absolute path of the data directory for the current host. On linux, this is usually `/opt/iobroker/iobroker-data`.
@@ -20,10 +21,13 @@ export function getAbsoluteDefaultDataDir(): string {
  * Returns the absolute path of the data directory for the current adapter instance.
  * On linux, this is usually `/opt/iobroker/iobroker-data/<adapterName>.<instanceNr>`
  *
- * @param adapterObject The adapter instance
+ * @param adapterObjectOrNamespace The adapter instance or namespace string (e.g. "myAdapter.0").
  */
-export function getAbsoluteInstanceDataDir(adapterObject: ioBroker.Adapter): string {
-    return join(getAbsoluteDefaultDataDir(), adapterObject.namespace);
+export function getAbsoluteInstanceDataDir(adapterObjectOrNamespace: ioBroker.Adapter | string): string {
+    return join(
+        getAbsoluteDefaultDataDir(),
+        typeof adapterObjectOrNamespace === 'string' ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace,
+    );
 }
 
 // TODO: Expose some system utilities here, e.g. for installing npm modules (GH#1)
