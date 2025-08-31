@@ -21,6 +21,32 @@ concurrency:
 
 jobs:
   # Runs unit tests on all supported node versions and OSes
+  lint:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+  # Runs unit tests on all supported node versions and OSes
   unit-tests:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
 
@@ -43,9 +69,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint code
-        run: npm run lint
-
       - name: Compile TypeScript code
         run: npm run build
 
@@ -57,7 +80,7 @@ jobs:
     if: |
       always() &&
       github.event_name == 'pull_request'
-    needs: [ unit-tests ]
+    needs: [ lint, unit-tests ]
     runs-on: ubuntu-latest
     steps:
       - id: automerge
