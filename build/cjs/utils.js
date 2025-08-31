@@ -3,6 +3,7 @@ var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -24,13 +25,12 @@ __export(utils_exports, {
   getConfig: () => getConfig
 });
 module.exports = __toCommonJS(utils_exports);
+var __import_meta_url = typeof document === "undefined" ? new (require("url".replace("", ""))).URL("file:" + __filename).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
 var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
-const import_meta = {};
-var _a;
-const require2 = (0, import_node_module.createRequire)(import_meta.url || `file://${__filename}`);
+const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
 function getControllerDir(isInstall) {
   const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
   let controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
@@ -47,7 +47,8 @@ function getControllerDir(isInstall) {
   }
   return process.exit();
 }
-const controllerDir = getControllerDir(!!((_a = process == null ? void 0 : process.argv) == null ? void 0 : _a.includes("--install")));
+__name(getControllerDir, "getControllerDir");
+const controllerDir = getControllerDir(!!process?.argv?.includes("--install"));
 function resolveAdapterConstructor() {
   let adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
   if (adapterPath) {
@@ -95,9 +96,11 @@ function resolveAdapterConstructor() {
   }
   throw new Error("Cannot resolve adapter class");
 }
+__name(resolveAdapterConstructor, "resolveAdapterConstructor");
 function getConfig() {
   return JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(controllerDir, "conf/iobroker.json"), "utf8"));
 }
+__name(getConfig, "getConfig");
 const adapter = resolveAdapterConstructor();
 const Adapter = adapter;
 // Annotate the CommonJS export names for ESM import in node:
