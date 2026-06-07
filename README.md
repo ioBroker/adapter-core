@@ -252,10 +252,6 @@ Further helpers:
 - `Credentials.getCredentialForm(values)` - detects if a credential has the `login` or the `key` form
 - `Credentials.CREDENTIALS_PREFIX`, `Credentials.CREDENTIAL_FORMS` - constants of the storage format
 
-`js-controller` 7.2+ also provides this natively: check `adapter.supportsFeature('ADAPTER_CREDENTIALS')` and use
-`adapter.getCredentials(id)` / `adapter.listCredentials(type?)` directly. The helpers in this module work with any
-controller version.
-
 ## Tips while working on this module
 
 -   `npm run build` creates a clean rebuild of the module. This is done automatically before every build;

@@ -39,14 +39,14 @@ var __import_meta_url = typeof document === "undefined" ? new (require("url".rep
 var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
-var utils = __toESM(require("./utils.js"));
-const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
+var utils = __toESM(require("./utils.js"), 1);
+const requireFile = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
 let controllerCommonModulesInternal;
 function resolveControllerTools() {
   let importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"]);
   if (importPath) {
     try {
-      controllerCommonModulesInternal = require2(importPath);
+      controllerCommonModulesInternal = requireFile(importPath);
       const { tools } = controllerCommonModulesInternal;
       if (tools) {
         return tools;
@@ -57,7 +57,7 @@ function resolveControllerTools() {
   importPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-common"], [(0, import_node_path.join)(utils.controllerDir, "node_modules")]);
   if (importPath) {
     try {
-      controllerCommonModulesInternal = require2(importPath);
+      controllerCommonModulesInternal = requireFile(importPath);
       const { tools } = controllerCommonModulesInternal;
       if (tools) {
         return tools;
@@ -67,7 +67,7 @@ function resolveControllerTools() {
   }
   importPath = (0, import_node_path.join)(utils.controllerDir, "lib");
   try {
-    const tools = require2((0, import_node_path.join)(importPath, "tools"));
+    const tools = requireFile((0, import_node_path.join)(importPath, "tools"));
     if (tools) {
       return tools;
     }
@@ -91,7 +91,7 @@ function resolveNamedModule(name, exportName = name) {
   ];
   for (const importPath of importPaths) {
     try {
-      const module2 = require2(importPath);
+      const module2 = requireFile(importPath);
       if (module2) {
         return module2;
       }

@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
 import * as utils from './utils.js';
 
-const require = createRequire(import.meta.url || `file://${__filename}`);
+const requireFile = createRequire(import.meta.url || `file://${__filename}`);
 
 export let controllerCommonModulesInternal: any;
 
@@ -12,7 +12,7 @@ function resolveControllerTools(): any {
     let importPath = tryResolvePackage(['@iobroker/js-controller-common']);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
+            controllerCommonModulesInternal = requireFile(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -26,7 +26,7 @@ function resolveControllerTools(): any {
     importPath = tryResolvePackage(['@iobroker/js-controller-common'], [join(utils.controllerDir, 'node_modules')]);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
+            controllerCommonModulesInternal = requireFile(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -40,7 +40,7 @@ function resolveControllerTools(): any {
     importPath = join(utils.controllerDir, 'lib');
     try {
         // This was a default export prior to the TS migration
-        const tools = require(join(importPath, 'tools'));
+        const tools = requireFile(join(importPath, 'tools'));
         if (tools) {
             return tools;
         }
@@ -83,7 +83,7 @@ export function resolveNamedModule(name: string, exportName: string = name): any
     for (const importPath of importPaths) {
         try {
             // This was a default export prior to the TS migration
-            const module = require(importPath);
+            const module = requireFile(importPath);
             if (module) {
                 return module;
             }

@@ -2,14 +2,14 @@ import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
 import * as utils from './utils.js';
-const require = createRequire(import.meta.url || `file://${__filename}`);
+const requireFile = createRequire(import.meta.url || `file://${__filename}`);
 export let controllerCommonModulesInternal;
 function resolveControllerTools() {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
     let importPath = tryResolvePackage(['@iobroker/js-controller-common']);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
+            controllerCommonModulesInternal = requireFile(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -23,7 +23,7 @@ function resolveControllerTools() {
     importPath = tryResolvePackage(['@iobroker/js-controller-common'], [join(utils.controllerDir, 'node_modules')]);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
+            controllerCommonModulesInternal = requireFile(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -37,7 +37,7 @@ function resolveControllerTools() {
     importPath = join(utils.controllerDir, 'lib');
     try {
         // This was a default export prior to the TS migration
-        const tools = require(join(importPath, 'tools'));
+        const tools = requireFile(join(importPath, 'tools'));
         if (tools) {
             return tools;
         }
@@ -52,7 +52,7 @@ function resolveControllerTools() {
 export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilities in controllerTools
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
@@ -74,7 +74,7 @@ export function resolveNamedModule(name, exportName = name) {
     for (const importPath of importPaths) {
         try {
             // This was a default export prior to the TS migration
-            const module = require(importPath);
+            const module = requireFile(importPath);
             if (module) {
                 return module;
             }

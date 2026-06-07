@@ -41,13 +41,13 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 var import_node_path = require("node:path");
 var import_controllerTools = require("./controllerTools.js");
-var utils = __toESM(require("./utils.js"));
+var utils = __toESM(require("./utils.js"), 1);
 var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(index_exports, require("./utils.js"), module.exports);
-var I18n = __toESM(require("./i18n.js"));
-var TokenRefresher = __toESM(require("./TokenRefresher.js"));
-var Credentials = __toESM(require("./credentials.js"));
+var I18n = __toESM(require("./i18n.js"), 1);
+var TokenRefresher = __toESM(require("./TokenRefresher.js"), 1);
+var Credentials = __toESM(require("./credentials.js"), 1);
 function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
