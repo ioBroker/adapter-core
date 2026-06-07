@@ -1,3 +1,5 @@
+import type {} from '@iobroker/types';
+
 /**
  * Central credential storage for ioBroker.
  *
