@@ -30,6 +30,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var index_exports = {};
 __export(index_exports, {
+  Credentials: () => Credentials,
   EXIT_CODES: () => EXIT_CODES,
   I18n: () => I18n,
   TokenRefresher: () => TokenRefresher,
@@ -46,6 +47,7 @@ var import_controllerTools2 = require("./controllerTools.js");
 __reExport(index_exports, require("./utils.js"), module.exports);
 var I18n = __toESM(require("./i18n.js"));
 var TokenRefresher = __toESM(require("./TokenRefresher.js"));
+var Credentials = __toESM(require("./credentials.js"));
 function getAbsoluteDefaultDataDir() {
   return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
 }
@@ -60,6 +62,7 @@ const EXIT_CODES = Object.freeze({
 });
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Credentials,
   EXIT_CODES,
   I18n,
   TokenRefresher,

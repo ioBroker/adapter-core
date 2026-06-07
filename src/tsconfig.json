@@ -3,7 +3,8 @@
     // Modified config to only compile .ts-files in the src dir
     "compilerOptions": {
         "noEmit": false,
-        "declaration": true
+        "declaration": true,
+        "ignoreDeprecations": "6.0"
     },
     "include": ["./**/*.ts"],
     "exclude": ["./**/*.test.ts"]

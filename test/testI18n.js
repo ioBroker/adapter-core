@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const assert = require('node:assert/strict');
 
 let initPromise;
 let I18n;
@@ -11,14 +11,14 @@ describe('i18n', function () {
     });
     it('translate', function (done) {
         initPromise.then(() => {
-            expect(I18n.translate('Table')).to.be.equal('Tisch');
+            assert.strictEqual(I18n.translate('Table'), 'Tisch');
             done();
         });
     });
     it('getTranslatedObject', function (done) {
         const text = I18n.getTranslatedObject('Chair');
-        expect(Object.keys(text).length).to.be.equal(11);
-        expect(text.ru).to.be.equal('Стул');
+        assert.strictEqual(Object.keys(text).length, 11);
+        assert.strictEqual(text.ru, 'Стул');
         done();
     });
 });

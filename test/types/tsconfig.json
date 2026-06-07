@@ -11,6 +11,7 @@
         "noEmit": true,
         "target": "es6",
         "moduleResolution": "node",
+        "ignoreDeprecations": "6.0",
         "skipLibCheck": true,
         "strict": true
     }
