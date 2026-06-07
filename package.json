@@ -3,7 +3,7 @@
     "version": "3.3.2",
     "description": "Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.",
     "engines": {
-        "node": ">=16"
+        "node": ">=20"
     },
     "author": {
         "name": "AlCalzone",
