@@ -1,5 +1,11 @@
-import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.t = void 0;
+exports.init = init;
+exports.translate = translate;
+exports.getTranslatedObject = getTranslatedObject;
+const node_fs_1 = require("node:fs");
+const node_path_1 = require("node:path");
 let language = 'en';
 let words = null;
 /**
@@ -8,7 +14,7 @@ let words = null;
  * @param rootDir The path, where i18n directory is located
  * @param languageOrAdapter The adapter instance or the language to use
  */
-export async function init(rootDir, languageOrAdapter) {
+async function init(rootDir, languageOrAdapter) {
     let adapter;
     if (languageOrAdapter && typeof languageOrAdapter === 'object') {
         adapter = languageOrAdapter;
@@ -21,16 +27,16 @@ export async function init(rootDir, languageOrAdapter) {
         language = languageOrAdapter;
     }
     let files;
-    if (existsSync(join(rootDir, 'i18n'))) {
-        files = readdirSync(join(rootDir, 'i18n'));
+    if ((0, node_fs_1.existsSync)((0, node_path_1.join)(rootDir, 'i18n'))) {
+        files = (0, node_fs_1.readdirSync)((0, node_path_1.join)(rootDir, 'i18n'));
     }
-    else if (existsSync(join(rootDir, 'lib', 'i18n'))) {
+    else if ((0, node_fs_1.existsSync)((0, node_path_1.join)(rootDir, 'lib', 'i18n'))) {
         // if iobroker.adapter folder and in it exists lib/i18n
-        rootDir = join(rootDir, 'lib');
-        files = readdirSync(join(rootDir, 'i18n'));
+        rootDir = (0, node_path_1.join)(rootDir, 'lib');
+        files = (0, node_fs_1.readdirSync)((0, node_path_1.join)(rootDir, 'i18n'));
     }
     else {
-        throw new Error(`Cannot find i18n directory in "${join(rootDir, 'i18n')}", "${join(rootDir, 'lib', 'i18n')}"`);
+        throw new Error(`Cannot find i18n directory in "${(0, node_path_1.join)(rootDir, 'i18n')}", "${(0, node_path_1.join)(rootDir, 'lib', 'i18n')}"`);
     }
     words = {};
     let count = 0;
@@ -38,7 +44,7 @@ export async function init(rootDir, languageOrAdapter) {
         if (file.endsWith('.json')) {
             count++;
             const lang = file.split('.')[0];
-            const wordsForLanguage = JSON.parse(readFileSync(join(rootDir, 'i18n', file)).toString('utf8'));
+            const wordsForLanguage = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)(rootDir, 'i18n', file)).toString('utf8'));
             Object.keys(wordsForLanguage).forEach((key) => {
                 if (words) {
                     if (!words[key]) {
@@ -52,14 +58,14 @@ export async function init(rootDir, languageOrAdapter) {
     if (!count) {
         // may be it is an old structure: i18n/lang/translation.json
         files.forEach((file) => {
-            if ((file.match(/^[a-z]{2}$/) || file === 'zh-cn') && statSync(join(rootDir, 'i18n', file)).isDirectory()) {
+            if ((file.match(/^[a-z]{2}$/) || file === 'zh-cn') && (0, node_fs_1.statSync)((0, node_path_1.join)(rootDir, 'i18n', file)).isDirectory()) {
                 if (adapter) {
                     adapter.log.warn('Looks like you use old structure of i18n. ' +
                         'Please switch to 1i8n/lang.json instead of i18n/lang/translation.json');
                 }
                 const lang = file;
-                if (existsSync(join(rootDir, 'i18n', lang, 'translations.json'))) {
-                    const wordsForLanguage = JSON.parse(readFileSync(join(rootDir, 'i18n', lang, 'translations.json')).toString('utf8'));
+                if ((0, node_fs_1.existsSync)((0, node_path_1.join)(rootDir, 'i18n', lang, 'translations.json'))) {
+                    const wordsForLanguage = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)(rootDir, 'i18n', lang, 'translations.json')).toString('utf8'));
                     Object.keys(wordsForLanguage).forEach((key) => {
                         if (words) {
                             if (!words[key]) {
@@ -79,7 +85,7 @@ export async function init(rootDir, languageOrAdapter) {
  * @param key Word to translate
  * @param args Optional parameters to replace %s
  */
-export function translate(key, ...args) {
+function translate(key, ...args) {
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
@@ -98,14 +104,14 @@ export function translate(key, ...args) {
     return text;
 }
 /** Alias shortcut for translate function */
-export const t = translate;
+exports.t = translate;
 /**
  * Get translation as ioBroker.Translated object
  *
  * @param key Word to translate
  * @param args Optional parameters to replace %s
  */
-export function getTranslatedObject(key, ...args) {
+function getTranslatedObject(key, ...args) {
     if (!words) {
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
@@ -126,9 +132,9 @@ export function getTranslatedObject(key, ...args) {
         en: key,
     };
 }
-export default {
+exports.default = {
     init,
     translate,
     getTranslatedObject,
-    t,
+    t: exports.t,
 };
