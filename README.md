@@ -268,7 +268,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.4.0 (2026-06-08)
 
 - (@GermanBluefox) Added credentials methods
 - (@GermanBluefox) Breaking: minimal node.js version is 20
