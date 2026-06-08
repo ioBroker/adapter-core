@@ -23,17 +23,14 @@ __export(helpers_exports, {
   tryResolvePackage: () => tryResolvePackage
 });
 module.exports = __toCommonJS(helpers_exports);
-var __import_meta_url = typeof document === "undefined" ? new (require("url".replace("", ""))).URL("file:" + __filename).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
 var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
-var import_node_module = require("node:module");
-var import_node_url = require("node:url");
-const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
-const thisDir = (0, import_node_url.fileURLToPath)(new URL(".", __import_meta_url || `file://${__filename}`));
+var import_require = require("#require");
+const thisDir = (0, import_node_path.join)(import_require.dirName, "..");
 function tryResolvePackage(possiblePaths, lookupPaths) {
   for (const pkg of possiblePaths) {
     try {
-      const possiblePath = require2.resolve(`${pkg}/package.json`, lookupPaths?.length ? { paths: lookupPaths } : void 0);
+      const possiblePath = import_require.require.resolve(`${pkg}/package.json`, lookupPaths?.length ? { paths: lookupPaths } : void 0);
       if ((0, import_node_fs.existsSync)(possiblePath)) {
         return (0, import_node_path.dirname)(possiblePath);
       }

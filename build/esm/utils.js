@@ -1,8 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createRequire } from 'node:module';
 import { scanForPackage, tryResolvePackage } from './helpers.js';
-const require = createRequire(import.meta.url || `file://${__filename}`);
+import { require as nodeRequire } from '#require';
 /**
  * Resolves the root directory of JS-Controller and returns it or exits the process
  *
@@ -36,7 +35,7 @@ function resolveAdapterConstructor() {
     let adapterPath = tryResolvePackage(['@iobroker/js-controller-adapter']);
     if (adapterPath) {
         try {
-            const { Adapter } = require(adapterPath);
+            const { Adapter } = nodeRequire(adapterPath);
             if (Adapter) {
                 return Adapter;
             }
@@ -49,7 +48,7 @@ function resolveAdapterConstructor() {
     adapterPath = tryResolvePackage(['@iobroker/js-controller-adapter'], [join(controllerDir, 'node_modules')]);
     if (adapterPath) {
         try {
-            const { Adapter } = require(adapterPath);
+            const { Adapter } = nodeRequire(adapterPath);
             if (Adapter) {
                 return Adapter;
             }
@@ -62,7 +61,7 @@ function resolveAdapterConstructor() {
     adapterPath = join(controllerDir, 'build/cjs/lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = nodeRequire(adapterPath);
         if (Adapter) {
             return Adapter;
         }
@@ -74,7 +73,7 @@ function resolveAdapterConstructor() {
     adapterPath = join(controllerDir, 'build/lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = nodeRequire(adapterPath);
         if (Adapter) {
             return Adapter;
         }
@@ -86,7 +85,7 @@ function resolveAdapterConstructor() {
     adapterPath = join(controllerDir, 'lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = nodeRequire(adapterPath);
         if (Adapter) {
             return Adapter;
         }

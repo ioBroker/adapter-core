@@ -25,12 +25,10 @@ __export(utils_exports, {
   getConfig: () => getConfig
 });
 module.exports = __toCommonJS(utils_exports);
-var __import_meta_url = typeof document === "undefined" ? new (require("url".replace("", ""))).URL("file:" + __filename).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
 var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
-var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
-const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
+var import_require = require("#require");
 function getControllerDir(isInstall) {
   const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
   let controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
@@ -53,7 +51,7 @@ function resolveAdapterConstructor() {
   let adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"]);
   if (adapterPath) {
     try {
-      const { Adapter: Adapter2 } = require2(adapterPath);
+      const { Adapter: Adapter2 } = (0, import_require.require)(adapterPath);
       if (Adapter2) {
         return Adapter2;
       }
@@ -63,7 +61,7 @@ function resolveAdapterConstructor() {
   adapterPath = (0, import_helpers.tryResolvePackage)(["@iobroker/js-controller-adapter"], [(0, import_node_path.join)(controllerDir, "node_modules")]);
   if (adapterPath) {
     try {
-      const { Adapter: Adapter2 } = require2(adapterPath);
+      const { Adapter: Adapter2 } = (0, import_require.require)(adapterPath);
       if (Adapter2) {
         return Adapter2;
       }
@@ -72,7 +70,7 @@ function resolveAdapterConstructor() {
   }
   adapterPath = (0, import_node_path.join)(controllerDir, "build/cjs/lib/adapter.js");
   try {
-    const Adapter2 = require2(adapterPath);
+    const Adapter2 = (0, import_require.require)(adapterPath);
     if (Adapter2) {
       return Adapter2;
     }
@@ -80,7 +78,7 @@ function resolveAdapterConstructor() {
   }
   adapterPath = (0, import_node_path.join)(controllerDir, "build/lib/adapter.js");
   try {
-    const Adapter2 = require2(adapterPath);
+    const Adapter2 = (0, import_require.require)(adapterPath);
     if (Adapter2) {
       return Adapter2;
     }
@@ -88,7 +86,7 @@ function resolveAdapterConstructor() {
   }
   adapterPath = (0, import_node_path.join)(controllerDir, "lib/adapter.js");
   try {
-    const Adapter2 = require2(adapterPath);
+    const Adapter2 = (0, import_require.require)(adapterPath);
     if (Adapter2) {
       return Adapter2;
     }

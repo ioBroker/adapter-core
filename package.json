@@ -9,6 +9,14 @@
         "name": "AlCalzone",
         "email": "d.griesel@gmx.net"
     },
+    "imports": {
+        "#require": {
+            "types": "./src/require/require.d.ts",
+            "esbuild": "./src/require/require.cjs",
+            "import": "./src/require/require.mjs",
+            "require": "./src/require/require.cjs"
+        }
+    },
     "main": "build/cjs/index.js",
     "types": "build/esm/index.d.ts",
     "module": "build/esm/index.js",
@@ -37,7 +45,7 @@
     "scripts": {
         "prebuild": "rimraf ./build",
         "build": "tsc -p src/tsconfig.json",
-        "postbuild": "esm2cjs --in ./build/esm --out ./build/cjs -l error && cpy ./**/*.d.ts ../cjs/ --cwd=build/esm/",
+        "postbuild": "esm2cjs --in ./build/esm --out ./build/cjs -l error && cpy ./**/*.d.ts ../cjs/ --cwd=build/esm/ && node postbuild.mjs",
         "watch": "tsc -p src/tsconfig.json --watch",
         "lint:ts": "eslint -c eslint.config.mjs src",
         "lint": "npm run lint:ts",

@@ -10,8 +10,7 @@
         "checkJs": true,
         "noEmit": true,
         "target": "es6",
-        "moduleResolution": "node",
-        "ignoreDeprecations": "6.0",
+        "moduleResolution": "bundler",
         "skipLibCheck": true,
         "strict": true
     }
