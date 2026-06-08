@@ -3,7 +3,7 @@
     "version": "3.3.2",
     "description": "Core module to be used in ioBroker adapters. Acts as the bridge to js-controller.",
     "engines": {
-        "node": ">=20"
+        "node": ">=18"
     },
     "author": {
         "name": "AlCalzone",
@@ -83,7 +83,7 @@
         "@types/node": "^22.19.20",
         "@types/proxyquire": "^1.3.31",
         "@types/sinon": "^21.0.1",
-        "cpy-cli": "^7.0.0",
+        "cpy-cli": "^6.0.0",
         "mocha": "^11.7.6",
         "prettier": "^3.8.3",
         "proxyquire": "^2.1.3",
