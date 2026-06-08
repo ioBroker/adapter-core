@@ -1,10 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
-const require = createRequire(import.meta.url || `file://${__filename}`);
+import { dirName, require as nodeRequire } from '#require';
 
-const thisDir = fileURLToPath(new URL('.', import.meta.url || `file://${__filename}`));
+// The directory this file is located in after the build (build/esm or build/cjs).
+// The #require helper lives in the require/ subfolder of that directory.
+const thisDir = join(dirName, '..');
 
 /**
  * Tries to resolve a package using Node.js resolution.
@@ -18,7 +18,7 @@ export function tryResolvePackage(possiblePaths: string[], lookupPaths?: string[
         try {
             // package.json is guaranteed to be in the module root folder
             // so once that is resolved, take the dirname and we're done
-            const possiblePath = require.resolve(
+            const possiblePath = nodeRequire.resolve(
                 `${pkg}/package.json`,
                 lookupPaths?.length ? { paths: lookupPaths } : undefined,
             );

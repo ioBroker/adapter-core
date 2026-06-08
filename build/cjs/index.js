@@ -1,71 +1,72 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+  if (k2 === void 0) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = { enumerable: true, get: /* @__PURE__ */ __name(function() {
+      return m[k];
+    }, "get") };
   }
-  return to;
-};
-var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "default"), secondTarget && __copyProps(secondTarget, mod, "default"));
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var index_exports = {};
-__export(index_exports, {
-  EXIT_CODES: () => EXIT_CODES,
-  I18n: () => I18n,
-  TokenRefresher: () => TokenRefresher,
-  commonTools: () => import_controllerTools2.commonTools,
-  getAbsoluteDefaultDataDir: () => getAbsoluteDefaultDataDir,
-  getAbsoluteInstanceDataDir: () => getAbsoluteInstanceDataDir
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === void 0) k2 = k;
+  o[k2] = m[k];
+}));
+var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
 });
-module.exports = __toCommonJS(index_exports);
-var import_node_path = require("node:path");
-var import_controllerTools = require("./controllerTools.js");
-var utils = __toESM(require("./utils.js"));
-var import_types = require("@iobroker/types");
-var import_controllerTools2 = require("./controllerTools.js");
-__reExport(index_exports, require("./utils.js"), module.exports);
-var I18n = __toESM(require("./i18n.js"));
-var TokenRefresher = __toESM(require("./TokenRefresher.js"));
+var __importStar = exports && exports.__importStar || /* @__PURE__ */ (function() {
+  var ownKeys = /* @__PURE__ */ __name(function(o) {
+    ownKeys = Object.getOwnPropertyNames || function(o2) {
+      var ar = [];
+      for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+      return ar;
+    };
+    return ownKeys(o);
+  }, "ownKeys");
+  return function(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) {
+      for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+    }
+    __setModuleDefault(result, mod);
+    return result;
+  };
+})();
+var __exportStar = exports && exports.__exportStar || function(m, exports2) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EXIT_CODES = exports.Credentials = exports.TokenRefresher = exports.I18n = exports.commonTools = void 0;
+exports.getAbsoluteDefaultDataDir = getAbsoluteDefaultDataDir;
+exports.getAbsoluteInstanceDataDir = getAbsoluteInstanceDataDir;
+const node_path_1 = require("node:path");
+const controllerTools_js_1 = require("./controllerTools.js");
+const utils = __importStar(require("./utils.js"));
+require("@iobroker/types");
+var controllerTools_js_2 = require("./controllerTools.js");
+Object.defineProperty(exports, "commonTools", { enumerable: true, get: /* @__PURE__ */ __name(function() {
+  return controllerTools_js_2.commonTools;
+}, "get") });
+__exportStar(require("./utils.js"), exports);
+exports.I18n = __importStar(require("./i18n.js"));
+exports.TokenRefresher = __importStar(require("./TokenRefresher.js"));
+exports.Credentials = __importStar(require("./credentials.js"));
 function getAbsoluteDefaultDataDir() {
-  return (0, import_node_path.join)(utils.controllerDir, import_controllerTools.controllerToolsInternal.getDefaultDataDir());
+  return (0, node_path_1.join)(utils.controllerDir, controllerTools_js_1.controllerToolsInternal.getDefaultDataDir());
 }
 __name(getAbsoluteDefaultDataDir, "getAbsoluteDefaultDataDir");
 function getAbsoluteInstanceDataDir(adapterObjectOrNamespace) {
-  return (0, import_node_path.join)(getAbsoluteDefaultDataDir(), typeof adapterObjectOrNamespace === "string" ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace);
+  return (0, node_path_1.join)(getAbsoluteDefaultDataDir(), typeof adapterObjectOrNamespace === "string" ? adapterObjectOrNamespace : adapterObjectOrNamespace.namespace);
 }
 __name(getAbsoluteInstanceDataDir, "getAbsoluteInstanceDataDir");
-const EXIT_CODES = Object.freeze({
+exports.EXIT_CODES = Object.freeze({
   // Create a shallow copy so compact adapters cannot overwrite the dict in js-controller
-  ...(0, import_controllerTools.resolveNamedModule)("exitCodes", "EXIT_CODES")
-});
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  EXIT_CODES,
-  I18n,
-  TokenRefresher,
-  commonTools,
-  getAbsoluteDefaultDataDir,
-  getAbsoluteInstanceDataDir,
-  ...require("./utils.js")
+  ...(0, controllerTools_js_1.resolveNamedModule)("exitCodes", "EXIT_CODES")
 });
 //# sourceMappingURL=index.js.map

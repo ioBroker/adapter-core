@@ -1,16 +1,51 @@
-import { join } from 'node:path';
-import { createRequire } from 'node:module';
-import { tryResolvePackage } from './helpers.js';
-import * as utils from './utils.js';
-const require = createRequire(import.meta.url || `file://${__filename}`);
-export let controllerCommonModulesInternal;
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.commonTools = exports.controllerToolsInternal = exports.controllerCommonModulesInternal = void 0;
+exports.resolveNamedModule = resolveNamedModule;
+const node_path_1 = require("node:path");
+const helpers_js_1 = require("./helpers.js");
+const utils = __importStar(require("./utils.js"));
+const _require_1 = require("#require");
 function resolveControllerTools() {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
-    let importPath = tryResolvePackage(['@iobroker/js-controller-common']);
+    let importPath = (0, helpers_js_1.tryResolvePackage)(['@iobroker/js-controller-common']);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
-            const { tools } = controllerCommonModulesInternal;
+            exports.controllerCommonModulesInternal = (0, _require_1.require)(importPath);
+            const { tools } = exports.controllerCommonModulesInternal;
             if (tools) {
                 return tools;
             }
@@ -20,11 +55,11 @@ function resolveControllerTools() {
         }
     }
     // Attempt 2: Resolve @iobroker/js-controller-common in JS-Controller dir - JS-Controller 4.1+
-    importPath = tryResolvePackage(['@iobroker/js-controller-common'], [join(utils.controllerDir, 'node_modules')]);
+    importPath = (0, helpers_js_1.tryResolvePackage)(['@iobroker/js-controller-common'], [(0, node_path_1.join)(utils.controllerDir, 'node_modules')]);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = require(importPath);
-            const { tools } = controllerCommonModulesInternal;
+            exports.controllerCommonModulesInternal = (0, _require_1.require)(importPath);
+            const { tools } = exports.controllerCommonModulesInternal;
             if (tools) {
                 return tools;
             }
@@ -34,10 +69,10 @@ function resolveControllerTools() {
         }
     }
     // Attempt 3: Legacy resolve - until JS-Controller 4.0
-    importPath = join(utils.controllerDir, 'lib');
+    importPath = (0, node_path_1.join)(utils.controllerDir, 'lib');
     try {
         // This was a default export prior to the TS migration
-        const tools = require(join(importPath, 'tools'));
+        const tools = (0, _require_1.require)((0, node_path_1.join)(importPath, 'tools'));
         if (tools) {
             return tools;
         }
@@ -49,32 +84,32 @@ function resolveControllerTools() {
     //return process.exit(10);
 }
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
-export const controllerToolsInternal = resolveControllerTools();
+exports.controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilities in controllerTools
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
  */
-export function resolveNamedModule(name, exportName = name) {
+function resolveNamedModule(name, exportName = name) {
     // The requested module might be moved to @iobroker/js-controller-common and exported from there
-    if (controllerCommonModulesInternal?.[exportName]) {
-        return controllerCommonModulesInternal[exportName];
+    if (exports.controllerCommonModulesInternal?.[exportName]) {
+        return exports.controllerCommonModulesInternal[exportName];
     }
     // Otherwise it was not moved yet, or we're dealing with JS-Controller <= 4.0
     const importPaths = [
         // Attempt 1: JS-Controller 6+
-        join(utils.controllerDir, 'build/cjs/lib', name),
+        (0, node_path_1.join)(utils.controllerDir, 'build/cjs/lib', name),
         // Attempt 2: JS-Controller 4.1+
-        join(utils.controllerDir, 'build/lib', name),
+        (0, node_path_1.join)(utils.controllerDir, 'build/lib', name),
         // Attempt 3: JS-Controller <= 4.0
-        join(utils.controllerDir, 'lib', name),
+        (0, node_path_1.join)(utils.controllerDir, 'lib', name),
     ];
     for (const importPath of importPaths) {
         try {
             // This was a default export prior to the TS migration
-            const module = require(importPath);
+            const module = (0, _require_1.require)(importPath);
             if (module) {
                 return module;
             }
@@ -94,7 +129,7 @@ export function resolveNamedModule(name, exportName = name) {
  * @returns The RegEx string
  */
 function pattern2RegEx(pattern) {
-    return controllerToolsInternal.pattern2RegEx(pattern);
+    return exports.controllerToolsInternal.pattern2RegEx(pattern);
 }
 /**
  * Finds the adapter directory of a given adapter
@@ -103,7 +138,7 @@ function pattern2RegEx(pattern) {
  * @returns path to adapter directory or null if no directory found
  */
 function getAdapterDir(adapter) {
-    return controllerToolsInternal.getAdapterDir(adapter);
+    return exports.controllerToolsInternal.getAdapterDir(adapter);
 }
 /**
  * Get a list of all installed adapters and controller version on this host
@@ -112,13 +147,13 @@ function getAdapterDir(adapter) {
  * @returns object containing information about installed host
  */
 function getInstalledInfo(hostJsControllerVersion) {
-    return controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
+    return exports.controllerToolsInternal.getInstalledInfo(hostJsControllerVersion);
 }
 /**
  * Checks if we are running inside a docker container
  */
 function isDocker() {
-    return controllerToolsInternal.isDocker();
+    return exports.controllerToolsInternal.isDocker();
 }
 /**
  * Checks if given ip address is matching ipv4 or ipv6 localhost
@@ -126,7 +161,7 @@ function isDocker() {
  * @param ip ipv4 or ipv6 address
  */
 function isLocalAddress(ip) {
-    return controllerToolsInternal.isLocalAddress(ip);
+    return exports.controllerToolsInternal.isLocalAddress(ip);
 }
 /**
  * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
@@ -134,21 +169,21 @@ function isLocalAddress(ip) {
  * @param ip ipv4 or ipv6 address
  */
 function isListenAllAddress(ip) {
-    return controllerToolsInternal.isListenAllAddress(ip);
+    return exports.controllerToolsInternal.isListenAllAddress(ip);
 }
 /**
  * Retrieve the localhost address according to the configured DNS resolution strategy
  */
 function getLocalAddress() {
-    return controllerToolsInternal.getLocalAddress();
+    return exports.controllerToolsInternal.getLocalAddress();
 }
 /**
  * Get the ip to listen to all addresses according to configured DNS resolution strategy
  */
 function getListenAllAddress() {
-    return controllerToolsInternal.getListenAllAddress();
+    return exports.controllerToolsInternal.getListenAllAddress();
 }
-export const commonTools = {
+exports.commonTools = {
     pattern2RegEx,
     getAdapterDir,
     getInstalledInfo,

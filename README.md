@@ -195,6 +195,63 @@ This will allow you to use the OAuth2 infrastructure in your adapter without hav
 
 Here is a description of how to implement OAuth2 in your adapter: https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/OAUTH2.md
 
+## Credentials
+
+ioBroker has a central credential storage: the user manages credentials (e-mail accounts, cloud logins, AI API keys, ...)
+once in the admin settings (Settings → Credentials), and adapters only reference them by ID.
+The credentials are stored as objects `system.credentials.<name>` (e.g. `system.credentials.anthropic`):
+
+- `native.type` contains the category: `email`, `cloud`, `ai` or `custom`
+- every credential has one of two forms: `login` (a `login` and a `password` field) or `key` (a single `key` field)
+- passwords and keys are stored encrypted with the system secret
+
+### Let the user select a credential
+
+Add the JsonConfig component `credential` to your `jsonConfig.json`. It stores the credential ID in your adapter configuration:
+
+```json5
+{
+    "credentialId": {
+        "type": "credential",
+        "credentialType": "ai", // optional filter: email, cloud, ai, custom
+        "label": "AI account",
+        "sm": 6
+    }
+}
+```
+
+### Read the credential in the adapter
+
+```Typescript
+import { Credentials } from '@iobroker/adapter-core';
+
+export class YourAdapter extends Adapter {
+    async onReady(): Promise<void> {
+        // Read and decrypt the credential that the user selected in the instance configuration
+        const cred = await Credentials.getCredentials<Credentials.KeyCredentials>(this, this.config.credentialId);
+        this.log.info(`Using credential "${cred.name}" (${cred.type})`);
+        // Key form: cred.values.key
+        // Login form (Credentials.LoginPasswordCredentials): cred.values.login, cred.values.password
+
+        // Optional: react on changes of the credential (e.g. reconnect),
+        // the returned function unsubscribes again
+        const unsubscribe = await Credentials.subscribeCredentials(this, this.config.credentialId, (id, newCred) => {
+            if (newCred) {
+                this.log.info(`Credential ${id} was changed, reconnecting...`);
+            } else {
+                this.log.warn(`Credential ${id} was deleted`);
+            }
+        });
+    }
+}
+```
+
+Further helpers:
+
+- `Credentials.listCredentials(adapter, type?)` - lists all credentials (ID, name, type - without any secrets)
+- `Credentials.getCredentialForm(values)` - detects if a credential has the `login` or the `key` form
+- `Credentials.CREDENTIALS_PREFIX`, `Credentials.CREDENTIAL_FORMS` - constants of the storage format
+
 ## Tips while working on this module
 
 -   `npm run build` creates a clean rebuild of the module. This is done automatically before every build;
@@ -211,6 +268,11 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- (@GermanBluefox) Added credentials methods
+- (@GermanBluefox) Breaking: minimal node.js version is 20
+
 ### 3.3.2 (2025-08-18)
 
 - (@jogibear9988) Fixed ESM export of TokenRefresher
@@ -361,7 +423,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ## MIT License
 
-Copyright (c) 2018-2025 AlCalzone
+Copyright (c) 2018-2026 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

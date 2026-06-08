@@ -1,13 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TokenRefresher = void 0;
 /**
  * This file implements a TokenRefresher class that manages OAuth2 access tokens for an ioBroker adapter.
  *
  * Instructions: https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/OAUTH2.md
  */
-import { request } from 'node:https';
+const node_https_1 = require("node:https");
 /**
  * TokenRefresher class manages OAuth2 access tokens for an ioBroker adapter.
  */
-export class TokenRefresher {
+class TokenRefresher {
     adapter;
     stateName;
     refreshTokenTimeout;
@@ -36,7 +39,7 @@ export class TokenRefresher {
     }
     httpPost(url, data, timeout = 20_000) {
         return new Promise((resolve, reject) => {
-            const req = request(url, {
+            const req = (0, node_https_1.request)(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -194,3 +197,4 @@ export class TokenRefresher {
         }, expiresIn);
     }
 }
+exports.TokenRefresher = TokenRefresher;
