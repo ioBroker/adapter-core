@@ -1,10 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CREDENTIAL_FORMS = exports.CREDENTIAL_META_FIELDS = exports.CREDENTIALS_VERSION = exports.CREDENTIALS_PREFIX = void 0;
-exports.getCredentialForm = getCredentialForm;
-exports.getCredentials = getCredentials;
-exports.listCredentials = listCredentials;
-exports.subscribeCredentials = subscribeCredentials;
 /**
  * Central credential storage for ioBroker.
  *
@@ -28,16 +21,16 @@ exports.subscribeCredentials = subscribeCredentials;
  * browser builds (admin UI, json-config).
  */
 /** Prefix of all credential object IDs */
-exports.CREDENTIALS_PREFIX = 'system.credentials.';
+export const CREDENTIALS_PREFIX = 'system.credentials.';
 /** Current version of the credential data format */
-exports.CREDENTIALS_VERSION = 1;
+export const CREDENTIALS_VERSION = 1;
 /** Keys in `native` that are reserved for metadata and are not credential fields */
-exports.CREDENTIAL_META_FIELDS = ['type', 'version', 'encryptedFields'];
+export const CREDENTIAL_META_FIELDS = ['type', 'version', 'encryptedFields'];
 /**
  * Registry of the two credential forms and their fields.
  * This is the single source of truth - the admin UI renders its dialogs from it.
  */
-exports.CREDENTIAL_FORMS = {
+export const CREDENTIAL_FORMS = {
     login: [
         { name: 'login', type: 'text', required: true },
         { name: 'password', type: 'password', encrypted: true, required: true },
@@ -49,7 +42,7 @@ exports.CREDENTIAL_FORMS = {
  *
  * @param values The credential fields (e.g. `CredentialInfo.values`)
  */
-function getCredentialForm(values) {
+export function getCredentialForm(values) {
     return values.key !== undefined ? 'key' : 'login';
 }
 function getText(text, lang) {
@@ -66,7 +59,7 @@ function decodeCredentialObject(adapter, obj) {
     const encryptedFields = Array.isArray(native.encryptedFields) ? native.encryptedFields : [];
     const values = {};
     for (const [key, value] of Object.entries(native)) {
-        if (exports.CREDENTIAL_META_FIELDS.includes(key)) {
+        if (CREDENTIAL_META_FIELDS.includes(key)) {
             continue;
         }
         values[key] =
@@ -86,9 +79,9 @@ function decodeCredentialObject(adapter, obj) {
  * @param id The credential ID, e.g. `system.credentials.anthropic` (usually taken from the
  *           instance configuration where the user selected it via the `credential` JsonConfig component)
  */
-async function getCredentials(adapter, id) {
-    if (!id || !id.startsWith(exports.CREDENTIALS_PREFIX)) {
-        throw new Error(`Invalid credential ID "${id}": must start with "${exports.CREDENTIALS_PREFIX}"`);
+export async function getCredentials(adapter, id) {
+    if (!id || !id.startsWith(CREDENTIALS_PREFIX)) {
+        throw new Error(`Invalid credential ID "${id}": must start with "${CREDENTIALS_PREFIX}"`);
     }
     const obj = await adapter.getForeignObjectAsync(id);
     if (!obj) {
@@ -102,8 +95,8 @@ async function getCredentials(adapter, id) {
  * @param adapter The adapter instance
  * @param type Optional: only list credentials of this type, e.g. 'ai'
  */
-async function listCredentials(adapter, type) {
-    const objs = await adapter.getForeignObjectsAsync(`${exports.CREDENTIALS_PREFIX}*`, 'config');
+export async function listCredentials(adapter, type) {
+    const objs = await adapter.getForeignObjectsAsync(`${CREDENTIALS_PREFIX}*`, 'config');
     return Object.values(objs)
         .filter(obj => !!obj && (!type || obj.native?.type === type))
         .map(obj => {
@@ -124,9 +117,9 @@ async function listCredentials(adapter, type) {
  * @param handler Called with the decrypted credential on every change, or with `null` if the credential was deleted
  * @returns A function that unsubscribes again
  */
-async function subscribeCredentials(adapter, id, handler) {
-    if (!id || !id.startsWith(exports.CREDENTIALS_PREFIX)) {
-        throw new Error(`Invalid credential ID "${id}": must start with "${exports.CREDENTIALS_PREFIX}"`);
+export async function subscribeCredentials(adapter, id, handler) {
+    if (!id || !id.startsWith(CREDENTIALS_PREFIX)) {
+        throw new Error(`Invalid credential ID "${id}": must start with "${CREDENTIALS_PREFIX}"`);
     }
     const listener = (changedId, obj) => {
         if (changedId === id) {

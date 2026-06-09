@@ -1,16 +1,38 @@
 "use strict";
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CREDENTIAL_FORMS = exports.CREDENTIAL_META_FIELDS = exports.CREDENTIALS_VERSION = exports.CREDENTIALS_PREFIX = void 0;
-exports.getCredentialForm = getCredentialForm;
-exports.getCredentials = getCredentials;
-exports.listCredentials = listCredentials;
-exports.subscribeCredentials = subscribeCredentials;
-exports.CREDENTIALS_PREFIX = "system.credentials.";
-exports.CREDENTIALS_VERSION = 1;
-exports.CREDENTIAL_META_FIELDS = ["type", "version", "encryptedFields"];
-exports.CREDENTIAL_FORMS = {
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var credentials_exports = {};
+__export(credentials_exports, {
+  CREDENTIALS_PREFIX: () => CREDENTIALS_PREFIX,
+  CREDENTIALS_VERSION: () => CREDENTIALS_VERSION,
+  CREDENTIAL_FORMS: () => CREDENTIAL_FORMS,
+  CREDENTIAL_META_FIELDS: () => CREDENTIAL_META_FIELDS,
+  getCredentialForm: () => getCredentialForm,
+  getCredentials: () => getCredentials,
+  listCredentials: () => listCredentials,
+  subscribeCredentials: () => subscribeCredentials
+});
+module.exports = __toCommonJS(credentials_exports);
+const CREDENTIALS_PREFIX = "system.credentials.";
+const CREDENTIALS_VERSION = 1;
+const CREDENTIAL_META_FIELDS = ["type", "version", "encryptedFields"];
+const CREDENTIAL_FORMS = {
   login: [
     { name: "login", type: "text", required: true },
     { name: "password", type: "password", encrypted: true, required: true }
@@ -36,7 +58,7 @@ function decodeCredentialObject(adapter, obj) {
   const encryptedFields = Array.isArray(native.encryptedFields) ? native.encryptedFields : [];
   const values = {};
   for (const [key, value] of Object.entries(native)) {
-    if (exports.CREDENTIAL_META_FIELDS.includes(key)) {
+    if (CREDENTIAL_META_FIELDS.includes(key)) {
       continue;
     }
     values[key] = encryptedFields.includes(key) && typeof value === "string" && value ? adapter.decrypt(value) : value;
@@ -50,8 +72,8 @@ function decodeCredentialObject(adapter, obj) {
 }
 __name(decodeCredentialObject, "decodeCredentialObject");
 async function getCredentials(adapter, id) {
-  if (!id || !id.startsWith(exports.CREDENTIALS_PREFIX)) {
-    throw new Error(`Invalid credential ID "${id}": must start with "${exports.CREDENTIALS_PREFIX}"`);
+  if (!id || !id.startsWith(CREDENTIALS_PREFIX)) {
+    throw new Error(`Invalid credential ID "${id}": must start with "${CREDENTIALS_PREFIX}"`);
   }
   const obj = await adapter.getForeignObjectAsync(id);
   if (!obj) {
@@ -61,7 +83,7 @@ async function getCredentials(adapter, id) {
 }
 __name(getCredentials, "getCredentials");
 async function listCredentials(adapter, type) {
-  const objs = await adapter.getForeignObjectsAsync(`${exports.CREDENTIALS_PREFIX}*`, "config");
+  const objs = await adapter.getForeignObjectsAsync(`${CREDENTIALS_PREFIX}*`, "config");
   return Object.values(objs).filter((obj) => !!obj && (!type || obj.native?.type === type)).map((obj) => {
     const native = obj.native || {};
     return {
@@ -73,8 +95,8 @@ async function listCredentials(adapter, type) {
 }
 __name(listCredentials, "listCredentials");
 async function subscribeCredentials(adapter, id, handler) {
-  if (!id || !id.startsWith(exports.CREDENTIALS_PREFIX)) {
-    throw new Error(`Invalid credential ID "${id}": must start with "${exports.CREDENTIALS_PREFIX}"`);
+  if (!id || !id.startsWith(CREDENTIALS_PREFIX)) {
+    throw new Error(`Invalid credential ID "${id}": must start with "${CREDENTIALS_PREFIX}"`);
   }
   const listener = /* @__PURE__ */ __name((changedId, obj) => {
     if (changedId === id) {
@@ -89,4 +111,15 @@ async function subscribeCredentials(adapter, id, handler) {
   };
 }
 __name(subscribeCredentials, "subscribeCredentials");
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  CREDENTIALS_PREFIX,
+  CREDENTIALS_VERSION,
+  CREDENTIAL_FORMS,
+  CREDENTIAL_META_FIELDS,
+  getCredentialForm,
+  getCredentials,
+  listCredentials,
+  subscribeCredentials
+});
 //# sourceMappingURL=credentials.js.map

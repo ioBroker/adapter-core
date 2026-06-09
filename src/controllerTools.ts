@@ -1,7 +1,9 @@
 import { join } from 'node:path';
+import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
 import * as utils from './utils.js';
-import { require as nodeRequire } from '#require';
+
+const require = createRequire(import.meta.url || `file://${__filename}`);
 
 export let controllerCommonModulesInternal: any;
 
@@ -10,7 +12,7 @@ function resolveControllerTools(): any {
     let importPath = tryResolvePackage(['@iobroker/js-controller-common']);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = nodeRequire(importPath);
+            controllerCommonModulesInternal = require(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -24,7 +26,7 @@ function resolveControllerTools(): any {
     importPath = tryResolvePackage(['@iobroker/js-controller-common'], [join(utils.controllerDir, 'node_modules')]);
     if (importPath) {
         try {
-            controllerCommonModulesInternal = nodeRequire(importPath);
+            controllerCommonModulesInternal = require(importPath);
             const { tools } = controllerCommonModulesInternal;
             if (tools) {
                 return tools;
@@ -38,7 +40,7 @@ function resolveControllerTools(): any {
     importPath = join(utils.controllerDir, 'lib');
     try {
         // This was a default export prior to the TS migration
-        const tools = nodeRequire(join(importPath, 'tools'));
+        const tools = require(join(importPath, 'tools'));
         if (tools) {
             return tools;
         }
@@ -81,7 +83,7 @@ export function resolveNamedModule(name: string, exportName: string = name): any
     for (const importPath of importPaths) {
         try {
             // This was a default export prior to the TS migration
-            const module = nodeRequire(importPath);
+            const module = require(importPath);
             if (module) {
                 return module;
             }

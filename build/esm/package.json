@@ -1,11 +1,3 @@
 {
-    "type": "module",
-    "imports": {
-        "#require": {
-            "types": "./require/require.d.ts",
-            "esbuild": "./require/require.cjs",
-            "import": "./require/require.mjs",
-            "require": "./require/require.cjs"
-        }
-    }
+    "type": "module"
 }
