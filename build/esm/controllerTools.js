@@ -52,7 +52,7 @@ function resolveControllerTools() {
 export const controllerToolsInternal = resolveControllerTools();
 // Export a subset of the utilities in controllerTools
 /**
- * Resolve a module that is either exported by @iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
+ * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
