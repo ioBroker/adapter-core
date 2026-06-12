@@ -268,6 +268,10 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 2.99.99 (2026-06-12)
+
+- Special version to force adapters to use the V3 adaper core
+
 ### 3.4.1 (2026-06-09)
 
 - (@GermanBluefox) Added credentials methods
