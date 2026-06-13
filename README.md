@@ -197,6 +197,8 @@ Here is a description of how to implement OAuth2 in your adapter: https://github
 
 ## Credentials
 
+_requires adapter-core >= 3.4.1, admin >= 7.9.0 and js-controller >) 7.2.0_
+
 ioBroker has a central credential storage: the user manages credentials (e-mail accounts, cloud logins, AI API keys, ...)
 once in the admin settings (Settings → Credentials), and adapters only reference them by ID.
 The credentials are stored as objects `system.credentials.<name>` (e.g. `system.credentials.anthropic`):
@@ -252,7 +254,7 @@ Further helpers:
 - `Credentials.getCredentialForm(values)` - detects if a credential has the `login` or the `key` form
 - `Credentials.CREDENTIALS_PREFIX`, `Credentials.CREDENTIAL_FORMS` - constants of the storage format
 
-## Tips while working on this module
+## Tips while working on module adapter-core
 
 -   `npm run build` creates a clean rebuild of the module. This is done automatically before every build;
 -   `npm run lint` checks for linting errors;
