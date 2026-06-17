@@ -228,10 +228,44 @@ Add the JsonConfig component `credential` to your `jsonConfig.json`. It stores t
 import { Credentials } from '@iobroker/adapter-core';
 
 export class YourAdapter extends Adapter {
+    private async resolveCredentials(data: {
+      credentialType?: 'manual' | 'manager';
+      credentialId?: string;
+      login?: string;
+      pass?: string;
+    }): Promise<{ login: string; password: string; subscribe: boolean } | null> {
+        if (data.credentialType === 'manager') {
+            // Check if the controller supports the credentials manager
+            if (!Credentials?.getCredentials) {
+                this.log.error(
+                  'Actually iot adapter is not able to use credentials manager. Please update js-controller to 7.2.2 or higher!',
+                );
+                return null;
+            }
+            if (!data.credentialId) {
+                this.log.error('Credentials not provided. Please check your configuration!');
+                return null;
+            }
+            try {
+                const credentials = await Credentials.getCredentials<Credentials.LoginPasswordCredentials>(
+                  this,
+                  data.credentialId,
+                );
+                return { login: credentials.values.login, password: credentials.values.password, subscribe: true };
+            } catch (error) {
+                this.log.error(
+                  `Cannot read credentials "${data.credentialId}": ${error instanceof Error ? error.message : String(error)}`,
+                );
+                return null;
+            }
+        }
+        return { login: data.login || this.login, password: data.pass || this.password, subscribe: false };
+    }
+    
     async onReady(): Promise<void> {
         // Read and decrypt the credential that the user selected in the instance configuration
-        const cred = await Credentials.getCredentials<Credentials.KeyCredentials>(this, this.config.credentialId);
-        this.log.info(`Using credential "${cred.name}" (${cred.type})`);
+        const cred = await this.resolveCredentials(this.config.credentialType, this.config.credentialId, this.config.login, this.config.pass);
+        this.log.info(`Using credential "${cred.login}" (${cred.password})`);
         // Key form: cred.values.key
         // Login form (Credentials.LoginPasswordCredentials): cred.values.login, cred.values.password
 
