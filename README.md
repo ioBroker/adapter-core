@@ -304,6 +304,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (@GermanBluefox) Added possibility to mock controller path by tests via `process.env.IOBROKER_CONTROLLER_DIR`
+
 ### 3.4.1 (2026-06-09)
 
 - (@GermanBluefox) Added credentials methods
