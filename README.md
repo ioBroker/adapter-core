@@ -264,8 +264,14 @@ export class YourAdapter extends Adapter {
     
     async onReady(): Promise<void> {
         // Read and decrypt the credential that the user selected in the instance configuration
-        const cred = await this.resolveCredentials(this.config.credentialType, this.config.credentialId, this.config.login, this.config.pass);
-        this.log.info(`Using credential "${cred.login}" (${cred.password})`);
+        const cred = await this.resolveCredentials({
+            credentialType: this.config.credentialType,
+            credentialId: this.config.credentialId,
+            login: this.config.login,
+            pass: this.config.pass,
+        });
+        if (!cred) return;
+        this.log.info(`Using credential login "${cred.login}"`);
         // Key form: cred.values.key
         // Login form (Credentials.LoginPasswordCredentials): cred.values.login, cred.values.password
 
