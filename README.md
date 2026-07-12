@@ -272,8 +272,8 @@ export class YourAdapter extends Adapter {
         });
         if (!cred) return;
         this.log.info(`Using credential login "${cred.login}"`);
-        // Key form: cred.values.key
-        // Login form (Credentials.LoginPasswordCredentials): cred.values.login, cred.values.password
+        // cred contains the resolved login/password values
+        // (subscribe === true means they came from the credentials manager).
 
         // Optional: react on changes of the credential (e.g. reconnect),
         // the returned function unsubscribes again
