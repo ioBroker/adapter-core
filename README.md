@@ -238,7 +238,7 @@ export class YourAdapter extends Adapter {
             // Check if the controller supports the credentials manager
             if (!Credentials?.getCredentials) {
                 this.log.error(
-                  'Actually iot adapter is not able to use credentials manager. Please update js-controller to 7.2.2 or higher!',
+                  'The credentials manager is not available. Please update js-controller to 7.2.2 or higher!',
                 );
                 return null;
             }
