@@ -48,6 +48,12 @@ function resolveControllerTools(): any {
         // did not work, continue
     }
 
+    if (process.env.IOBROKER_CONTROLLER_DIR) {
+        // No js-controller reachable (bare import for types/Credentials, unit test, or browser build). Return
+        // undefined instead of throwing at import time; a real adapter runs inside js-controller, where one of
+        // the attempts above resolves the tools. Only code that actually uses commonTools would hit undefined.
+        return undefined;
+    }
     throw new Error('Cannot resolve tools module');
     //return process.exit(10);
 }
@@ -92,10 +98,15 @@ export function resolveNamedModule(name: string, exportName: string = name): any
         }
     }
 
+    if (process.env.IOBROKER_CONTROLLER_DIR) {
+        // No js-controller reachable — return undefined instead of throwing at import time (see
+        // resolveControllerTools). Called at load for commonTools (password/session/zipFiles) and EXIT_CODES.
+        return undefined;
+    }
+
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
     //return process.exit(10);
 }
-
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
 
 /**

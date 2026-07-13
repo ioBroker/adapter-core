@@ -73,6 +73,9 @@ function resolveControllerTools() {
     }
   } catch {
   }
+  if (process.env.IOBROKER_CONTROLLER_DIR) {
+    return void 0;
+  }
   throw new Error("Cannot resolve tools module");
 }
 __name(resolveControllerTools, "resolveControllerTools");
@@ -97,6 +100,9 @@ function resolveNamedModule(name, exportName = name) {
       }
     } catch {
     }
+  }
+  if (process.env.IOBROKER_CONTROLLER_DIR) {
+    return void 0;
   }
   throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
 }

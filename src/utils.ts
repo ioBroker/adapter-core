@@ -103,6 +103,13 @@ function resolveAdapterConstructor(): any {
     } catch {
         // did not work, continue
     }
+    if (process.env.IOBROKER_CONTROLLER_DIR) {
+        // No js-controller reachable — e.g. adapter-core imported only for its types/`Credentials`, in a unit
+        // test, or a browser build. Do NOT throw at import time: return undefined so a bare import succeeds.
+        // A real adapter always runs inside js-controller, where one of the attempts above resolves the class;
+        // only code that actually instantiates `Adapter` without a controller would hit the undefined.
+        return undefined;
+    }
 
     throw new Error('Cannot resolve adapter class');
 }
