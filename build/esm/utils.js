@@ -9,6 +9,10 @@ const require = createRequire(import.meta.url || `file://${__filename}`);
  * @param isInstall Whether the adapter is run in "install" mode or if it should execute normally
  */
 function getControllerDir(isInstall) {
+    // For tests
+    if (process.env.IOBROKER_CONTROLLER_DIR) {
+        return process.env.IOBROKER_CONTROLLER_DIR;
+    }
     // Find the js-controller location
     const possibilities = ['iobroker.js-controller', 'ioBroker.js-controller'];
     // First, try to let Node.js resolve the package by itself
