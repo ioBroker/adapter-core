@@ -228,12 +228,52 @@ Add the JsonConfig component `credential` to your `jsonConfig.json`. It stores t
 import { Credentials } from '@iobroker/adapter-core';
 
 export class YourAdapter extends Adapter {
+    private async resolveCredentials(data: {
+      credentialType?: 'manual' | 'manager';
+      credentialId?: string;
+      login?: string;
+      pass?: string;
+    }): Promise<{ login: string; password: string; subscribe: boolean } | null> {
+        if (data.credentialType === 'manager') {
+            // Check if the controller supports the credentials manager
+            if (!Credentials?.getCredentials) {
+                this.log.error(
+                  'The credentials manager is not available. Please update js-controller to 7.2.2 or higher!',
+                );
+                return null;
+            }
+            if (!data.credentialId) {
+                this.log.error('Credentials not provided. Please check your configuration!');
+                return null;
+            }
+            try {
+                const credentials = await Credentials.getCredentials<Credentials.LoginPasswordCredentials>(
+                  this,
+                  data.credentialId,
+                );
+                return { login: credentials.values.login, password: credentials.values.password, subscribe: true };
+            } catch (error) {
+                this.log.error(
+                  `Cannot read credentials "${data.credentialId}": ${error instanceof Error ? error.message : String(error)}`,
+                );
+                return null;
+            }
+        }
+        return { login: data.login || this.login, password: data.pass || this.password, subscribe: false };
+    }
+    
     async onReady(): Promise<void> {
         // Read and decrypt the credential that the user selected in the instance configuration
-        const cred = await Credentials.getCredentials<Credentials.KeyCredentials>(this, this.config.credentialId);
-        this.log.info(`Using credential "${cred.name}" (${cred.type})`);
-        // Key form: cred.values.key
-        // Login form (Credentials.LoginPasswordCredentials): cred.values.login, cred.values.password
+        const cred = await this.resolveCredentials({
+            credentialType: this.config.credentialType,
+            credentialId: this.config.credentialId,
+            login: this.config.login,
+            pass: this.config.pass,
+        });
+        if (!cred) return;
+        this.log.info(`Using credential login "${cred.login}"`);
+        // cred contains the resolved login/password values
+        // (subscribe === true means they came from the credentials manager).
 
         // Optional: react on changes of the credential (e.g. reconnect),
         // the returned function unsubscribes again
@@ -270,6 +310,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (@GermanBluefox) Added possibility to mock controller path by tests via `process.env.IOBROKER_CONTROLLER_DIR`
+
 ### 3.4.1 (2026-06-09)
 
 - (@GermanBluefox) Added credentials methods
