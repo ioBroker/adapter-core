@@ -32,9 +32,6 @@ var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
 const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
 function getControllerDir(isInstall) {
-  if (process.env.IOBROKER_CONTROLLER_DIR) {
-    return process.env.IOBROKER_CONTROLLER_DIR;
-  }
   const possibilities = ["iobroker.js-controller", "ioBroker.js-controller"];
   let controllerDir2 = (0, import_helpers.tryResolvePackage)(possibilities);
   if (controllerDir2) {
@@ -96,9 +93,6 @@ function resolveAdapterConstructor() {
       return Adapter2;
     }
   } catch {
-  }
-  if (process.env.IOBROKER_CONTROLLER_DIR) {
-    return void 0;
   }
   throw new Error("Cannot resolve adapter class");
 }

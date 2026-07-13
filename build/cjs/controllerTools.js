@@ -39,6 +39,7 @@ var __import_meta_url = typeof document === "undefined" ? new (require("url".rep
 var import_node_path = require("node:path");
 var import_node_module = require("node:module");
 var import_helpers = require("./helpers.js");
+var import_tools = require("./tools.js");
 var utils = __toESM(require("./utils.js"));
 const require2 = (0, import_node_module.createRequire)(__import_meta_url || `file://${__filename}`);
 let controllerCommonModulesInternal;
@@ -73,9 +74,6 @@ function resolveControllerTools() {
     }
   } catch {
   }
-  if (process.env.IOBROKER_CONTROLLER_DIR) {
-    return void 0;
-  }
   throw new Error("Cannot resolve tools module");
 }
 __name(resolveControllerTools, "resolveControllerTools");
@@ -101,16 +99,9 @@ function resolveNamedModule(name, exportName = name) {
     } catch {
     }
   }
-  if (process.env.IOBROKER_CONTROLLER_DIR) {
-    return void 0;
-  }
   throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
 }
 __name(resolveNamedModule, "resolveNamedModule");
-function pattern2RegEx(pattern) {
-  return controllerToolsInternal.pattern2RegEx(pattern);
-}
-__name(pattern2RegEx, "pattern2RegEx");
 function getAdapterDir(adapter) {
   return controllerToolsInternal.getAdapterDir(adapter);
 }
@@ -123,14 +114,6 @@ function isDocker() {
   return controllerToolsInternal.isDocker();
 }
 __name(isDocker, "isDocker");
-function isLocalAddress(ip) {
-  return controllerToolsInternal.isLocalAddress(ip);
-}
-__name(isLocalAddress, "isLocalAddress");
-function isListenAllAddress(ip) {
-  return controllerToolsInternal.isListenAllAddress(ip);
-}
-__name(isListenAllAddress, "isListenAllAddress");
 function getLocalAddress() {
   return controllerToolsInternal.getLocalAddress();
 }
@@ -140,14 +123,14 @@ function getListenAllAddress() {
 }
 __name(getListenAllAddress, "getListenAllAddress");
 const commonTools = {
-  pattern2RegEx,
+  pattern2RegEx: import_tools.pattern2RegEx,
   getAdapterDir,
   getInstalledInfo,
   isDocker,
   getLocalAddress,
   getListenAllAddress,
-  isLocalAddress,
-  isListenAllAddress,
+  isLocalAddress: import_tools.isLocalAddress,
+  isListenAllAddress: import_tools.isListenAllAddress,
   // TODO: Add more methods from lib/tools.js as needed
   password: resolveNamedModule("password"),
   session: resolveNamedModule("session"),

@@ -311,7 +311,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (@GermanBluefox) Added possibility to mock controller path by tests via `process.env.IOBROKER_CONTROLLER_DIR`
+- (@GermanBluefox) Moved tools to independent package
+- (@GermanBluefox) Allowed to use parts of the adapter-core without js-controller (e.g. for tests)
+- (@GermanBluefox) Better typing
 
 ### 3.4.1 (2026-06-09)
 

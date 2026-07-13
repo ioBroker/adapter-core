@@ -1,7 +1,8 @@
+import type { IoBJson } from '@iobroker/types/build/config';
 /** The root directory of JS-Controller */
 export declare const controllerDir: string;
 /** Reads the configuration file of JS-Controller */
-export declare function getConfig(): Record<string, any>;
+export declare function getConfig(): IoBJson;
 /**
  * This type is used to include and exclude the states and objects cache from the adapter's type definition depending on the creation options
  */
@@ -26,7 +27,9 @@ interface AdapterConstructor {
     new <HasObjectsCache extends boolean | undefined = undefined, HasStatesCache extends boolean | undefined = undefined>(adapterOptions: AdapterOptions<HasObjectsCache, HasStatesCache> | string): AdapterInstance<HasObjectsCache, HasStatesCache>;
     <HasObjectsCache extends boolean | undefined = undefined, HasStatesCache extends boolean | undefined = undefined>(adapterOptions: AdapterOptions<HasObjectsCache, HasStatesCache> | string): AdapterInstance<HasObjectsCache, HasStatesCache>;
 }
-/** Creates a new adapter instance */
+/**
+ * Creates a new adapter instance.
+ */
 export declare const adapter: AdapterConstructor;
 /** Creates a new adapter instance */
 export declare const Adapter: AdapterConstructor;

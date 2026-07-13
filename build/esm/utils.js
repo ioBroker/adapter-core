@@ -10,9 +10,6 @@ const require = createRequire(import.meta.url || `file://${__filename}`);
  */
 function getControllerDir(isInstall) {
     // For tests
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        return process.env.IOBROKER_CONTROLLER_DIR;
-    }
     // Find the js-controller location
     const possibilities = ['iobroker.js-controller', 'ioBroker.js-controller'];
     // First, try to let Node.js resolve the package by itself
@@ -98,20 +95,15 @@ function resolveAdapterConstructor() {
     catch {
         // did not work, continue
     }
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        // No js-controller reachable — e.g. adapter-core imported only for its types/`Credentials`, in a unit
-        // test, or a browser build. Do NOT throw at import time: return undefined so a bare import succeeds.
-        // A real adapter always runs inside js-controller, where one of the attempts above resolves the class;
-        // only code that actually instantiates `Adapter` without a controller would hit the undefined.
-        return undefined;
-    }
     throw new Error('Cannot resolve adapter class');
 }
 /** Reads the configuration file of JS-Controller */
 export function getConfig() {
     return JSON.parse(readFileSync(join(controllerDir, 'conf/iobroker.json'), 'utf8'));
 }
-/** Creates a new adapter instance */
+/**
+ * Creates a new adapter instance.
+ */
 export const adapter = resolveAdapterConstructor();
 /** Creates a new adapter instance */
 export const Adapter = adapter;

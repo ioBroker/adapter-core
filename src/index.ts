@@ -35,5 +35,5 @@ export function getAbsoluteInstanceDataDir(adapterObjectOrNamespace: ioBroker.Ad
 
 export const EXIT_CODES: ExitCodes = Object.freeze({
     // Create a shallow copy so compact adapters cannot overwrite the dict in js-controller
-    ...resolveNamedModule('exitCodes', 'EXIT_CODES'),
+    ...resolveNamedModule<ExitCodes>('exitCodes', 'EXIT_CODES'),
 });

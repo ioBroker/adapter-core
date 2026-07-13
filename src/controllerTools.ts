@@ -1,13 +1,29 @@
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
+import { isListenAllAddress, isLocalAddress, pattern2RegEx } from './tools.js';
 import * as utils from './utils.js';
+import type { tools as ControllerToolsNamespace } from '@iobroker/js-controller-common-db';
 
 const require = createRequire(import.meta.url || `file://${__filename}`);
 
+/**
+ * The type of JS-Controller's `tools` module (formerly `lib/tools.js`), i.e. the full set of utility
+ * functions it exposes - not just the ones adapter-core wraps in `commonTools`.
+ *
+ * The `tools` namespace is defined in `@iobroker/js-controller-common-db` (and re-exported by
+ * `@iobroker/js-controller-common`). We reference common-db directly on purpose: the re-export in
+ * `@iobroker/js-controller-common` goes through a subpath that does not resolve under this package's
+ * `moduleResolution: "node"`.
+ *
+ * This is a **type-only** reference - it is erased at compile time and does NOT add a runtime dependency
+ * on js-controller (which is still resolved dynamically in `resolveControllerTools()` below).
+ */
+type ControllerTools = typeof ControllerToolsNamespace;
+
 export let controllerCommonModulesInternal: any;
 
-function resolveControllerTools(): any {
+function resolveControllerTools(): ControllerTools {
     // Attempt 1: Resolve @iobroker/js-controller-common from here - JS-Controller 4.1+
     let importPath = tryResolvePackage(['@iobroker/js-controller-common']);
     if (importPath) {
@@ -48,12 +64,6 @@ function resolveControllerTools(): any {
         // did not work, continue
     }
 
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        // No js-controller reachable (bare import for types/Credentials, unit test, or browser build). Return
-        // undefined instead of throwing at import time; a real adapter runs inside js-controller, where one of
-        // the attempts above resolves the tools. Only code that actually uses commonTools would hit undefined.
-        return undefined;
-    }
     throw new Error('Cannot resolve tools module');
     //return process.exit(10);
 }
@@ -66,10 +76,19 @@ export const controllerToolsInternal = resolveControllerTools();
 /**
  * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
+ * Since the resolved shape depends on `name` (e.g. `password`, `session`, `zipFiles`, `exitCodes`),
+ * this is generic: callers may specify the expected type, otherwise it defaults to `any` for backwards
+ * compatibility. Example: `resolveNamedModule<typeof import('...').password>('password')`.
+ *
+ * @template T - The expected type of the resolved module. Defaults to `any`.
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
+ * @returns The resolved module, typed as `T`
  */
-export function resolveNamedModule(name: string, exportName: string = name): any {
+export function resolveNamedModule<T = any>(
+    name: 'exitCodes' | 'password' | 'session' | 'zipFiles',
+    exportName: string = name,
+): T {
     // The requested module might be moved to @iobroker/js-controller-common and exported from there
     if (controllerCommonModulesInternal?.[exportName]) {
         return controllerCommonModulesInternal[exportName];
@@ -97,27 +116,13 @@ export function resolveNamedModule(name: string, exportName: string = name): any
             // did not work, continue
         }
     }
-
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        // No js-controller reachable — return undefined instead of throwing at import time (see
-        // resolveControllerTools). Called at load for commonTools (password/session/zipFiles) and EXIT_CODES.
-        return undefined;
-    }
-
     throw new Error(`Cannot resolve JS-Controller module ${name}.js`);
     //return process.exit(10);
 }
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
 
-/**
- * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
- *
- * @param pattern The pattern to convert
- * @returns The RegEx string
- */
-function pattern2RegEx(pattern: string): string {
-    return controllerToolsInternal.pattern2RegEx(pattern);
-}
+// `pattern2RegEx`, `isLocalAddress` and `isListenAllAddress` are pure functions that do not need
+// js-controller. They live in `./tools.js` and are re-exported here (and via `commonTools`) unchanged.
 
 /**
  * Finds the adapter directory of a given adapter
@@ -171,24 +176,6 @@ function getInstalledInfo(hostJsControllerVersion?: string): Record<string, Inst
  */
 function isDocker(): boolean {
     return controllerToolsInternal.isDocker();
-}
-
-/**
- * Checks if given ip address is matching ipv4 or ipv6 localhost
- *
- * @param ip ipv4 or ipv6 address
- */
-function isLocalAddress(ip: string): boolean {
-    return controllerToolsInternal.isLocalAddress(ip);
-}
-
-/**
- * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
- *
- * @param ip ipv4 or ipv6 address
- */
-function isListenAllAddress(ip: string): boolean {
-    return controllerToolsInternal.isListenAllAddress(ip);
 }
 
 /**
