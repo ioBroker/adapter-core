@@ -312,8 +312,8 @@ If you find errors in the definitions, e.g., function calls that should be allow
 -->
 ### **WORK IN PROGRESS**
 - (@GermanBluefox) Moved tools to independent package
-- (@GermanBluefox) Allowed to use parts of the adapter-core without js-controller (e.g. for tests)
 - (@GermanBluefox) Better typing
+- (@GermanBluefox) Added additional exports for tools without triggering js-controller lookup
 
 ### 3.4.1 (2026-06-09)
 
