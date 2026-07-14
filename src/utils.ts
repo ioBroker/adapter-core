@@ -149,6 +149,6 @@ interface AdapterConstructor {
 /**
  * Creates a new adapter instance.
  */
-export const adapter: AdapterConstructor = resolveAdapterConstructor() as AdapterConstructor;
+export const adapter: AdapterConstructor = resolveAdapterConstructor();
 /** Creates a new adapter instance */
 export const Adapter = adapter;
