@@ -39,7 +39,7 @@ function getControllerDir(isInstall: boolean): string | never {
 /** The root directory of JS-Controller */
 export const controllerDir = getControllerDir(!!process?.argv?.includes('--install'));
 
-function resolveAdapterConstructor(): AdapterConstructor | undefined {
+function resolveAdapterConstructor(): AdapterConstructor {
     // Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
     let adapterPath = tryResolvePackage(['@iobroker/js-controller-adapter']);
     if (adapterPath) {
