@@ -129,6 +129,7 @@
         "typescript": "~6.0.3"
     },
     "peerDependencies": {
-        "@iobroker/types": ">=6.0.11"
+        "@iobroker/types": ">=6.0.11",
+        "@iobroker/js-controller-common-db": ">=7.2.2"
     }
 }
