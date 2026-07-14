@@ -11,7 +11,7 @@ This replaces the `utils.js` included in the ioBroker template adapter.
     ```js
     const utils = require(__dirname + '/lib/utils');
     ```
-   with
+    with
     ```js
     const utils = require('@iobroker/adapter-core');
     ```
