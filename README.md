@@ -311,7 +311,6 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (@GermanBluefox) Moved tools to independent package
 - (@GermanBluefox) Better typing
 - (@GermanBluefox) Added additional exports for tools without triggering js-controller lookup
 
