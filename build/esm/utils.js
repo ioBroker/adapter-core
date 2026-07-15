@@ -10,9 +10,6 @@ const require = createRequire(import.meta.url || `file://${__filename}`);
  */
 function getControllerDir(isInstall) {
     // For tests
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        return process.env.IOBROKER_CONTROLLER_DIR;
-    }
     // Find the js-controller location
     const possibilities = ['iobroker.js-controller', 'ioBroker.js-controller'];
     // First, try to let Node.js resolve the package by itself
@@ -104,7 +101,9 @@ function resolveAdapterConstructor() {
 export function getConfig() {
     return JSON.parse(readFileSync(join(controllerDir, 'conf/iobroker.json'), 'utf8'));
 }
-/** Creates a new adapter instance */
+/**
+ * Creates a new adapter instance.
+ */
 export const adapter = resolveAdapterConstructor();
 /** Creates a new adapter instance */
 export const Adapter = adapter;

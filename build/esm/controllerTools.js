@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { tryResolvePackage } from './helpers.js';
+import { isListenAllAddress, isLocalAddress, pattern2RegEx } from './tools.js';
 import * as utils from './utils.js';
 const require = createRequire(import.meta.url || `file://${__filename}`);
 export let controllerCommonModulesInternal;
@@ -54,8 +55,14 @@ export const controllerToolsInternal = resolveControllerTools();
 /**
  * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
+ * Since the resolved shape depends on `name` (e.g. `password`, `session`, `zipFiles`, `exitCodes`),
+ * this is generic: callers may specify the expected type, otherwise it defaults to `any` for backwards
+ * compatibility. Example: `resolveNamedModule<typeof import('...').password>('password')`.
+ *
+ * @template T - The expected type of the resolved module. Defaults to `any`.
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
+ * @returns The resolved module, typed as `T`
  */
 export function resolveNamedModule(name, exportName = name) {
     // The requested module might be moved to @iobroker/js-controller-common and exported from there
@@ -87,15 +94,8 @@ export function resolveNamedModule(name, exportName = name) {
     //return process.exit(10);
 }
 // TODO: Import types from @iobroker/js-controller-common and iobroker.js-controller
-/**
- * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
- *
- * @param pattern The pattern to convert
- * @returns The RegEx string
- */
-function pattern2RegEx(pattern) {
-    return controllerToolsInternal.pattern2RegEx(pattern);
-}
+// `pattern2RegEx`, `isLocalAddress` and `isListenAllAddress` are pure functions that do not need
+// js-controller. They live in `./tools.js` and are re-exported here (and via `commonTools`) unchanged.
 /**
  * Finds the adapter directory of a given adapter
  *
@@ -119,22 +119,6 @@ function getInstalledInfo(hostJsControllerVersion) {
  */
 function isDocker() {
     return controllerToolsInternal.isDocker();
-}
-/**
- * Checks if given ip address is matching ipv4 or ipv6 localhost
- *
- * @param ip ipv4 or ipv6 address
- */
-function isLocalAddress(ip) {
-    return controllerToolsInternal.isLocalAddress(ip);
-}
-/**
- * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
- *
- * @param ip ipv4 or ipv6 address
- */
-function isListenAllAddress(ip) {
-    return controllerToolsInternal.isListenAllAddress(ip);
 }
 /**
  * Retrieve the localhost address according to the configured DNS resolution strategy

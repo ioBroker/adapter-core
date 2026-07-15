@@ -1,20 +1,21 @@
+import { isListenAllAddress, isLocalAddress, pattern2RegEx } from './tools.js';
+import type { tools as ControllerToolsNamespace } from '@iobroker/js-controller-common-db';
 export declare let controllerCommonModulesInternal: any;
 /** The collection of utility functions in JS-Controller, formerly `lib/tools.js` */
-export declare const controllerToolsInternal: any;
+export declare const controllerToolsInternal: typeof ControllerToolsNamespace;
 /**
  * Resolve a module that is either exported by \@iobroker/js-controller-common (new controllers) or located in the controller's `lib` directory (old controllers).
  *
+ * Since the resolved shape depends on `name` (e.g. `password`, `session`, `zipFiles`, `exitCodes`),
+ * this is generic: callers may specify the expected type, otherwise it defaults to `any` for backwards
+ * compatibility. Example: `resolveNamedModule<typeof import('...').password>('password')`.
+ *
+ * @template T - The expected type of the resolved module. Defaults to `any`.
  * @param name - The filename of the module to resolve
  * @param exportName - The name under which the module may be exported. Defaults to `name`.
+ * @returns The resolved module, typed as `T`
  */
-export declare function resolveNamedModule(name: string, exportName?: string): any;
-/**
- * Converts a pattern to match object IDs into a RegEx string that can be used in `new RegExp(...)`
- *
- * @param pattern The pattern to convert
- * @returns The RegEx string
- */
-declare function pattern2RegEx(pattern: string): string;
+export declare function resolveNamedModule<T = any>(name: 'exitCodes' | 'password' | 'session' | 'zipFiles', exportName?: string): T;
 /**
  * Finds the adapter directory of a given adapter
  *
@@ -60,18 +61,6 @@ declare function getInstalledInfo(hostJsControllerVersion?: string): Record<stri
  * Checks if we are running inside a docker container
  */
 declare function isDocker(): boolean;
-/**
- * Checks if given ip address is matching ipv4 or ipv6 localhost
- *
- * @param ip ipv4 or ipv6 address
- */
-declare function isLocalAddress(ip: string): boolean;
-/**
- * Checks if given ip address is matching ipv4 or ipv6 "listen all" address
- *
- * @param ip ipv4 or ipv6 address
- */
-declare function isListenAllAddress(ip: string): boolean;
 /**
  * Retrieve the localhost address according to the configured DNS resolution strategy
  */

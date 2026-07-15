@@ -310,8 +310,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 3.4.2 (2026-07-13)
-- (@GermanBluefox) Added possibility to mock controller path by tests via `process.env.IOBROKER_CONTROLLER_DIR`
+### **WORK IN PROGRESS**
+- (@GermanBluefox) Better typing
+- (@GermanBluefox) Added additional exports for tools without triggering js-controller lookup
 
 ### 3.4.1 (2026-06-09)
 

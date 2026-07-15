@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { scanForPackage, tryResolvePackage } from './helpers.js';
+import type { IoBJson } from '@iobroker/types/build/config';
 
 const require = createRequire(import.meta.url || `file://${__filename}`);
 
@@ -12,9 +13,6 @@ const require = createRequire(import.meta.url || `file://${__filename}`);
  */
 function getControllerDir(isInstall: boolean): string | never {
     // For tests
-    if (process.env.IOBROKER_CONTROLLER_DIR) {
-        return process.env.IOBROKER_CONTROLLER_DIR;
-    }
     // Find the js-controller location
     const possibilities = ['iobroker.js-controller', 'ioBroker.js-controller'];
     // First, try to let Node.js resolve the package by itself
@@ -41,12 +39,12 @@ function getControllerDir(isInstall: boolean): string | never {
 /** The root directory of JS-Controller */
 export const controllerDir = getControllerDir(!!process?.argv?.includes('--install'));
 
-function resolveAdapterConstructor(): any {
+function resolveAdapterConstructor(): AdapterConstructor {
     // Attempt 1: Resolve @iobroker/js-controller-adapter from here - JS-Controller 4.1+
     let adapterPath = tryResolvePackage(['@iobroker/js-controller-adapter']);
     if (adapterPath) {
         try {
-            const { Adapter } = require(adapterPath);
+            const { Adapter } = require(adapterPath) as { Adapter?: AdapterConstructor };
             if (Adapter) {
                 return Adapter;
             }
@@ -59,7 +57,7 @@ function resolveAdapterConstructor(): any {
     adapterPath = tryResolvePackage(['@iobroker/js-controller-adapter'], [join(controllerDir, 'node_modules')]);
     if (adapterPath) {
         try {
-            const { Adapter } = require(adapterPath);
+            const { Adapter } = require(adapterPath) as { Adapter?: AdapterConstructor };
             if (Adapter) {
                 return Adapter;
             }
@@ -72,7 +70,7 @@ function resolveAdapterConstructor(): any {
     adapterPath = join(controllerDir, 'build/cjs/lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = require(adapterPath) as AdapterConstructor | undefined;
         if (Adapter) {
             return Adapter;
         }
@@ -84,7 +82,7 @@ function resolveAdapterConstructor(): any {
     adapterPath = join(controllerDir, 'build/lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = require(adapterPath) as AdapterConstructor | undefined;
         if (Adapter) {
             return Adapter;
         }
@@ -96,7 +94,7 @@ function resolveAdapterConstructor(): any {
     adapterPath = join(controllerDir, 'lib/adapter.js');
     try {
         // This was a default export prior to the TS migration
-        const Adapter = require(adapterPath);
+        const Adapter = require(adapterPath) as AdapterConstructor | undefined;
         if (Adapter) {
             return Adapter;
         }
@@ -108,7 +106,7 @@ function resolveAdapterConstructor(): any {
 }
 
 /** Reads the configuration file of JS-Controller */
-export function getConfig(): Record<string, any> {
+export function getConfig(): IoBJson {
     return JSON.parse(readFileSync(join(controllerDir, 'conf/iobroker.json'), 'utf8'));
 }
 
@@ -148,7 +146,9 @@ interface AdapterConstructor {
     ): AdapterInstance<HasObjectsCache, HasStatesCache>;
 }
 
-/** Creates a new adapter instance */
+/**
+ * Creates a new adapter instance.
+ */
 export const adapter: AdapterConstructor = resolveAdapterConstructor();
 /** Creates a new adapter instance */
 export const Adapter = adapter;
