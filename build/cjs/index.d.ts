@@ -1,4 +1,4 @@
-import '@iobroker/types';
+/// <reference types="@iobroker/types" />
 import { type ExitCodes } from './exitCodes.js';
 export { commonTools } from './controllerTools.js';
 export * from './utils.js';

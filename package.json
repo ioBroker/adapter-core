@@ -77,7 +77,7 @@
   "scripts": {
     "prebuild": "rimraf ./build",
     "build": "tsc -p src/tsconfig.json",
-    "postbuild": "node scripts/inject-types-import.mjs && esm2cjs --in ./build/esm --out ./build/cjs -l error && cpy ./**/*.d.ts ../cjs/ --cwd=build/esm/",
+    "postbuild": "node scripts/inject-types-reference.mjs && esm2cjs --in ./build/esm --out ./build/cjs -l error && cpy ./**/*.d.ts ../cjs/ --cwd=build/esm/",
     "watch": "tsc -p src/tsconfig.json --watch",
     "lint:ts": "eslint -c eslint.config.mjs src",
     "lint": "npm run lint:ts",
