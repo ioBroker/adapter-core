@@ -90,6 +90,13 @@ async function init(rootDir, languageOrAdapter) {
   }
 }
 __name(init, "init");
+function fillPlaceholders(text, args) {
+  for (const arg of args) {
+    text = text.replace("%s", () => arg === null ? "null" : arg.toString());
+  }
+  return text;
+}
+__name(fillPlaceholders, "fillPlaceholders");
 function translate(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
@@ -100,12 +107,7 @@ function translate(key, ...args) {
   } else {
     text = words[key][language] || words[key].en || key;
   }
-  if (args.length) {
-    for (const arg of args) {
-      text = text.replace("%s", arg === null ? "null" : arg.toString());
-    }
-  }
-  return text;
+  return fillPlaceholders(text, args);
 }
 __name(translate, "translate");
 const t = translate;
@@ -113,22 +115,12 @@ function getTranslatedObject(key, ...args) {
   if (!words) {
     throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
   }
-  if (words[key]) {
-    const word = words[key];
-    if (word.en && word.en.includes("%s")) {
-      const result = {};
-      Object.keys(word).forEach((lang) => {
-        for (const arg of args) {
-          result[lang] = word[lang].replace("%s", arg === null ? "null" : arg.toString());
-        }
-      });
-      return result;
-    }
-    return words[key];
+  const word = words[key] || { en: key };
+  const result = {};
+  for (const lang of Object.keys(word)) {
+    result[lang] = fillPlaceholders(word[lang], args);
   }
-  return {
-    en: key
-  };
+  return result;
 }
 __name(getTranslatedObject, "getTranslatedObject");
 var i18n_default = {
