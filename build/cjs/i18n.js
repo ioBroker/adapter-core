@@ -30,17 +30,9 @@ var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
 let language = "en";
 let words = null;
-async function init(rootDir, languageOrAdapter) {
-  let adapter;
-  if (languageOrAdapter && typeof languageOrAdapter === "object") {
-    adapter = languageOrAdapter;
-    const systemConfig = await adapter.getForeignObjectAsync("system.config");
-    if (systemConfig?.common.language) {
-      language = systemConfig?.common.language;
-    }
-  } else {
-    language = languageOrAdapter;
-  }
+const keySource = /* @__PURE__ */ new Map();
+const reportedCollisions = /* @__PURE__ */ new Set();
+function readWords(rootDir, adapter) {
   let files;
   if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "i18n"))) {
     files = (0, import_node_fs.readdirSync)((0, import_node_path.join)(rootDir, "i18n"));
@@ -50,23 +42,21 @@ async function init(rootDir, languageOrAdapter) {
   } else {
     throw new Error(`Cannot find i18n directory in "${(0, import_node_path.join)(rootDir, "i18n")}", "${(0, import_node_path.join)(rootDir, "lib", "i18n")}"`);
   }
-  if (!words) {
-    words = {};
-  }
+  const table = {};
+  const add = /* @__PURE__ */ __name((lang, wordsForLanguage) => {
+    Object.keys(wordsForLanguage).forEach((key) => {
+      if (!table[key]) {
+        table[key] = {};
+      }
+      table[key][lang] = wordsForLanguage[key];
+    });
+  }, "add");
   let count = 0;
   files.forEach((file) => {
     if (file.endsWith(".json")) {
       count++;
       const lang = file.split(".")[0];
-      const wordsForLanguage = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", file)).toString("utf8"));
-      Object.keys(wordsForLanguage).forEach((key) => {
-        if (words) {
-          if (!words[key]) {
-            words[key] = {};
-          }
-          words[key][lang] = wordsForLanguage[key];
-        }
-      });
+      add(lang, JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", file)).toString("utf8")));
     }
   });
   if (!count) {
@@ -77,30 +67,20 @@ async function init(rootDir, languageOrAdapter) {
         }
         const lang = file;
         if ((0, import_node_fs.existsSync)((0, import_node_path.join)(rootDir, "i18n", lang, "translations.json"))) {
-          const wordsForLanguage = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", lang, "translations.json")).toString("utf8"));
-          Object.keys(wordsForLanguage).forEach((key) => {
-            if (words) {
-              if (!words[key]) {
-                words[key] = {};
-              }
-              words[key][lang] = wordsForLanguage[key];
-            }
-          });
+          add(lang, JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(rootDir, "i18n", lang, "translations.json")).toString("utf8")));
         }
       }
     });
   }
+  return { table, dir: (0, import_node_path.join)(rootDir, "i18n") };
 }
-__name(init, "init");
-function translate(key, ...args) {
-  if (!words) {
-    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
-  }
+__name(readWords, "readWords");
+function translateFrom(table, lang, key, args) {
   let text;
-  if (!words[key]) {
+  if (!table[key]) {
     text = key;
   } else {
-    text = words[key][language] || words[key].en || key;
+    text = table[key][lang] || table[key].en || key;
   }
   if (args.length) {
     for (const arg of args) {
@@ -109,14 +89,10 @@ function translate(key, ...args) {
   }
   return text;
 }
-__name(translate, "translate");
-const t = translate;
-function getTranslatedObject(key, ...args) {
-  if (!words) {
-    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
-  }
-  if (words[key]) {
-    const word = words[key];
+__name(translateFrom, "translateFrom");
+function translatedObjectFrom(table, key, args) {
+  if (table[key]) {
+    const word = table[key];
     if (word.en && word.en.includes("%s")) {
       const result = {};
       Object.keys(word).forEach((lang) => {
@@ -126,11 +102,71 @@ function getTranslatedObject(key, ...args) {
       });
       return result;
     }
-    return words[key];
+    return table[key];
   }
   return {
     en: key
   };
+}
+__name(translatedObjectFrom, "translatedObjectFrom");
+async function init(rootDir, languageOrAdapter) {
+  let adapter;
+  let ownLanguage = "en";
+  if (languageOrAdapter && typeof languageOrAdapter === "object") {
+    adapter = languageOrAdapter;
+    const systemConfig = await adapter.getForeignObjectAsync("system.config");
+    if (systemConfig?.common.language) {
+      ownLanguage = systemConfig?.common.language;
+    }
+  } else {
+    ownLanguage = languageOrAdapter;
+  }
+  language = ownLanguage;
+  const { table, dir } = readWords(rootDir, adapter);
+  if (!words) {
+    words = {};
+  }
+  for (const key of Object.keys(table)) {
+    const before = keySource.get(key);
+    if (before && before !== dir && JSON.stringify(words[key]) !== JSON.stringify(table[key])) {
+      const pair = `${before}
+${dir}`;
+      if (!reportedCollisions.has(pair)) {
+        reportedCollisions.add(pair);
+        const text = `I18n: "${key}" is translated differently in ${before} and ${dir}; the module-level translate answers with the last init \u2014 use the translator returned by init to keep the words of each adapter`;
+        if (adapter) {
+          adapter.log.warn(text);
+        } else {
+          console.warn(text);
+        }
+      }
+    }
+    if (!before) {
+      keySource.set(key, dir);
+    }
+    words[key] = table[key];
+  }
+  const translate2 = /* @__PURE__ */ __name((key, ...args) => translateFrom(table, ownLanguage, key, args), "translate");
+  return {
+    translate: translate2,
+    t: translate2,
+    getTranslatedObject: /* @__PURE__ */ __name((key, ...args) => translatedObjectFrom(table, key, args), "getTranslatedObject")
+  };
+}
+__name(init, "init");
+function translate(key, ...args) {
+  if (!words) {
+    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
+  }
+  return translateFrom(words, language, key, args);
+}
+__name(translate, "translate");
+const t = translate;
+function getTranslatedObject(key, ...args) {
+  if (!words) {
+    throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
+  }
+  return translatedObjectFrom(words, key, args);
 }
 __name(getTranslatedObject, "getTranslatedObject");
 var i18n_default = {
