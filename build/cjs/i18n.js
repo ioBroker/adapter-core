@@ -50,7 +50,9 @@ async function init(rootDir, languageOrAdapter) {
   } else {
     throw new Error(`Cannot find i18n directory in "${(0, import_node_path.join)(rootDir, "i18n")}", "${(0, import_node_path.join)(rootDir, "lib", "i18n")}"`);
   }
-  words = {};
+  if (!words) {
+    words = {};
+  }
   let count = 0;
   files.forEach((file) => {
     if (file.endsWith(".json")) {

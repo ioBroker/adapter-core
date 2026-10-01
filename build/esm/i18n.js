@@ -32,7 +32,13 @@ export async function init(rootDir, languageOrAdapter) {
     else {
         throw new Error(`Cannot find i18n directory in "${join(rootDir, 'i18n')}", "${join(rootDir, 'lib', 'i18n')}"`);
     }
-    words = {};
+    // Merge, never replace: in compact mode js-controller requires the main file of every adapter of a compact group
+    // into one process, so adapters that resolve the same installed adapter-core share this module. A second `init`
+    // that started from an empty table would take away the words of every adapter initialized before it.
+    // A key that two adapters translate differently keeps the text of the last `init`.
+    if (!words) {
+        words = {};
+    }
     let count = 0;
     files.forEach((file) => {
         if (file.endsWith('.json')) {
