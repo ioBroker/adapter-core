@@ -1,0 +1,8 @@
+# Generated output: rewritten by `npm run build`, so formatting it here would only
+# fight tsc and esm2cjs and show up as churn in every diff.
+build/
+
+# Written by npm, which keeps its own 2-space indentation (see .editorconfig).
+# Prettier uses tabWidth 4 and would reformat both files on every run.
+package.json
+package-lock.json
