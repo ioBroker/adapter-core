@@ -182,9 +182,8 @@ export async function init(
 
     // Merge into the module-level table, never replace it: a second adapter in the same process must not take the
     // words of the first.
-    if (!words) {
-        words = {};
-    }
+    words ||= {};
+
     for (const key of Object.keys(table)) {
         const before = keySource.get(key);
         if (before && before !== dir && JSON.stringify(words[key]) !== JSON.stringify(table[key])) {
