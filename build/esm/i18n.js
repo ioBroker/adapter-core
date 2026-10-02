@@ -61,6 +61,19 @@ function readWords(rootDir, adapter) {
     return { table, dir: join(rootDir, 'i18n') };
 }
 /**
+ * Replace the `%s` placeholders of a text with the arguments, in order
+ *
+ * @param text Text with placeholders
+ * @param args Values for the placeholders
+ */
+function fillPlaceholders(text, args) {
+    for (const arg of args) {
+        // A function as replacement: `$&`, `$1` and the like in a value are not read as replacement patterns
+        text = text.replace('%s', () => (arg === null ? 'null' : arg.toString()));
+    }
+    return text;
+}
+/**
  * Translate one key from a table.
  *
  * @param table the words
@@ -77,12 +90,7 @@ function translateFrom(table, lang, key, args) {
     else {
         text = table[key][lang] || table[key].en || key;
     }
-    if (args.length) {
-        for (const arg of args) {
-            text = text.replace('%s', arg === null ? 'null' : arg.toString());
-        }
-    }
-    return text;
+    return fillPlaceholders(text, args);
 }
 /**
  * Get the ioBroker.Translated object of one key from a table.
@@ -93,22 +101,12 @@ function translateFrom(table, lang, key, args) {
  * @returns the translations
  */
 function translatedObjectFrom(table, key, args) {
-    if (table[key]) {
-        const word = table[key];
-        if (word.en && word.en.includes('%s')) {
-            const result = {};
-            Object.keys(word).forEach((lang) => {
-                for (const arg of args) {
-                    result[lang] = word[lang].replace('%s', arg === null ? 'null' : arg.toString());
-                }
-            });
-            return result;
-        }
-        return table[key];
+    const word = table[key] || { en: key };
+    const result = {};
+    for (const lang of Object.keys(word)) {
+        result[lang] = fillPlaceholders(word[lang], args);
     }
-    return {
-        en: key,
-    };
+    return result;
 }
 /**
  * Init internationalization.

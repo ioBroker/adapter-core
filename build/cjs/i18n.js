@@ -75,6 +75,13 @@ function readWords(rootDir, adapter) {
   return { table, dir: (0, import_node_path.join)(rootDir, "i18n") };
 }
 __name(readWords, "readWords");
+function fillPlaceholders(text, args) {
+  for (const arg of args) {
+    text = text.replace("%s", () => arg === null ? "null" : arg.toString());
+  }
+  return text;
+}
+__name(fillPlaceholders, "fillPlaceholders");
 function translateFrom(table, lang, key, args) {
   let text;
   if (!table[key]) {
@@ -82,31 +89,16 @@ function translateFrom(table, lang, key, args) {
   } else {
     text = table[key][lang] || table[key].en || key;
   }
-  if (args.length) {
-    for (const arg of args) {
-      text = text.replace("%s", arg === null ? "null" : arg.toString());
-    }
-  }
-  return text;
+  return fillPlaceholders(text, args);
 }
 __name(translateFrom, "translateFrom");
 function translatedObjectFrom(table, key, args) {
-  if (table[key]) {
-    const word = table[key];
-    if (word.en && word.en.includes("%s")) {
-      const result = {};
-      Object.keys(word).forEach((lang) => {
-        for (const arg of args) {
-          result[lang] = word[lang].replace("%s", arg === null ? "null" : arg.toString());
-        }
-      });
-      return result;
-    }
-    return table[key];
+  const word = table[key] || { en: key };
+  const result = {};
+  for (const lang of Object.keys(word)) {
+    result[lang] = fillPlaceholders(word[lang], args);
   }
-  return {
-    en: key
-  };
+  return result;
 }
 __name(translatedObjectFrom, "translatedObjectFrom");
 async function init(rootDir, languageOrAdapter) {
