@@ -115,9 +115,7 @@ async function init(rootDir, languageOrAdapter) {
   }
   language = ownLanguage;
   const { table, dir } = readWords(rootDir, adapter);
-  if (!words) {
-    words = {};
-  }
+  words ||= {};
   for (const key of Object.keys(table)) {
     const before = keySource.get(key);
     if (before && before !== dir && JSON.stringify(words[key]) !== JSON.stringify(table[key])) {
