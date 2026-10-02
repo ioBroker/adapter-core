@@ -82,6 +82,20 @@ export async function init(rootDir: string, languageOrAdapter: ioBroker.Adapter 
 }
 
 /**
+ * Replace the `%s` placeholders of a text with the arguments, in order
+ *
+ * @param text Text with placeholders
+ * @param args Values for the placeholders
+ */
+function fillPlaceholders(text: string, args: (string | number | boolean | null)[]): string {
+    for (const arg of args) {
+        // A function as replacement: `$&`, `$1` and the like in a value are not read as replacement patterns
+        text = text.replace('%s', () => (arg === null ? 'null' : arg.toString()));
+    }
+    return text;
+}
+
+/**
  * Get translation as one string
  *
  * @param key Word to translate
@@ -97,12 +111,7 @@ export function translate(key: string, ...args: (string | number | boolean | nul
     } else {
         text = words[key][language] || words[key].en || key;
     }
-    if (args.length) {
-        for (const arg of args) {
-            text = text.replace('%s', arg === null ? 'null' : arg.toString());
-        }
-    }
-    return text;
+    return fillPlaceholders(text, args);
 }
 
 /** Alias shortcut for translate function */
@@ -119,27 +128,12 @@ export function getTranslatedObject(key: string, ...args: (string | number | boo
         throw new Error("i18n not initialized. Please call 'init(__dirname, adapter)' before");
     }
 
-    if (words[key]) {
-        const word = words[key];
-        if (word.en && word.en.includes('%s')) {
-            const result: Partial<ioBroker.Translated> = {};
-            Object.keys(word).forEach((lang: string) => {
-                for (const arg of args) {
-                    (result as Record<string, string>)[lang] = (word as Record<string, string>)[lang].replace(
-                        '%s',
-                        arg === null ? 'null' : arg.toString(),
-                    );
-                }
-            });
-            return result as ioBroker.Translated;
-        }
-
-        return words[key];
+    const word: Record<string, string> = words[key] || { en: key };
+    const result: Record<string, string> = {};
+    for (const lang of Object.keys(word)) {
+        result[lang] = fillPlaceholders(word[lang], args);
     }
-
-    return {
-        en: key,
-    };
+    return result as ioBroker.Translated;
 }
 
 export default {

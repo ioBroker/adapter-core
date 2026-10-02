@@ -310,6 +310,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (@krobipd) I18n: `getTranslatedObject` fills every `%s` in order (it put only the last argument into the first `%s`), keeps the text without arguments (it returned `{}`) and fills an unknown key; a value with `$&` or `$1` is inserted as it is in `translate` and `getTranslatedObject`
+
 ### 3.4.3 (2026-07-15)
 - (@GermanBluefox) Better typing
 - (@GermanBluefox) Added additional exports for tools without triggering js-controller lookup
