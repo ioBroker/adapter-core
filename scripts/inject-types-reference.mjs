@@ -16,7 +16,8 @@
  * documented use for hand-authored declaration files:
  * https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
  *
- * Must run before the `cpy` step of `postbuild`, which propagates the declaration to `build/cjs/`.
+ * Must run before the `copy-dts` step of `postbuild`, which propagates the declaration to
+ * `build/cjs/`.
  * `test/testBuildOutput.js` guards that this stays in place.
  */
 import { readFileSync, writeFileSync } from 'node:fs';

@@ -136,6 +136,21 @@ Expected structure of `i18n` directory
 
 And an example of i18n files could be found [here](test/i18n/de.json)
 
+### Several adapters in one process (compact mode)
+
+In compact mode several adapters run in one process and share this module, and `I18n.translate`, `I18n.t` and
+`I18n.getTranslatedObject` cannot tell them apart. Every `init` adds its words to one table; a key that two adapters
+translate differently answers with the text of the last `init`, and `init` logs a warning naming both directories.
+`init` returns a translator that keeps only the words and the language of its own adapter — use it to keep the
+translations of each adapter separate:
+
+```javascript
+const i18n = await I18n.init(__dirname, this);
+
+i18n.translate('text to translate %s', 'argument1');
+i18n.getTranslatedObject('text to translate %s', 'argument1');
+```
+
 ## Automatic backup of data files
 
 ioBroker has the ability to include files written by adapters in its backups. To enable that, you need to add the following to `io-package.json`:
@@ -311,6 +326,9 @@ If you find errors in the definitions, e.g., function calls that should be allow
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (@krobipd) I18n: `getTranslatedObject` fills every `%s` in order (it put only the last argument into the first `%s`), keeps the text without arguments (it returned `{}`) and fills an unknown key; a value with `$&` or `$1` is inserted as it is in `translate` and `getTranslatedObject`
+- (@krobipd) I18n: `init` returns a translator that keeps only its own adapter's words, so adapters sharing one process (compact mode) never use each other's translations; the module-level functions add the words of every `init` instead of replacing them and warn when two adapters translate a key differently
+- (@GermanBluefox) Removed `cpy-cli` to still support Node.js 18
 - (@GermanBluefox) Removed the runtime `require` of `@iobroker/types` from the built module, so `require('@iobroker/adapter-core')` no longer fails when peer dependencies are not installed (#679)
 
 ### 3.4.3 (2026-07-15)
