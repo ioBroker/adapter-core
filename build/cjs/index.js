@@ -42,7 +42,6 @@ module.exports = __toCommonJS(index_exports);
 var import_node_path = require("node:path");
 var import_controllerTools = require("./controllerTools.js");
 var utils = __toESM(require("./utils.js"));
-var import_types = require("@iobroker/types");
 var import_controllerTools2 = require("./controllerTools.js");
 __reExport(index_exports, require("./utils.js"), module.exports);
 var I18n = __toESM(require("./i18n.js"));

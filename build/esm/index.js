@@ -1,7 +1,6 @@
 import { join } from 'node:path';
 import { controllerToolsInternal, resolveNamedModule } from './controllerTools.js';
 import * as utils from './utils.js';
-import '@iobroker/types';
 // Export utility methods to be used in adapters
 export { commonTools } from './controllerTools.js';
 export * from './utils.js';
