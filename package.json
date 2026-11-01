@@ -111,7 +111,7 @@
     "@alcalzone/release-script": "^5.2.1",
     "@alcalzone/release-script-plugin-license": "^5.2.2",
     "@iobroker/eslint-config": "^2.3.4",
-    "@iobroker/js-controller-common": "^7.2.3",
+    "@iobroker/js-controller-common": "^7.2.5",
     "@iobroker/js-controller-common-db": "^7.2.3",
     "@iobroker/types": "^7.2.3",
     "@types/mocha": "^10.0.10",
