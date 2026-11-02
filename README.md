@@ -329,6 +329,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 - (@krobipd) I18n: `getTranslatedObject` fills every `%s` in order (it put only the last argument into the first `%s`), keeps the text without arguments (it returned `{}`) and fills an unknown key; a value with `$&` or `$1` is inserted as it is in `translate` and `getTranslatedObject`
 - (@krobipd) I18n: `init` returns a translator that keeps only its own adapter's words, so adapters sharing one process (compact mode) never use each other's translations; the module-level functions add the words of every `init` instead of replacing them and warn when two adapters translate a key differently
 - (@GermanBluefox) Removed `cpy-cli` to still support Node.js 18
+- (@GermanBluefox) Removed the unused TypeScript test scaffold (`test:ts`, `test/.mocharc.json`, `test/mocha.setup.js`) together with `ts-node`, `source-map-support` and `@types/mocha`
 
 ### 3.4.3 (2026-07-15)
 - (@GermanBluefox) Better typing

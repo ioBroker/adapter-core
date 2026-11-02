@@ -60,7 +60,7 @@ src/
 ### Test Structure
 - **Type declarations**: Validate TypeScript types compile correctly
 - **I18n functionality**: Test translation and localization features
-- **Unit tests**: Use Mocha with custom setup in `test/mocha.setup.js`
+- **Unit tests**: Plain Mocha over the JavaScript test files in `test/`
 - **Integration tests**: Test against different js-controller versions when possible
 
 ### Testing Patterns
