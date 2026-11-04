@@ -81,7 +81,7 @@ Note that `commonTools.letsEncrypt` is not available anymore as the next control
 
 ## I18n
 
-Developers can use internationalisation in backend.
+Developers can use internationalisation in the backend.
 
 For that call
 
@@ -329,6 +329,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 - (@krobipd) I18n: `getTranslatedObject` fills every `%s` in order (it put only the last argument into the first `%s`), keeps the text without arguments (it returned `{}`) and fills an unknown key; a value with `$&` or `$1` is inserted as it is in `translate` and `getTranslatedObject`
 - (@krobipd) I18n: `init` returns a translator that keeps only its own adapter's words, so adapters sharing one process (compact mode) never use each other's translations; the module-level functions add the words of every `init` instead of replacing them and warn when two adapters translate a key differently
 - (@GermanBluefox) Removed `cpy-cli` to still support Node.js 18
+- (@GermanBluefox) Removed the runtime `require` of `@iobroker/types` from the built module, so `require('@iobroker/adapter-core')` no longer fails when peer dependencies are not installed (#679)
 
 ### 3.4.3 (2026-07-15)
 - (@GermanBluefox) Better typing
@@ -344,7 +345,7 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### 3.3.1 (2025-08-01)
 
-- (@GermanBluefox) Changed getAbsoluteInstanceDataDir to accept the namespace as argument
+- (@GermanBluefox) Changed getAbsoluteInstanceDataDir to accept the namespace as an argument
 
 ### 3.3.0 (2025-08-01)
 
@@ -394,11 +395,11 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### 3.0.6 (2024-03-24)
 
--   (foxriver76) hotfix previous release: compatibility with next controller with new esm/cjs exports
+-   (foxriver76) hotfix previous release: compatibility with the next controller with new esm/cjs exports
 
 ### 3.0.5 (2024-03-24)
 
--   (foxriver76) compatibility with next controller with new esm/cjs exports
+-   (foxriver76) compatibility with the next controller with new esm/cjs exports
 
 ### 3.0.4 (2023-10-12)
 
@@ -452,8 +453,8 @@ If you find errors in the definitions, e.g., function calls that should be allow
 
 ### 2.5.0 (2021-05-19)
 
--   (AlCalzone) Added the fallback solution to detect js-controller if require.resolve fails in dev situations with symlinks
--   (AlCalzone) Use release-script for releases
+-   (AlCalzone) Added the fallback solution to detect js-controller if `require.resolve` fails in dev situations with symlinks
+-   (AlCalzone) Use a release-script for releases
 -   (AlCalzone) Updated core declarations to `v3.3.0` to be up to date with JS-Controller 3.3.x.
 
 ### v2.4.0 (2020-05-03)
